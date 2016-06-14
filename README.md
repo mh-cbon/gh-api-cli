@@ -142,11 +142,11 @@ USAGE:
    gh-api-cli upload-release-asset [command options] [arguments...]
 
 OPTIONS:
-   --name value, -n value	        Name of the authorization
-   --glob value, -g value	        Glob pattern of files to upload
-   --owner value, -o value	      Repo owner
-   --repository value, -r value	  Repo name
-   --ver value			              Version name
+   --name value, -n value          Name of the authorization
+   --glob value, -g value          Glob pattern of files to upload
+   --owner value, -o value         Repo owner
+   --repository value, -r value    Repo name
+   --ver value                     Version name
 ```
 
 ```sh

@@ -15,7 +15,7 @@ go install
 
 # Usage
 
-```sh
+```
 NAME:
    gh-api-cli - Github api command line client
 
@@ -39,7 +39,7 @@ GLOBAL OPTIONS:
 ```
 
 #### add-auth
-```sh
+```
 NAME:
    gh-api-cli add-auth - Add a new authorization
 
@@ -53,7 +53,7 @@ OPTIONS:
    --rights value, -r value	    Permissions to set
 ```
 
-```sh
+```
 EXAMPLE
   gh-api-cli add-auth -n test -r user -r repo # will prompt for username/password
   gh-api-cli add-auth -n test -r user -u your -p pwd # won t prompt unless you have 2F ident on
@@ -61,7 +61,7 @@ EXAMPLE
 
 Where `rights` is one of :
 
-```sh
+```
 user              user:email
 user:follow       public_repo
 repo              repo_deployment
@@ -77,7 +77,7 @@ write:gpg_key     admin:gpg_key
 ```
 
 #### list-auth
-```sh
+```
 NAME:
    gh-api-cli list-auth - List authorizations
 
@@ -90,14 +90,14 @@ OPTIONS:
    --name value, -n value	      Name of the authorization
 ```
 
-```sh
+```
 EXAMPLE
   gh-api-cli list-auth -n test # will prompt for username/password
   gh-api-cli list-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
 ```
 
 #### rm-auth
-```sh
+```
 NAME:
    gh-api-cli rm-auth - Remove an existing authorization
 
@@ -110,14 +110,14 @@ OPTIONS:
    --name value, -n value	      Name of the authorization
 ```
 
-```sh
+```
 EXAMPLE
   gh-api-cli rm-auth -n test # will prompt for username/password
   gh-api-cli rm-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
 ```
 
 #### get-auth
-```sh
+```
 NAME:
    gh-api-cli get-auth - Get token from a locally saved authorization
 
@@ -128,13 +128,13 @@ OPTIONS:
    --name value, -n value	Name of the authorization
 ```
 
-```sh
+```
 EXAMPLE
   gh-api-cli get-auth -n test
 ```
 
 #### upload-release-asset
-```sh
+```
 NAME:
    gh-api-cli upload-release-asset - Upload assets to a release
 
@@ -149,7 +149,7 @@ OPTIONS:
    --ver value                     Version name
 ```
 
-```sh
+```
 EXAMPLE
   gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
@@ -173,7 +173,7 @@ OPTIONS:
 
 ```
 
-```sh
+```
 EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```

@@ -5,7 +5,7 @@ scripts:
     && philea "go vet %s" "go fmt %s" \
     && gen-version-file --ver=!newversion! \
     && commit -f "GenVersionFile/index.go" -m "version update"
-postversion: git push && git push --tags
+  postversion: git push && git push --tags
 import:
 - package: github.com/urfave/cli
   version: ^1.17.0

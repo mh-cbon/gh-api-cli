@@ -1,6 +1,6 @@
 # gh-api-cli
 
-Command line cli for github api
+Command line client for github api
 
 # Install
 

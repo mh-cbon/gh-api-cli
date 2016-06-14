@@ -1,11 +1,4 @@
 package: github.com/mh-cbon/gh-auth
-scripts:
-  preversion: |
-    git fetch --tags \
-    && philea "go vet %s" "go fmt %s" \
-    && gen-version-file --ver=!newversion! \
-    && commit -f "GenVersionFile/index.go" -m "version update"
-  postversion: git push && git push --tags
 import:
 - package: github.com/urfave/cli
   version: ^1.17.0
@@ -13,3 +6,5 @@ import:
 - package: github.com/google/go-querystring
 - package: golang.org/x/crypto
 - package: github.com/mitchellh/go-homedir
+- package: github.com/golang/oauth2
+- package: github.com/mattn/go-zglob

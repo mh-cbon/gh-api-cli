@@ -26,10 +26,12 @@ VERSION:
    0.0.0
 
 COMMANDS:
-     add-auth     Add a new authorization
-     list-auth	  List authorizations
-     rm-auth	    Remove an authorization
-     get-auth	    Get token from a locally saved authorization
+     add-auth               Add a new authorization
+     list-auth	            List authorizations
+     rm-auth	              Remove an authorization
+     get-auth	              Get token from a locally saved authorization
+     create-release	        Create a new release
+     upload-release-asset	  Upload assets to a release
 
 GLOBAL OPTIONS:
    --help, -h		show help
@@ -45,10 +47,10 @@ USAGE:
    gh-api-cli add-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value	Github username
-   --password value, -p value	Github password
-   --name value, -n value	Name of the authorization
-   --rights value, -r value	Permissions to set
+   --username value, -u value	  Github username
+   --password value, -p value	  Github password
+   --name value, -n value	      Name of the authorization
+   --rights value, -r value	    Permissions to set
 ```
 
 ```sh
@@ -83,9 +85,9 @@ USAGE:
    gh-api-cli list-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value	Github username
-   --password value, -p value	Github password
-   --name value, -n value	Name of the authorization
+   --username value, -u value	  Github username
+   --password value, -p value	  Github password
+   --name value, -n value	      Name of the authorization
 ```
 
 ```sh
@@ -103,9 +105,9 @@ USAGE:
    gh-api-cli rm-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value	Github username
-   --password value, -p value	Github password
-   --name value, -n value	Name of the authorization
+   --username value, -u value	  Github username
+   --password value, -p value	  Github password
+   --name value, -n value	      Name of the authorization
 ```
 
 ```sh
@@ -129,4 +131,49 @@ OPTIONS:
 ```sh
 EXAMPLE
   gh-api-cli get-auth -n test
+```
+
+#### upload-release-asset
+```sh
+NAME:
+   gh-api-cli upload-release-asset - Upload assets to a release
+
+USAGE:
+   gh-api-cli upload-release-asset [command options] [arguments...]
+
+OPTIONS:
+   --name value, -n value	        Name of the authorization
+   --glob value, -g value	        Glob pattern of files to upload
+   --owner value, -o value	      Repo owner
+   --repository value, -r value	  Repo name
+   --ver value			              Version name
+```
+
+```sh
+EXAMPLE
+  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
+```
+
+#### upload-release-asset
+```sh
+NAME:
+   main create-release - Create a release
+
+USAGE:
+   main create-release [command options] [arguments...]
+
+OPTIONS:
+   --name value, -n value	         Name of the authorization
+   --owner value, -o value	       Repo owner
+   --repository value, -r value	   Repo name
+   --ver value			               Version name
+   --author value, -a value	       Release author name
+   --email value, -e value	       Release author email
+   --draft, -d			               Make a draft release
+
+```
+
+```sh
+EXAMPLE
+  gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```

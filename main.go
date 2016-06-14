@@ -14,6 +14,7 @@ import (
 	"github.com/mh-cbon/gh-api-cli/local"
 	"github.com/urfave/cli"
 	"golang.org/x/crypto/ssh/terminal"
+  "github.com/mattn/go-zglob"
 )
 
 func main() {
@@ -99,6 +100,79 @@ func main() {
 					Name:  "name, n",
 					Value: "",
 					Usage: "Name of the authorization",
+				},
+			},
+		},
+		{
+			Name:   "create-release",
+			Usage:  "Create a release",
+			Action: createRelease,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "name, n",
+					Value: "",
+					Usage: "Name of the authorization",
+				},
+				cli.StringFlag{
+					Name:  "owner, o",
+					Value: "",
+					Usage: "Repo owner",
+				},
+				cli.StringFlag{
+					Name:  "repository, r",
+					Value: "",
+					Usage: "Repo name",
+				},
+				cli.StringFlag{
+					Name:  "ver",
+					Value: "",
+					Usage: "Version name",
+				},
+				cli.StringFlag{
+					Name:  "author, a",
+					Value: "",
+					Usage: "Release author name",
+				},
+				cli.StringFlag{
+					Name:  "email, e",
+					Value: "",
+					Usage: "Release author email",
+				},
+				cli.BoolFlag{
+					Name:  "draft, d",
+					Usage: "Make a draft release",
+				},
+			},
+		},
+		{
+			Name:   "upload-release-asset",
+			Usage:  "Upload assets to a release",
+			Action: uploadReleaseAsset,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "name, n",
+					Value: "",
+					Usage: "Name of the authorization",
+				},
+				cli.StringFlag{
+					Name:  "glob, g",
+					Value: "",
+					Usage: "Glob pattern of files to upload",
+				},
+				cli.StringFlag{
+					Name:  "owner, o",
+					Value: "",
+					Usage: "Repo owner",
+				},
+				cli.StringFlag{
+					Name:  "repository, r",
+					Value: "",
+					Usage: "Repo name",
+				},
+				cli.StringFlag{
+					Name:  "ver",
+					Value: "",
+					Usage: "Version name",
 				},
 			},
 		},
@@ -260,6 +334,108 @@ func get(c *cli.Context) error {
 		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
 	}
 	fmt.Println(*auth.Token)
+
+	return nil
+}
+
+func createRelease(c *cli.Context) error {
+	name     := c.String("name")
+	owner    := c.String("owner")
+	repo     := c.String("repository")
+	ver      := c.String("ver")
+	author   := c.String("author")
+	email    := c.String("email")
+	draft    := c.Bool("draft")
+
+	if len(name) == 0 {
+		return cli.NewExitError("You must provide an authorization name", 1)
+	}
+	if len(owner) == 0 {
+		return cli.NewExitError("You must provide the repository owner", 1)
+	}
+	if len(repo) == 0 {
+		return cli.NewExitError("You must provide a repository name", 1)
+	}
+	if len(ver) == 0 {
+		return cli.NewExitError("You must provide a version", 1)
+	}
+	if len(author) != 0 && len(email)==0 {
+		return cli.NewExitError("You must provide an email", 1)
+	}
+	if len(author)==0 && len(email)>0 {
+		return cli.NewExitError("You must provide an author", 1)
+	}
+
+	auth, err := local.Get(name)
+	if err != nil {
+		fmt.Println(err)
+		return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
+	}
+
+	if auth.Token == nil {
+		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
+	}
+
+	release, err := gh.CreateRelease(*auth.Token, owner, repo, ver, author, email, draft)
+  if err != nil {
+    fmt.Println(err)
+    return cli.NewExitError("The release was not created successfully!", 1)
+  }
+
+  jsonContent, _ := jsonString(release)
+  fmt.Println(jsonContent)
+
+	return nil
+}
+
+func uploadReleaseAsset(c *cli.Context) error {
+	name := c.String("name")
+	glob := c.String("glob")
+	owner := c.String("owner")
+	repo := c.String("repository")
+	ver := c.String("ver")
+
+	if len(name) == 0 {
+		return cli.NewExitError("You must provide a name", 1)
+	}
+	if len(glob) == 0 {
+		return cli.NewExitError("You must glob a name", 1)
+	}
+	if len(owner) == 0 {
+		return cli.NewExitError("You must owner a name", 1)
+	}
+	if len(repo) == 0 {
+		return cli.NewExitError("You must repo a name", 1)
+	}
+	if len(ver) == 0 {
+		return cli.NewExitError("You must ver a name", 1)
+	}
+
+	auth, err := local.Get(name)
+	if err != nil {
+		fmt.Println(err)
+		return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
+	}
+
+	if auth.Token == nil {
+		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
+	}
+
+  paths, err := zglob.Glob(glob)
+	if len(paths) == 0 {
+		return cli.NewExitError("Your glob pattern did not selected any files.", 1)
+	}
+
+	errs := gh.UploadReleaseAssets(*auth.Token, owner, repo, ver, paths)
+
+  if len(errs)>0 {
+    for _, e := range errs {
+      fmt.Println(e)
+    }
+		return cli.NewExitError("There were errors while uploading assets.", 1)
+  }
+
+  fmt.Println("Assets uploaded!")
 
 	return nil
 }

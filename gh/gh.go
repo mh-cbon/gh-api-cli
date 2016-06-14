@@ -5,7 +5,11 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"os"
+	"path/filepath"
 
+  "github.com/Masterminds/semver"
+  "github.com/golang/oauth2"
 	"github.com/google/go-github/github"
 )
 
@@ -116,4 +120,138 @@ func GeneratePersonalAuthTokenRequest(name string, permissions []string) (*githu
 		}
 	}
 	return &auth, notFound
+}
+
+func ListReleases(token string, owner string, repo string) ([]github.RepositoryRelease, error) {
+
+  ts := oauth2.StaticTokenSource(
+    &oauth2.Token{AccessToken: token},
+  )
+  tc := oauth2.NewClient(oauth2.NoContext, ts)
+
+  client := github.NewClient(tc)
+
+	opt := &github.ListOptions{Page: 1, PerPage: 200}
+	got, _, err := client.Repositories.ListReleases(owner, repo, opt)
+
+	return got, err
+}
+
+func ReleaseExists(token string, owner string, repo string, version string, draft bool) (bool, error) {
+
+  releases, err := ListReleases(token, owner, repo)
+  if err!=nil {
+    return true, err
+  }
+
+  exists := false
+  for _, r := range releases {
+    if (*r.TagName==version || *r.Name==version) && *r.Draft==draft {
+      exists = true
+      break
+    }
+  }
+
+	return exists, err
+}
+
+func ReleaseId(token string, owner string, repo string, version string) (int, error) {
+
+  id := -1
+
+  releases, err := ListReleases(token, owner, repo)
+  if err!=nil {
+    return id, err
+  }
+
+  for _, r := range releases {
+    if *r.TagName==version || *r.Name==version {
+      id = *r.ID
+      break
+    }
+  }
+
+  if id==-1 {
+    err = errors.New("Release '"+version+"' not found!")
+  }
+
+	return id, err
+}
+
+func CreateRelease(token string, owner string, repo string, version string, authorName string, authorEmail string, draft bool) (*github.RepositoryRelease, error) {
+
+  exists, err := ReleaseExists(token, owner, repo, version, draft)
+  if err != nil {
+      return nil, err
+  }
+  if exists {
+    return nil, errors.New("Release '"+version+"' already exists!")
+  }
+  v, err := semver.NewVersion(version)
+  if err != nil {
+      return nil, err
+  }
+
+  ts := oauth2.StaticTokenSource(
+    &oauth2.Token{AccessToken: token},
+  )
+  tc := oauth2.NewClient(oauth2.NoContext, ts)
+
+  client := github.NewClient(tc)
+
+  opt := &github.RepositoryRelease{
+    Name:         github.String(version),
+    TagName:      github.String(version),
+    Draft:        github.Bool(draft),
+    Prerelease:   github.Bool(v.Prerelease()!=""),
+    Author:       &github.CommitAuthor{
+      Name:   github.String(authorName),
+      Email:  github.String(authorEmail),
+    },
+  }
+	release, _, err := client.Repositories.CreateRelease(owner, repo, opt)
+
+	return release, err
+}
+
+func UploadReleaseAssets(token string, owner string, repo string, version string, files []string) []error {
+
+  errs := make([]error, 0)
+
+  id, err := ReleaseId(token, owner, repo, version)
+  if err!=nil {
+    errs = append(errs, err)
+    return errs
+  }
+
+  ts := oauth2.StaticTokenSource(
+    &oauth2.Token{AccessToken: token},
+  )
+  tc := oauth2.NewClient(oauth2.NoContext, ts)
+
+  client := github.NewClient(tc)
+
+  c := make(chan error)
+  for index, file := range files {
+    go func (index int, file string) {
+      f, err := os.Open(file)
+      defer f.Close()
+      if err==nil {
+        opt := &github.UploadOptions{Name: filepath.Base(file)}
+        _, _, err = client.Repositories.UploadReleaseAsset(owner, repo, id, opt, f)
+      }
+      c <- err
+      if index==len(files)-1 {
+        close(c)
+      }
+    }(index, file)
+  }
+
+  for upErr := range c {
+    if upErr!=nil {
+      errs = append(errs, upErr)
+    }
+  }
+
+	return errs
 }

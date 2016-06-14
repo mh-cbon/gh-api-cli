@@ -155,7 +155,7 @@ EXAMPLE
 ```
 
 #### create-release
-```sh
+```
 NAME:
    gh-api-cli create-release - Create a release
 

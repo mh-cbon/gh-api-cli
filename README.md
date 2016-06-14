@@ -163,13 +163,13 @@ USAGE:
    gh-api-cli create-release [command options] [arguments...]
 
 OPTIONS:
-   --name value, -n value	         Name of the authorization
-   --owner value, -o value	       Repo owner
-   --repository value, -r value	   Repo name
-   --ver value			               Version name
-   --author value, -a value	       Release author name
-   --email value, -e value	       Release author email
-   --draft, -d			               Make a draft release
+   --name value, -n value          Name of the authorization
+   --owner value, -o value         Repo owner
+   --repository value, -r value    Repo name
+   --ver value                     Version name
+   --author value, -a value        Release author name
+   --email value, -e value         Release author email
+   --draft, -d                     Make a draft release
 
 ```
 

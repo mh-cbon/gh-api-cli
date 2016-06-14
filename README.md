@@ -154,7 +154,7 @@ EXAMPLE
   gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
 
-#### upload-release-asset
+#### create-release
 ```sh
 NAME:
    main create-release - Create a release

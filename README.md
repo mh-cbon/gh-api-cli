@@ -51,6 +51,29 @@ OPTIONS:
    --rights value, -r value	Permissions to set
 ```
 
+```sh
+EXAMPLE
+  gh-api-cli add-auth -n test -r user -r repo # will prompt for username/password
+  gh-api-cli add-auth -n test -r user -u your -p pwd # won t prompt unless you have 2F ident on
+```
+
+Where `rights` is one of :
+
+```sh
+user              user:email
+user:follow       public_repo
+repo              repo_deployment
+repo:status       delete_repo
+notifications     gist
+read:repo_hook    write:repo_hook
+admin:repo_hook   admin:org_hook
+admin             read:org
+write:org         admin:org
+read:public_key   write:public_key
+admin:public_key  read:gpg_key
+write:gpg_key     admin:gpg_key
+```
+
 #### list-auth
 ```sh
 NAME:
@@ -63,6 +86,12 @@ OPTIONS:
    --username value, -u value	Github username
    --password value, -p value	Github password
    --name value, -n value	Name of the authorization
+```
+
+```sh
+EXAMPLE
+  gh-api-cli list-auth -n test # will prompt for username/password
+  gh-api-cli list-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
 ```
 
 #### rm-auth
@@ -79,6 +108,12 @@ OPTIONS:
    --name value, -n value	Name of the authorization
 ```
 
+```sh
+EXAMPLE
+  gh-api-cli rm-auth -n test # will prompt for username/password
+  gh-api-cli rm-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
+```
+
 #### get-auth
 ```sh
 NAME:
@@ -89,4 +124,9 @@ USAGE:
 
 OPTIONS:
    --name value, -n value	Name of the authorization
+```
+
+```sh
+EXAMPLE
+  gh-api-cli get-auth -n test
 ```

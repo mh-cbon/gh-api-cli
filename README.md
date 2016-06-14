@@ -157,10 +157,10 @@ EXAMPLE
 #### create-release
 ```sh
 NAME:
-   main create-release - Create a release
+   gh-api-cli create-release - Create a release
 
 USAGE:
-   main create-release [command options] [arguments...]
+   gh-api-cli create-release [command options] [arguments...]
 
 OPTIONS:
    --name value, -n value	         Name of the authorization

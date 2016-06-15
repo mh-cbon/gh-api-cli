@@ -26,12 +26,12 @@ VERSION:
    0.0.0
 
 COMMANDS:
-     add-auth               Add a new authorization
-     list-auth	            List authorizations
-     rm-auth	              Remove an authorization
-     get-auth	              Get token from a locally saved authorization
-     create-release	        Create a new release
-     upload-release-asset	  Upload assets to a release
+     add-auth                 Add a new authorization
+     list-auth                List authorizations
+     rm-auth                  Remove an authorization
+     get-auth                 Get token from a locally saved authorization
+     create-release           Create a new release
+     upload-release-asset     Upload assets to a release
 
 GLOBAL OPTIONS:
    --help, -h		show help
@@ -47,10 +47,10 @@ USAGE:
    gh-api-cli add-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value	  Github username
-   --password value, -p value	  Github password
-   --name value, -n value	      Name of the authorization
-   --rights value, -r value	    Permissions to set
+   --username value, -u value    Github username
+   --password value, -p value    Github password
+   --name value, -n value        Name of the authorization
+   --rights value, -r value      Permissions to set
 ```
 
 ```
@@ -85,9 +85,9 @@ USAGE:
    gh-api-cli list-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value	  Github username
-   --password value, -p value	  Github password
-   --name value, -n value	      Name of the authorization
+   --username value, -u value   Github username
+   --password value, -p value   Github password
+   --name value, -n value       Name of the authorization
 ```
 
 ```
@@ -105,9 +105,9 @@ USAGE:
    gh-api-cli rm-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value	  Github username
-   --password value, -p value	  Github password
-   --name value, -n value	      Name of the authorization
+   --username value, -u value   Github username
+   --password value, -p value   Github password
+   --name value, -n value       Name of the authorization
 ```
 
 ```
@@ -125,7 +125,7 @@ USAGE:
    gh-api-cli get-auth [command options] [arguments...]
 
 OPTIONS:
-   --name value, -n value	Name of the authorization
+   --name value, -n value       Name of the authorization
 ```
 
 ```

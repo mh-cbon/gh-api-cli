@@ -9,12 +9,12 @@ import (
 	"syscall"
 
 	"github.com/google/go-github/github"
+	"github.com/mattn/go-zglob"
 	"github.com/mh-cbon/gh-api-cli/GenVersionFile"
 	"github.com/mh-cbon/gh-api-cli/gh"
 	"github.com/mh-cbon/gh-api-cli/local"
 	"github.com/urfave/cli"
 	"golang.org/x/crypto/ssh/terminal"
-  "github.com/mattn/go-zglob"
 )
 
 func main() {
@@ -339,13 +339,13 @@ func get(c *cli.Context) error {
 }
 
 func createRelease(c *cli.Context) error {
-	name     := c.String("name")
-	owner    := c.String("owner")
-	repo     := c.String("repository")
-	ver      := c.String("ver")
-	author   := c.String("author")
-	email    := c.String("email")
-	draft    := c.Bool("draft")
+	name := c.String("name")
+	owner := c.String("owner")
+	repo := c.String("repository")
+	ver := c.String("ver")
+	author := c.String("author")
+	email := c.String("email")
+	draft := c.Bool("draft")
 
 	if len(name) == 0 {
 		return cli.NewExitError("You must provide an authorization name", 1)
@@ -359,10 +359,10 @@ func createRelease(c *cli.Context) error {
 	if len(ver) == 0 {
 		return cli.NewExitError("You must provide a version", 1)
 	}
-	if len(author) != 0 && len(email)==0 {
+	if len(author) != 0 && len(email) == 0 {
 		return cli.NewExitError("You must provide an email", 1)
 	}
-	if len(author)==0 && len(email)>0 {
+	if len(author) == 0 && len(email) > 0 {
 		return cli.NewExitError("You must provide an author", 1)
 	}
 
@@ -377,13 +377,13 @@ func createRelease(c *cli.Context) error {
 	}
 
 	release, err := gh.CreateRelease(*auth.Token, owner, repo, ver, author, email, draft)
-  if err != nil {
-    fmt.Println(err)
-    return cli.NewExitError("The release was not created successfully!", 1)
-  }
+	if err != nil {
+		fmt.Println(err)
+		return cli.NewExitError("The release was not created successfully!", 1)
+	}
 
-  jsonContent, _ := jsonString(release)
-  fmt.Println(jsonContent)
+	jsonContent, _ := jsonString(release)
+	fmt.Println(jsonContent)
 
 	return nil
 }
@@ -421,21 +421,21 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
 	}
 
-  paths, err := zglob.Glob(glob)
+	paths, err := zglob.Glob(glob)
 	if len(paths) == 0 {
 		return cli.NewExitError("Your glob pattern did not selected any files.", 1)
 	}
 
 	errs := gh.UploadReleaseAssets(*auth.Token, owner, repo, ver, paths)
 
-  if len(errs)>0 {
-    for _, e := range errs {
-      fmt.Println(e)
-    }
+	if len(errs) > 0 {
+		for _, e := range errs {
+			fmt.Println(e)
+		}
 		return cli.NewExitError("There were errors while uploading assets.", 1)
-  }
+	}
 
-  fmt.Println("Assets uploaded!")
+	fmt.Println("Assets uploaded!")
 
 	return nil
 }

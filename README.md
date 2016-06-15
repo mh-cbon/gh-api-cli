@@ -13,9 +13,6 @@ glide install
 go install
 ```
 
-__important__ at that very moment, build is broken,
-It needs to solve https://github.com/golang/oauth2/issues/178
-
 # Usage
 
 ```

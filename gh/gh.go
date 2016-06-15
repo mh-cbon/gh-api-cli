@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 
   "github.com/Masterminds/semver"
-  "github.com/golang/oauth2"
+  "golang.org/x/oauth2"
 	"github.com/google/go-github/github"
 )
 

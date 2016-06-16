@@ -10,7 +10,6 @@ import (
 
 	"github.com/google/go-github/github"
 	"github.com/mattn/go-zglob"
-	"github.com/mh-cbon/gh-api-cli/GenVersionFile"
 	"github.com/mh-cbon/gh-api-cli/gh"
 	"github.com/mh-cbon/gh-api-cli/local"
 	"github.com/urfave/cli"

@@ -20,12 +20,12 @@ var VERSION = "0.0.0"
 
 func main() {
 
-	app            := cli.NewApp()
-	app.Name       = "gh-api-cli"
-	app.Version    = VERSION
-	app.Usage      = "Github api command line client"
-	app.UsageText  = "gh-api-cli <cmd> <options>"
-	app.Commands   = []cli.Command{
+	app := cli.NewApp()
+	app.Name = "gh-api-cli"
+	app.Version = VERSION
+	app.Usage = "Github api command line client"
+	app.UsageText = "gh-api-cli <cmd> <options>"
+	app.Commands = []cli.Command{
 		{
 			Name:   "add-auth",
 			Usage:  "Add a new authorization",
@@ -427,7 +427,7 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError("Your glob pattern did not selected any files.", 1)
 	}
 
-  token := *auth.Token
+	token := *auth.Token
 	id, err := gh.ReleaseId(token, owner, repo, ver)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)

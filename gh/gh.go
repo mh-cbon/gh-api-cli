@@ -224,6 +224,32 @@ func UploadReleaseAssets(token string, owner string, repo string, version string
 		return errs
 	}
 
+	c := make(chan error)
+  UploadMultipleReleaseAssets(token, owner, repo, id, files, c)
+
+  index := 0
+	for upErr := range c {
+		if upErr != nil {
+			errs = append(errs, upErr)
+		}
+    index++
+    if index == len(files)-1 {
+      close(c)
+    }
+	}
+
+	return errs
+}
+func UploadMultipleReleaseAssets(token string, owner string, repo string, releaseId int, files []string, info chan<-error) {
+	for index, file := range files {
+		go func(index int, file string) {
+			c <- UploadReleaseAsset(owner, repo, id, opt, f)
+		}(index, file)
+	}
+}
+
+func UploadReleaseAsset(token string, owner string, repo string, releaseId int, file string) error {
+
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},
 	)
@@ -231,27 +257,12 @@ func UploadReleaseAssets(token string, owner string, repo string, version string
 
 	client := github.NewClient(tc)
 
-	c := make(chan error)
-	for index, file := range files {
-		go func(index int, file string) {
-			f, err := os.Open(file)
-			defer f.Close()
-			if err == nil {
-				opt := &github.UploadOptions{Name: filepath.Base(file)}
-				_, _, err = client.Repositories.UploadReleaseAsset(owner, repo, id, opt, f)
-			}
-			c <- err
-			if index == len(files)-1 {
-				close(c)
-			}
-		}(index, file)
-	}
+  f, err := os.Open(file)
+  defer f.Close()
+  if err == nil {
+    opt := &github.UploadOptions{Name: filepath.Base(file)}
+    _, _, err = client.Repositories.UploadReleaseAsset(owner, repo, releaseId, opt, f)
+  }
 
-	for upErr := range c {
-		if upErr != nil {
-			errs = append(errs, upErr)
-		}
-	}
-
-	return errs
+	return err
 }

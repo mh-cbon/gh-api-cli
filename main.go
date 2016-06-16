@@ -190,7 +190,7 @@ func add(c *cli.Context) error {
 	}
 
 	if len(name) == 0 {
-		return cli.NewExitError("You must provide name", 1)
+		return cli.NewExitError("You must provide an authorization name", 1)
 	}
 	if len(perms) == 0 {
 		return cli.NewExitError("You must provide permissions", 1)
@@ -396,19 +396,19 @@ func uploadReleaseAsset(c *cli.Context) error {
 	ver := c.String("ver")
 
 	if len(name) == 0 {
-		return cli.NewExitError("You must provide a name", 1)
+		return cli.NewExitError("You must provide an authorization name", 1)
 	}
 	if len(glob) == 0 {
-		return cli.NewExitError("You must glob a name", 1)
+		return cli.NewExitError("You must provide a pattern to glob", 1)
 	}
 	if len(owner) == 0 {
-		return cli.NewExitError("You must owner a name", 1)
+		return cli.NewExitError("You must provide a repository owner", 1)
 	}
 	if len(repo) == 0 {
-		return cli.NewExitError("You must repo a name", 1)
+		return cli.NewExitError("You must provide a repository name", 1)
 	}
 	if len(ver) == 0 {
-		return cli.NewExitError("You must ver a name", 1)
+		return cli.NewExitError("You must provide a release version", 1)
 	}
 
 	auth, err := local.Get(name)
@@ -426,16 +426,30 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError("Your glob pattern did not selected any files.", 1)
 	}
 
-	errs := gh.UploadReleaseAssets(*auth.Token, owner, repo, ver, paths)
-
-	if len(errs) > 0 {
-		for _, e := range errs {
-			fmt.Println(e)
-		}
-		return cli.NewExitError("There were errors while uploading assets.", 1)
+	id, err := ReleaseId(token, owner, repo, ver)
+	if err != nil {
+		return cli.NewExitError(err.Error(), 1)
 	}
 
-	fmt.Println("Assets uploaded!")
+  errs := make([]error, 0)
+  token := *auth.Token
+  for index, file := range paths {
+    fmt.Println("Uploading "+file)
+    err := UploadReleaseAsset(token, owner, repo, id, file)
+    if err!= nil {
+      fmt.Println("Failed")
+      errs = append(errs, err)
+			fmt.Println(err)
+    } else {
+      fmt.Println("Done")
+    }
+  }
+
+	if len(errs) > 0 {
+		return cli.NewExitError("There were errors while uploading assets.", 1)
+	} else {
+  	fmt.Println("Assets uploaded!")
+  }
 
 	return nil
 }

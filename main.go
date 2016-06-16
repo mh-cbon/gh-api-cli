@@ -431,25 +431,25 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-  errs := make([]error, 0)
-  token := *auth.Token
-  for index, file := range paths {
-    fmt.Println("Uploading "+file)
-    err := UploadReleaseAsset(token, owner, repo, id, file)
-    if err!= nil {
-      fmt.Println("Failed")
-      errs = append(errs, err)
+	errs := make([]error, 0)
+	token := *auth.Token
+	for index, file := range paths {
+		fmt.Println("Uploading " + file)
+		err := UploadReleaseAsset(token, owner, repo, id, file)
+		if err != nil {
+			fmt.Println("Failed")
+			errs = append(errs, err)
 			fmt.Println(err)
-    } else {
-      fmt.Println("Done")
-    }
-  }
+		} else {
+			fmt.Println("Done")
+		}
+	}
 
 	if len(errs) > 0 {
 		return cli.NewExitError("There were errors while uploading assets.", 1)
 	} else {
-  	fmt.Println("Assets uploaded!")
-  }
+		fmt.Println("Assets uploaded!")
+	}
 
 	return nil
 }

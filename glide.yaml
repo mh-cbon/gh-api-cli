@@ -14,7 +14,7 @@ scripts:
     && gh-api-cli upload-release-asset -n release --glob "assets/*" -o mh-cbon -r gh-api-cli --ver !newversion! \
     && rm-glob -r build/ \
     && rm-glob -r assets/ \
-    && go install
+    && go install --ldflags "-X main.VERSION=!newversion!"
 import:
 - package: github.com/urfave/cli
   version: ^1.17.0

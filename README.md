@@ -4,6 +4,8 @@ Command line client for github api
 
 # Install
 
+You can grab a pre-built binary file in the [releases page](https://github.com/mh-cbon/gh-api-cli/releases)
+
 ```sh
 mkdir -p $GOPATH/github.com/mh-cbon
 cd $GOPATH/github.com/mh-cbon

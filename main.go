@@ -17,14 +17,16 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+var VERSION = "0.0.0"
+
 func main() {
 
-	app := cli.NewApp()
-	app.Name = "gh-api-cli"
-	app.Version = GenVersionFile.Version()
-	app.Usage = "Github api command line client"
-	app.UsageText = "gh-api-cli <cmd> <options>"
-	app.Commands = []cli.Command{
+	app            := cli.NewApp()
+	app.Name       = "gh-api-cli"
+	app.Version    = VERSION
+	app.Usage      = "Github api command line client"
+	app.UsageText  = "gh-api-cli <cmd> <options>"
+	app.Commands   = []cli.Command{
 		{
 			Name:   "add-auth",
 			Usage:  "Add a new authorization",

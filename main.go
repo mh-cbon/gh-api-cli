@@ -426,16 +426,16 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError("Your glob pattern did not selected any files.", 1)
 	}
 
-	id, err := ReleaseId(token, owner, repo, ver)
+  token := *auth.Token
+	id, err := gh.ReleaseId(token, owner, repo, ver)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
 	errs := make([]error, 0)
-	token := *auth.Token
-	for index, file := range paths {
+	for _, file := range paths {
 		fmt.Println("Uploading " + file)
-		err := UploadReleaseAsset(token, owner, repo, id, file)
+		err := gh.UploadReleaseAsset(token, owner, repo, id, file)
 		if err != nil {
 			fmt.Println("Failed")
 			errs = append(errs, err)

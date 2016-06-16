@@ -243,7 +243,7 @@ func UploadReleaseAssets(token string, owner string, repo string, version string
 func UploadMultipleReleaseAssets(token string, owner string, repo string, releaseId int, files []string, info chan<- error) {
 	for index, file := range files {
 		go func(index int, file string) {
-			c <- UploadReleaseAsset(owner, repo, id, opt, f)
+			info <- UploadReleaseAsset(token, owner, repo, releaseId, file)
 		}(index, file)
 	}
 }

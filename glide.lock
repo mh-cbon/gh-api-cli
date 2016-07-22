@@ -1,45 +1,48 @@
-hash: 833d613c36205d6bb0e5a417e7e1ada088e8a1d70684308be9e1f8fb0792ad86
-updated: 2016-06-14T20:44:13.845825237+02:00
+hash: f3bce217ab32bc2cc45ffa25ca74f684710a011168249bdea3c05a43a7838aae
+updated: 2016-07-22T14:33:13.433136411+02:00
 imports:
 - name: github.com/golang/oauth2
-  version: 65a8d08c6292395d47053be10b3c5e91960def76
+  version: 1364adb2c63445016c5ed4518fc71f6a3cda6169
 - name: github.com/golang/protobuf
-  version: 8616e8ee5e20a1704615e6c8d7afcdac06087a67
+  version: 874264fbbb43f4d91e999fecb4b40143ed611400
   subpackages:
   - proto
 - name: github.com/google/go-github
-  version: a6edb1171afdc1d19364a17938edb1527a983443
+  version: b5e5babef39c18002f177a134fc49dc5013374ba
   subpackages:
   - github
 - name: github.com/google/go-querystring
   version: 9235644dd9e52eeae6fa48efd539fdc351a0af53
   subpackages:
   - query
+- name: github.com/Masterminds/semver
+  version: 8d0431362b544d1a3536cca26684828866a7de09
 - name: github.com/mattn/go-zglob
   version: 2dbd7f37a45e993d5180a251b4bdd314d6333b70
 - name: github.com/mitchellh/go-homedir
-  version: 1111e456ffea841564ac0fa5f69c26ef44dafec9
+  version: 756f7b183b7ab78acdbbee5c7f392838ed459dda
 - name: github.com/urfave/cli
-  version: 01857ac33766ce0c93856370626f9799281c14f4
+  version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
 - name: golang.org/x/crypto
-  version: f3241ce8505855877cc8a9717bd61a0f7c4ea83c
+  version: 911fafb28f4ee7c7bd483539a6c96190bbbccc3f
   subpackages:
   - ssh/terminal
 - name: golang.org/x/net
-  version: 3f122ce3dbbe488b7e6a8bdb26f41edec852a40b
+  version: 4d38db76854b199960801a1734443fd02870d7e1
   subpackages:
   - context
 - name: golang.org/x/oauth2
-  version: 65a8d08c6292395d47053be10b3c5e91960def76
+  version: 1364adb2c63445016c5ed4518fc71f6a3cda6169
   subpackages:
   - internal
 - name: google.golang.org/appengine
-  version: 7f59a8c76b8594d06044bfe0bcbe475cb2020482
+  version: 267c27e7492265b84fc6719503b14a1e17975d79
   subpackages:
   - urlfetch
   - internal
   - internal/urlfetch
   - internal/base
   - internal/datastore
+  - internal/log
   - internal/remote_api
-devImports: []
+testImports: []

@@ -1,5 +1,18 @@
 # Changelog - gh-api-cli
 
+### 1.0.1
+
+__Changes__
+
+- empty: trigger ci build
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Fri 22 Jul 2016
+______________
+
 ### 1.0.0
 
 __Changes__

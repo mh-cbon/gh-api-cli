@@ -52,4 +52,4 @@ deploy:
         - master
         - /v\d\.\d\.\d/
         - /\d\.\d\.\d/
-        appveyor_repo_tag: true
+      appveyor_repo_tag: true

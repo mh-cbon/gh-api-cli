@@ -1,8 +1,9 @@
 package: github.com/mh-cbon/gh-auth
 scripts:
+  prebump: git fetch --tags
   preversion: |
-    git fetch --tags \
-    && philea "go vet %s" "go fmt %s" \
+    philea "go vet %s" "go fmt %s" \
+    && go run main.go -v \
     && rm-glob -r build/ \
     && rm-glob -r assets/ \
     && build-them-all build main.go -o "build/&os-&arch/&pkg" --ldflags "-X main.VERSION=!newversion!"

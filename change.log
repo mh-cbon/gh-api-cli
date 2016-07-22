@@ -1,4 +1,14 @@
 
+1.0.1
+
+  * empty: trigger ci build
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Fri, 22 Jul 2016 14:25:49 +0200
+
+
+
 1.0.0
 
   * create-release command: change --draft arg to take a string value (yes|no)

@@ -1,5 +1,21 @@
 # Changelog - gh-api-cli
 
+### 1.0.2
+
+__Changes__
+
+- github: update to latest github.com/google/go-github
+- glide: fix missing semver dependency
+- glide: fix missing semver dependency
+- appveyor: fix indentation
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Fri 22 Jul 2016
+______________
+
 ### 1.0.1
 
 __Changes__

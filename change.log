@@ -1,5 +1,5 @@
 
-0.1.0
+1.0.0
 
   * create-release command: change --draft arg to take a string value (yes|no)
   * glide: fix package name

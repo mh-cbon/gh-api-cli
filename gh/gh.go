@@ -57,7 +57,7 @@ func List(username string, password string, OTP string) (map[string]*github.Auth
 		if namedAuth.MatchString(note) {
 			parts := namedAuth.FindAllStringSubmatch(note, -1)
 			name := parts[0][1]
-			ret[name] = &v
+			ret[name] = v
 		}
 	}
 
@@ -122,7 +122,7 @@ func GeneratePersonalAuthTokenRequest(name string, permissions []string) (*githu
 	return &auth, notFound
 }
 
-func ListReleases(token string, owner string, repo string) ([]github.RepositoryRelease, error) {
+func ListReleases(token string, owner string, repo string) ([]*github.RepositoryRelease, error) {
 
 	ts := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: token},

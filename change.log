@@ -1,4 +1,15 @@
 
+UNRELEASED
+
+  * glide: fix missing semver dependency
+  * appveyor: fix indentation
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Fri, 22 Jul 2016 14:34:14 +0200
+
+
+
 1.0.1
 
   * empty: trigger ci build
@@ -53,5 +64,3 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Tue, 14 Jun 2016 18:46:40 +0200
-
-

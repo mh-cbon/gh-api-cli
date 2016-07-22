@@ -348,7 +348,7 @@ func createRelease(c *cli.Context) error {
 	author := c.String("author")
 	email := c.String("email")
 	draft := c.String("draft")
-  isDraft := false
+	isDraft := false
 
 	if len(name) == 0 {
 		return cli.NewExitError("You must provide an authorization name", 1)
@@ -368,9 +368,9 @@ func createRelease(c *cli.Context) error {
 	if len(author) == 0 && len(email) > 0 {
 		return cli.NewExitError("You must provide an author", 1)
 	}
-  if draft=="yes" || draft=="1" || draft=="true" {
-    isDraft = true
-  }
+	if draft == "yes" || draft == "1" || draft == "true" {
+		isDraft = true
+	}
 
 	auth, err := local.Get(name)
 	if err != nil {

@@ -59,9 +59,10 @@ OPTIONS:
 EXAMPLE
   gh-api-cli add-auth -n test -r user -r repo # will prompt for username/password
   gh-api-cli add-auth -n test -r user -u your -p pwd # won t prompt unless you have 2F ident on
+  gh-api-cli add-auth -n test -r user,repo -u your -p pwd
 ```
 
-Where `rights` is one of :
+Where `rights` contains some of :
 
 ```
 user              user:email
@@ -171,8 +172,7 @@ OPTIONS:
    --ver value                     Version name
    --author value, -a value        Release author name
    --email value, -e value         Release author email
-   --draft, -d                     Make a draft release
-
+   --draft value, -d value         Make a draft release, value=yes|1|true|no|0|false
 ```
 
 ```

@@ -139,8 +139,9 @@ func main() {
 					Value: "",
 					Usage: "Release author email",
 				},
-				cli.BoolFlag{
+				cli.StringFlag{
 					Name:  "draft, d",
+					Value: "no",
 					Usage: "Make a draft release",
 				},
 			},
@@ -346,7 +347,8 @@ func createRelease(c *cli.Context) error {
 	ver := c.String("ver")
 	author := c.String("author")
 	email := c.String("email")
-	draft := c.Bool("draft")
+	draft := c.String("draft")
+  isDraft := false
 
 	if len(name) == 0 {
 		return cli.NewExitError("You must provide an authorization name", 1)
@@ -366,6 +368,9 @@ func createRelease(c *cli.Context) error {
 	if len(author) == 0 && len(email) > 0 {
 		return cli.NewExitError("You must provide an author", 1)
 	}
+  if draft=="yes" || draft=="1" || draft=="true" {
+    isDraft = true
+  }
 
 	auth, err := local.Get(name)
 	if err != nil {
@@ -377,7 +382,7 @@ func createRelease(c *cli.Context) error {
 		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
 	}
 
-	release, err := gh.CreateRelease(*auth.Token, owner, repo, ver, author, email, draft)
+	release, err := gh.CreateRelease(*auth.Token, owner, repo, ver, author, email, isDraft)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("The release was not created successfully!", 1)

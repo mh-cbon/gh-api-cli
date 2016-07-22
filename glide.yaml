@@ -1,4 +1,4 @@
-package: github.com/mh-cbon/gh-auth
+package: github.com/mh-cbon/gh-api-cli
 scripts:
   prebump: git fetch --tags
   preversion: |

@@ -1,0 +1,49 @@
+sudo: required
+
+services:
+  - docker
+
+language: go
+go:
+  - tip
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install build-essential lintian -y
+  - mkdir -p ${GOPATH}/bin
+  - cd ~
+  - curl https://glide.sh/get | sh
+  - curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/changelog sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/go-bin-deb sh -xe
+
+install:
+  - cd $GOPATH/src/github.com/mh-cbon/gh-api-cli
+  - glide install
+  - go install
+
+script: echo "pass"
+
+before_deploy:
+  - mkdir -p build/{386,amd64}
+  - mkdir -p pkg-build/{386,amd64}
+  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/gh-api-cli main.go
+  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/gh-api-cli main.go
+  - go-bin-deb generate -a 386 --version ${TRAVIS_TAG} -w pkg-build/386/ -o ${TRAVIS_BUILD_DIR}/gh-api-cli-386.deb
+  - go-bin-deb generate -a amd64 --version ${TRAVIS_TAG} -w pkg-build/amd64/ -o ${TRAVIS_BUILD_DIR}/gh-api-cli-amd64.deb
+  - rm -fr pkg-build/
+  - mkdir -p pkg-build/{386,amd64}
+  - docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG} gh-api-cli"
+  - sudo chown travis:travis gh-api-cli-{386,amd64}.rpm
+
+deploy:
+  provider: releases
+  api_key:
+    secure: OFYJ6CyI+zgdt+9uWpve2k+YlHRvWE3wEnAPAAqKkkACzcPpePpjry12gZLU/S2du3vu+4AgE2JiCIsHLTov61tRbyGUCBbCx0q1CkOlNEbhnQcn2vOeXRGIjqOltGordwz6UNyIRCGcAuBWTvgeat6Zem/Lt1lrIFbV7CSGNjtYStFp2Y34m5QC8YFJ/0SH65FdcsUqrL5LFHPakeO+EaWNr/N4WrhYeFUC2o/b4jak4gG415oBlsb6epYvlU8VAXbjQZAfNzBgwlIxgphiiXt0rxOYUNbNb09Yvx7Kcty31HK1GO35xK81iJP+cJ48mawm97IXhoVr72+8liwSEctoef4ipeUcsP/H6yIHAAo6UE8hGZbVNJDh2SbxAhgQOhtYQ80n7nqojiuFz2aXxpV66AinkSA85Gx8PFzhsxGhVjG5VxN/ktmR/+8q3vS6PTuVRuC/d2nHz5Ctij864jzaZvQHZu+KDQAeoSzy/Ojnh1zTbXBK8Zq1xj5B8BkdM7Ry7G0uxS03LfCP9soOqHAo5/eEbI3i7YtmjtoyMEpWCGlwv3S3rvyhHqX3Amdtk+vOfDMANebhNm3Ba7hAZ1cKd7KahoRjMMduHtThjct6YXm7qp7LhR3wwh6SRGNyJBEMqLoxfwn7FRzlluUI4psuOV7kfSyRwgoECEjt7cg=
+  file:
+    - gh-api-cli-386.deb
+    - gh-api-cli-amd64.deb
+    - gh-api-cli-386.rpm
+    - gh-api-cli-amd64.rpm
+  skip_cleanup: true
+  on:
+    tags: true

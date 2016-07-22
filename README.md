@@ -4,11 +4,24 @@ Command line client for github api
 
 # Install
 
-You can grab a pre-built binary file in the [releases page](https://github.com/mh-cbon/gh-api-cli/releases)
+Pick an msi package [here](https://github.com/mh-cbon/gh-api-cli/releases)!
+
+__deb/rpm__
 
 ```sh
-mkdir -p $GOPATH/github.com/mh-cbon
-cd $GOPATH/github.com/mh-cbon
+curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
+| GH=mh-cbon/gh-api-cli sh -xe
+# or
+wget -q -O - --no-check-certificate \
+https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
+| GH=mh-cbon/gh-api-cli sh -xe
+```
+
+__go__
+
+```sh
+mkdir -p $GOPATH/src/github.com/mh-cbon
+cd $GOPATH/src/github.com/mh-cbon
 git clone https://github.com/mh-cbon/gh-api-cli.git
 cd gh-api-cli
 glide install

@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"io"
+  "net/http"
 
 	"github.com/Masterminds/semver"
 	"github.com/google/go-github/github"
@@ -125,7 +127,7 @@ func GeneratePersonalAuthTokenRequest(name string, permissions []string) (*githu
 	return &auth, notFound
 }
 
-// List releases on the remote
+// List all releases on the remote
 func ListReleases(token string, owner string, repo string) ([]*github.RepositoryRelease, error) {
 
 	ts := oauth2.StaticTokenSource(
@@ -137,6 +139,28 @@ func ListReleases(token string, owner string, repo string) ([]*github.Repository
 
 	opt := &github.ListOptions{Page: 1, PerPage: 200}
 	got, _, err := client.Repositories.ListReleases(owner, repo, opt)
+
+	return got, err
+}
+
+// List public releases on the remote
+func ListPublicReleases(owner string, repo string) ([]*github.RepositoryRelease, error) {
+
+	client := github.NewClient(nil)
+
+	opt := &github.ListOptions{Page: 1, PerPage: 200}
+	got, _, err := client.Repositories.ListReleases(owner, repo, opt)
+
+	return got, err
+}
+
+// List public release assets on the remote
+func ListReleaseAssets(owner string, repo string, release github.RepositoryRelease) ([]*github.ReleaseAsset, error) {
+
+	client := github.NewClient(nil)
+
+	opt := &github.ListOptions{Page: 1, PerPage: 200}
+	got, _, err := client.Repositories.ListReleaseAssets(owner, repo, *release.ID, opt)
 
 	return got, err
 }
@@ -275,4 +299,33 @@ func UploadReleaseAsset(token string, owner string, repo string, releaseId int, 
 	}
 
 	return err
+}
+
+// Download an asset from a release, handles redirect.
+func DownloadAsset(url string, out io.Writer) error {
+  client := &http.Client{}
+
+  req, err := http.NewRequest("GET", url, nil)
+  if err != nil {
+      return err
+  }
+
+  res, err := client.Do(req)
+  if err != nil {
+      return err
+  }
+  defer res.Body.Close()
+
+  s3URL, err := res.Location()
+  if err==nil && s3URL.String()!="" {
+    res, err = http.Get(s3URL.String())
+    if err != nil {
+        return err
+    }
+    defer res.Body.Close()
+  }
+
+  _, err = io.Copy(out, res.Body)
+
+  return err
 }

@@ -1,11 +1,27 @@
 # Changelog - gh-api-cli
 
+### 2.0.0
+
+__Changes__
+
+- [break] gh.CreateRelease: add new body argument to sets the body content of the release
+- create-release: add changelog,c argument
+- release: add changelog command to the creation of the release
+- stringexec: add dependency
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Wed 27 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/1.0.2...2.0.0#diff)
+______________
+
 ### 1.0.2
 
 __Changes__
 
 - github: update to latest github.com/google/go-github
-- glide: fix missing semver dependency
 - glide: fix missing semver dependency
 - appveyor: fix indentation
 
@@ -13,7 +29,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Fri 22 Jul 2016
+Released by mh-cbon, Fri 22 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/1.0.1...1.0.2#diff)
 ______________
 
 ### 1.0.1
@@ -26,7 +43,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Fri 22 Jul 2016
+Released by mh-cbon, Fri 22 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/1.0.0...1.0.1#diff)
 ______________
 
 ### 1.0.0
@@ -41,7 +59,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Fri 22 Jul 2016
+Released by mh-cbon, Fri 22 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/0.0.3...1.0.0#diff)
 ______________
 
 ### 0.0.3
@@ -56,7 +75,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Thu 16 Jun 2016
+Released by mh-cbon, Thu 16 Jun 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/0.0.2...0.0.3#diff)
 ______________
 
 ### 0.0.2
@@ -72,7 +92,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Wed 15 Jun 2016
+Released by mh-cbon, Wed 15 Jun 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/0.0.1...0.0.2#diff)
 ______________
 
 ### 0.0.1
@@ -85,7 +106,8 @@ __Contributors__
 
 - mh-cbon
 
-Released by mh-cbon, Tue 14 Jun 2016
+Released by mh-cbon, Tue 14 Jun 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/6b4908780f93b52178e4fba49dd20ad2ce308649...0.0.1#diff)
 ______________
 
 

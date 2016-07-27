@@ -1,5 +1,20 @@
 # Changelog - gh-api-cli
 
+### 2.0.1
+
+__Changes__
+
+- cli: add dl-assets command
+- gh: Add methods to list public releases/assets and download asset
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Wed 27 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/changelog/compare/2.0.0...2.0.1#diff)
+______________
+
 ### 2.0.0
 
 __Changes__

@@ -2,13 +2,13 @@ package gh
 
 import (
 	"errors"
+	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
-	"io"
-  "net/http"
 
 	"github.com/Masterminds/semver"
 	"github.com/google/go-github/github"
@@ -303,29 +303,29 @@ func UploadReleaseAsset(token string, owner string, repo string, releaseId int, 
 
 // Download an asset from a release, handles redirect.
 func DownloadAsset(url string, out io.Writer) error {
-  client := &http.Client{}
+	client := &http.Client{}
 
-  req, err := http.NewRequest("GET", url, nil)
-  if err != nil {
-      return err
-  }
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return err
+	}
 
-  res, err := client.Do(req)
-  if err != nil {
-      return err
-  }
-  defer res.Body.Close()
+	res, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
 
-  s3URL, err := res.Location()
-  if err==nil && s3URL.String()!="" {
-    res, err = http.Get(s3URL.String())
-    if err != nil {
-        return err
-    }
-    defer res.Body.Close()
-  }
+	s3URL, err := res.Location()
+	if err == nil && s3URL.String() != "" {
+		res, err = http.Get(s3URL.String())
+		if err != nil {
+			return err
+		}
+		defer res.Body.Close()
+	}
 
-  _, err = io.Copy(out, res.Body)
+	_, err = io.Copy(out, res.Body)
 
-  return err
+	return err
 }

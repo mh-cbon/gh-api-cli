@@ -1,4 +1,15 @@
 
+UNRELEASED
+
+  * cli: add dl-assets command
+  * gh: Add methods to list public releases/assets and download asset
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Wed, 27 Jul 2016 15:59:26 +0200
+
+
+
 2.0.0
 
   * [break] gh.CreateRelease: add new body argument to sets the body content of the release
@@ -78,5 +89,3 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Tue, 14 Jun 2016 18:46:40 +0200
-
-

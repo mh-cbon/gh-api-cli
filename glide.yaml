@@ -10,7 +10,8 @@ scripts:
     666 changelog md -o CHANGELOG.md --vars='{"name":"gh-api-cli"}' \
     && 666 commit -q -m "changelog: !newversion!" -f CHANGELOG.md \
     && git push && git push --tags \
-    && gh-api-cli create-release -n release -o mh-cbon -r gh-api-cli --ver !newversion! \
+    && gh-api-cli create-release -n release -o mh-cbon -r gh-api-cli \
+     --ver !newversion! -c "changelog ghrelease --version !newversion!" \
     && go install --ldflags "-X main.VERSION=!newversion!"
 import:
 - package: github.com/urfave/cli
@@ -23,3 +24,5 @@ import:
 - package: github.com/mattn/go-zglob
 - package: github.com/Masterminds/semver
   version: ^1.1.1
+- package: github.com/mh-cbon/stringexec
+  version: ^0.0.1

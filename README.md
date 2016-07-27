@@ -193,3 +193,35 @@ OPTIONS:
 EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
+
+#### dl-assets
+```
+NAME:
+   gh-api-cli dl-assets - Download assets
+
+USAGE:
+   gh-api-cli dl-assets [command options] [arguments...]
+
+OPTIONS:
+   --owner value, -o value         Repo owner
+   --repository value, -r value    Repo name
+   --version constraint            A version constraint,
+                                   Special value 'latest' is acceptable.
+   --out value                     A formatted string to write files.
+                                   It can contain token such as
+                                   %f: full filename
+                                   %o: repository owner
+                                   %r: repository name
+                                   %e: file extension, minus dot prefix, detected JIT
+                                   %s: target system (windows, darwin, linux), detected JIT
+                                   %a: architecture (amd64, 386), detected JIT
+                                   %v: version the asset is attached to
+```
+
+```
+EXAMPLE
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver latest --out dl/%s/%r.%v-%a.%e
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --out "dl/%s/%r-%v-%a.%e" --ver ">0.0.10"
+```

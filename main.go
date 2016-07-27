@@ -7,6 +7,8 @@ import (
 	"os"
 	"strings"
 	"syscall"
+	"regexp"
+	"path/filepath"
 
 	"github.com/google/go-github/github"
 	"github.com/mattn/go-zglob"
@@ -15,6 +17,7 @@ import (
 	"github.com/mh-cbon/stringexec"
 	"github.com/urfave/cli"
 	"golang.org/x/crypto/ssh/terminal"
+  "github.com/Masterminds/semver"
 )
 
 var VERSION = "0.0.0"
@@ -181,6 +184,38 @@ func main() {
 					Name:  "ver",
 					Value: "",
 					Usage: "Version name",
+				},
+			},
+		},
+		{
+			Name:   "dl-assets",
+			Usage:  "Download assets",
+			Action: downloadAssets,
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "glob, g",
+					Value: "",
+					Usage: "Glob pattern of files to download",
+				},
+				cli.StringFlag{
+					Name:  "out",
+					Value: "%f",
+					Usage: "Out format to write files",
+				},
+				cli.StringFlag{
+					Name:  "owner, o",
+					Value: "",
+					Usage: "Repo owner",
+				},
+				cli.StringFlag{
+					Name:  "repository, r",
+					Value: "",
+					Usage: "Repo name",
+				},
+				cli.StringFlag{
+					Name:  "ver",
+					Value: "",
+					Usage: "Version constraint",
 				},
 			},
 		},
@@ -481,6 +516,215 @@ func uploadReleaseAsset(c *cli.Context) error {
 	}
 
 	return nil
+}
+
+func downloadAssets(c *cli.Context) error {
+	glob := c.String("glob")
+	out := c.String("out")
+	owner := c.String("owner")
+	repo := c.String("repository")
+	ver := c.String("ver")
+
+	if len(owner) == 0 {
+		return cli.NewExitError("You must provide a repository owner", 1)
+	}
+	if len(repo) == 0 {
+		return cli.NewExitError("You must provide a repository name", 1)
+	}
+
+  releases, err := gh.ListPublicReleases(owner, repo)
+	if err != nil {
+		fmt.Println(err)
+		return cli.NewExitError("could not list releases of this repository "+owner+"/"+repo+"!", 1)
+	}
+
+  if ver != "" {
+    releases, err = selectReleases(ver, releases)
+  	if err != nil {
+  		fmt.Println(err)
+  		return cli.NewExitError("Failed to select release for this constraint "+ver+"!", 1)
+  	}
+  }
+
+  if len(releases)==0 {
+    fmt.Println("No releases selected!")
+    return nil
+  }
+
+  assets, err := selectAssets(owner, repo, glob, out, releases)
+  if err != nil {
+    fmt.Println(err)
+    return cli.NewExitError("Failed to select assets for this glob "+glob+"!", 1)
+  }
+
+  if len(assets)==0 {
+    fmt.Println("No assets selected!")
+    return nil
+  }
+
+  for _, a := range assets {
+    fmt.Println("Downloading "+a.Name+" to "+a.TargetFile)
+    dir := filepath.Dir(a.TargetFile)
+    err := os.MkdirAll(dir, 0755)
+    if err!=nil {
+      fmt.Println(err)
+      return cli.NewExitError("Failed to create directory "+dir+"!", 1)
+    }
+    f, err := os.Create(a.TargetFile)
+    if err!=nil {
+      fmt.Println(err)
+      return cli.NewExitError("Failed to open file "+a.TargetFile+"!", 1)
+    }
+    err = gh.DownloadAsset(a.SourceUrl, f)
+    if err!=nil {
+      fmt.Println(err)
+      return cli.NewExitError("Failed to download file!", 1)
+    }
+  }
+
+  fmt.Println("All done!")
+
+	return nil
+}
+
+type Asset struct {
+  SourceUrl string
+  TargetFile string
+  Name string
+  Arch string
+  System string
+  Ext string
+  Version string
+}
+
+func selectAssets (owner string, repo string, glob string, out string, releases []*github.RepositoryRelease) ([]*Asset, error) {
+  ret := make([]*Asset, 0)
+  r, _ := regexp.Compile(".+")
+  if glob!="" {
+    var err error
+    glob = strings.Replace(glob, "*", ".+", -1)
+    r, err = regexp.Compile("(?i)^"+glob+"$")
+    if err!=nil {
+      return ret, err
+    }
+  }
+  for _, release := range releases {
+    assets, err := gh.ListReleaseAssets(owner, repo, *release)
+    if err!=nil {
+      return ret, err
+    }
+    for _, a := range assets {
+      if r.MatchString(*a.Name) {
+        asset := &Asset{}
+        asset.Name = *a.Name
+        asset.Version = *release.TagName
+        asset.SourceUrl = *a.BrowserDownloadURL
+        ret = append(ret, asset)
+      }
+    }
+  }
+  isWin, _ := regexp.Compile("(?i)win(dows)?[-_.]")
+  isDarwin, _ := regexp.Compile("(?i)(darwin|mac)[-_.]")
+  isLinux, _ := regexp.Compile("(?i)(linux|ubuntu|debian|fedora|arch|gentoo)[-_.]")
+  isWinExt, _ := regexp.Compile("(?i).+[.](exe|msi)$")
+  isMacExt, _ := regexp.Compile("(?i).+[.](dmg)$")
+  isLinuxExt, _ := regexp.Compile("(?i).+[.](deb|rpm)$")
+  is386, _ := regexp.Compile("(?i)[-_.](386|i386)[-_.]")
+  isAmd64, _ := regexp.Compile("(?i)[-_.](amd64|x86_64)[-_.]")
+  for _, a := range ret {
+    a.Ext = filepath.Ext(a.Name)
+    if isWin.MatchString(a.Name) {
+      a.System = "windows"
+    } else if isDarwin.MatchString(a.Name) {
+      a.System = "darwin"
+    } else if isLinux.MatchString(a.Name) {
+      a.System = "linux"
+    }
+    if is386.MatchString(a.Name) {
+      a.Arch = "386"
+    } else if isAmd64.MatchString(a.Name) {
+      a.Arch = "amd64"
+    }
+    if a.System=="" {
+      if isWinExt.MatchString(a.Name) {
+        a.System = "windows"
+      } else if isMacExt.MatchString(a.Name) {
+        a.System = "darwin"
+      } else if isLinuxExt.MatchString(a.Name) {
+        a.System = "linux"
+      } else {
+        a.System = "unknown"
+      }
+    }
+  }
+  for _, a := range ret {
+    a.TargetFile = out
+    /*
+    %f: full filename
+    %o: repository owner
+    %r: repository name
+    %e: file extension, minus dot prefix, detected JIT
+    %s: target system (windows, darwin, linux), detected JIT
+    %a: architecture (amd64, 386), detected JIT
+    %v: version the asset is attached to
+    */
+    e := strings.TrimPrefix(a.Ext, ".")
+    a.TargetFile = strings.Replace(a.TargetFile, "%f", a.Name, -1)
+    a.TargetFile = strings.Replace(a.TargetFile, "%o", owner, -1)
+    a.TargetFile = strings.Replace(a.TargetFile, "%r", repo, -1)
+    a.TargetFile = strings.Replace(a.TargetFile, "%e", e, -1)
+    a.TargetFile = strings.Replace(a.TargetFile, "%s", a.System, -1)
+    a.TargetFile = strings.Replace(a.TargetFile, "%a", a.Arch, -1)
+    a.TargetFile = strings.Replace(a.TargetFile, "%v", a.Version, -1)
+  }
+  return ret, nil
+}
+
+func selectReleases (constraint string, releases []*github.RepositoryRelease) ([]*github.RepositoryRelease, error) {
+  ret := make([]*github.RepositoryRelease, 0)
+  if constraint=="latest" {
+    release, _ := selectLatestRelease(releases)
+    if release!=nil {
+      ret = append(ret, release)
+    }
+  } else {
+    c, err := semver.NewConstraint(constraint)
+    if err != nil {
+        return ret, err
+    }
+    for _, r := range releases {
+      v, err := semver.NewVersion(*r.TagName)
+      if err!=nil {
+        continue
+      }
+      if c.Check(v) {
+        ret = append(ret, r)
+      }
+    }
+  }
+  return ret, nil
+}
+
+func selectLatestRelease (releases []*github.RepositoryRelease) (*github.RepositoryRelease, error) {
+  var release *github.RepositoryRelease
+  for _, r := range releases {
+    v, err := semver.NewVersion(*r.TagName)
+    if err!=nil {
+      continue
+    }
+    if release==nil {
+      release = r
+      continue
+    }
+    v2, err := semver.NewVersion(*release.TagName)
+    if err!=nil {
+      continue
+    }
+    if v.GreaterThan(v2) {
+      release = r
+    }
+  }
+  return release, nil
 }
 
 func getUsername(username string) string {

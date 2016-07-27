@@ -13,6 +13,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Add a new personal access tokens
 func Add(username string, password string, OTP string, name string, permissions []string) (*github.Authorization, error) {
 
 	tp := github.BasicAuthTransport{
@@ -33,6 +34,7 @@ func Add(username string, password string, OTP string, name string, permissions 
 	return createdAuth, err
 }
 
+// List personal access tokens generated via gh-api-cli on the remote
 func List(username string, password string, OTP string) (map[string]*github.Authorization, error) {
 
 	ret := make(map[string]*github.Authorization)
@@ -48,7 +50,7 @@ func List(username string, password string, OTP string) (map[string]*github.Auth
 	opt := &github.ListOptions{Page: 1, PerPage: 200}
 	got, _, err := client.Authorizations.List(opt)
 
-	namedAuth := regexp.MustCompile(`^([^:]+): generated via gh-auth`)
+	namedAuth := regexp.MustCompile(`^([^:]+): generated via (gh-auth|gh-api-cli)`)
 	for _, v := range got {
 		note := ""
 		if v.Note != nil {
@@ -64,6 +66,7 @@ func List(username string, password string, OTP string) (map[string]*github.Auth
 	return ret, err
 }
 
+// Delete a personal access token on the remote
 func Delete(username string, password string, OTP string, id int) error {
 
 	tp := github.BasicAuthTransport{
@@ -79,7 +82,7 @@ func Delete(username string, password string, OTP string, id int) error {
 	return err
 }
 
-//
+// Forge a request to create the personal access token on the remote
 func GeneratePersonalAuthTokenRequest(name string, permissions []string) (*github.AuthorizationRequest, []string) {
 	scopes := map[string]github.Scope{
 		"user":             github.ScopeUser,
@@ -108,7 +111,7 @@ func GeneratePersonalAuthTokenRequest(name string, permissions []string) (*githu
 	}
 	notFound := make([]string, 0)
 	auth := github.AuthorizationRequest{
-		Note:        github.String(name + ": generated via gh-auth"),
+		Note:        github.String(name + ": generated via gh-api-cli"),
 		Scopes:      []github.Scope{},
 		Fingerprint: github.String(name + time.Now().String()),
 	}
@@ -122,6 +125,7 @@ func GeneratePersonalAuthTokenRequest(name string, permissions []string) (*githu
 	return &auth, notFound
 }
 
+// List releases on the remote
 func ListReleases(token string, owner string, repo string) ([]*github.RepositoryRelease, error) {
 
 	ts := oauth2.StaticTokenSource(
@@ -137,6 +141,7 @@ func ListReleases(token string, owner string, repo string) ([]*github.Repository
 	return got, err
 }
 
+// Tells if a release exitst on the remote
 func ReleaseExists(token string, owner string, repo string, version string, draft bool) (bool, error) {
 
 	releases, err := ListReleases(token, owner, repo)
@@ -155,6 +160,7 @@ func ReleaseExists(token string, owner string, repo string, version string, draf
 	return exists, err
 }
 
+// Transform a version string into its id
 func ReleaseId(token string, owner string, repo string, version string) (int, error) {
 
 	id := -1
@@ -178,7 +184,8 @@ func ReleaseId(token string, owner string, repo string, version string) (int, er
 	return id, err
 }
 
-func CreateRelease(token string, owner string, repo string, version string, authorName string, authorEmail string, draft bool) (*github.RepositoryRelease, error) {
+// Create a new release on the remote
+func CreateRelease(token string, owner string, repo string, version string, authorName string, authorEmail string, draft bool, body string) (*github.RepositoryRelease, error) {
 
 	exists, err := ReleaseExists(token, owner, repo, version, draft)
 	if err != nil {
@@ -203,6 +210,7 @@ func CreateRelease(token string, owner string, repo string, version string, auth
 		Name:       github.String(version),
 		TagName:    github.String(version),
 		Draft:      github.Bool(draft),
+		Body:       github.String(body),
 		Prerelease: github.Bool(v.Prerelease() != ""),
 		Author: &github.CommitAuthor{
 			Name:  github.String(authorName),
@@ -214,6 +222,7 @@ func CreateRelease(token string, owner string, repo string, version string, auth
 	return release, err
 }
 
+// Upload multiple assets the remote release
 func UploadReleaseAssets(token string, owner string, repo string, version string, files []string) []error {
 
 	errs := make([]error, 0)
@@ -248,6 +257,7 @@ func UploadMultipleReleaseAssets(token string, owner string, repo string, releas
 	}
 }
 
+// Upload one asset on the remote
 func UploadReleaseAsset(token string, owner string, repo string, releaseId int, file string) error {
 
 	ts := oauth2.StaticTokenSource(

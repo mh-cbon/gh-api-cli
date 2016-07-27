@@ -12,7 +12,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Wed 27 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/2.0.0...2.0.1#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.0...2.0.1#diff)
 ______________
 
 ### 2.0.0
@@ -29,7 +29,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Wed 27 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/1.0.2...2.0.0#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/1.0.2...2.0.0#diff)
 ______________
 
 ### 1.0.2
@@ -45,7 +45,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Fri 22 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/1.0.1...1.0.2#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/1.0.1...1.0.2#diff)
 ______________
 
 ### 1.0.1
@@ -59,7 +59,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Fri 22 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/1.0.0...1.0.1#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/1.0.0...1.0.1#diff)
 ______________
 
 ### 1.0.0
@@ -75,7 +75,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Fri 22 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/0.0.3...1.0.0#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/0.0.3...1.0.0#diff)
 ______________
 
 ### 0.0.3
@@ -91,7 +91,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 16 Jun 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/0.0.2...0.0.3#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/0.0.2...0.0.3#diff)
 ______________
 
 ### 0.0.2
@@ -108,7 +108,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Wed 15 Jun 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/0.0.1...0.0.2#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/0.0.1...0.0.2#diff)
 ______________
 
 ### 0.0.1
@@ -122,7 +122,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Tue 14 Jun 2016 -
-[see the diff](https://github.com/mh-cbon/changelog/compare/6b4908780f93b52178e4fba49dd20ad2ce308649...0.0.1#diff)
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/6b4908780f93b52178e4fba49dd20ad2ce308649...0.0.1#diff)
 ______________
 
 

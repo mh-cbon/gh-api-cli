@@ -1,8 +1,20 @@
 
+2.0.0
+
+  * [break] gh.CreateRelease: add new body argument to sets the body content of the release
+  * create-release: add changelog,c argument
+  * release: add changelog command to the creation of the release
+  * stringexec: add dependency
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Wed, 27 Jul 2016 13:01:49 +0200
+
+
+
 1.0.2
 
   * github: update to latest github.com/google/go-github
-  * glide: fix missing semver dependency
   * glide: fix missing semver dependency
   * appveyor: fix indentation
 

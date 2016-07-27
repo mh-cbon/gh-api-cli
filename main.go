@@ -12,6 +12,7 @@ import (
 	"github.com/mattn/go-zglob"
 	"github.com/mh-cbon/gh-api-cli/gh"
 	"github.com/mh-cbon/gh-api-cli/local"
+	"github.com/mh-cbon/stringexec"
 	"github.com/urfave/cli"
 	"golang.org/x/crypto/ssh/terminal"
 )
@@ -143,6 +144,11 @@ func main() {
 					Name:  "draft, d",
 					Value: "no",
 					Usage: "Make a draft release",
+				},
+				cli.StringFlag{
+					Name:  "changelog, c",
+					Value: "",
+					Usage: "A command to generate the description body of the release",
 				},
 			},
 		},
@@ -348,7 +354,9 @@ func createRelease(c *cli.Context) error {
 	author := c.String("author")
 	email := c.String("email")
 	draft := c.String("draft")
+	changelog := c.String("changelog")
 	isDraft := false
+	body := ""
 
 	if len(name) == 0 {
 		return cli.NewExitError("You must provide an authorization name", 1)
@@ -372,6 +380,21 @@ func createRelease(c *cli.Context) error {
 		isDraft = true
 	}
 
+	if changelog != "" {
+		oCmd, err := stringexec.Command(changelog)
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("The changelog was not properly generated!", 1)
+		}
+		oCmd.Stderr = os.Stderr
+		out, err := oCmd.Output()
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("The changelog was not properly generated!", 1)
+		}
+		body = string(out)
+	}
+
 	auth, err := local.Get(name)
 	if err != nil {
 		fmt.Println(err)
@@ -382,7 +405,7 @@ func createRelease(c *cli.Context) error {
 		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
 	}
 
-	release, err := gh.CreateRelease(*auth.Token, owner, repo, ver, author, email, isDraft)
+	release, err := gh.CreateRelease(*auth.Token, owner, repo, ver, author, email, isDraft, body)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("The release was not created successfully!", 1)

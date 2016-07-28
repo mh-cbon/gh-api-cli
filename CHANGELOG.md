@@ -1,5 +1,20 @@
 # Changelog - gh-api-cli
 
+### 2.0.4-beta
+
+__Changes__
+
+- release: update release scripts
+- travis: make use of an env variable for app name
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 28 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.3...2.0.4-beta#diff)
+______________
+
 ### 2.0.3
 
 __Changes__

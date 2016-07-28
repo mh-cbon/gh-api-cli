@@ -1,4 +1,15 @@
 
+UNRELEASED
+
+  * dl-assets: ensure only valid assets are scanned
+  * README: add repositories to install section
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 28 Jul 2016 18:53:45 +0200
+
+
+
 2.0.5
 
   * release: update release scripts
@@ -173,5 +184,3 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Tue, 14 Jun 2016 18:46:40 +0200
-
-

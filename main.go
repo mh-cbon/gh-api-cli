@@ -630,7 +630,7 @@ func selectAssets(owner string, repo string, glob string, out string, releases [
 			return ret, err
 		}
 		for _, a := range assets {
-			if *a.State=="uploaded" && r.MatchString(*a.Name) {
+			if *a.State == "uploaded" && r.MatchString(*a.Name) {
 				asset := &Asset{}
 				asset.Name = *a.Name
 				asset.Version = *release.TagName

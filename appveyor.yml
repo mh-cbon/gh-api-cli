@@ -15,7 +15,7 @@ install:
   - go get -u github.com/Masterminds/glide
   - curl -fsSL -o C:\latest.bat https://raw.githubusercontent.com/mh-cbon/latest/master/latest.bat
   - cmd /C C:\latest.bat mh-cbon go-msi amd64
-  - set PATH "C:\Program Files\go-msi\;%PATH%"
+  - set PATH=C:\Program Files\go-msi\;%PATH%
 
 build_script:
   - glide install

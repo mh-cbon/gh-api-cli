@@ -9,12 +9,9 @@ go:
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install build-essential lintian -y
   - mkdir -p ${GOPATH}/bin
   - cd ~
   - curl https://glide.sh/get | sh
-  - curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/changelog sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh | GH=mh-cbon/go-bin-deb sh -xe
 
 install:
   - cd $GOPATH/src/github.com/mh-cbon/gh-api-cli
@@ -25,15 +22,15 @@ script: echo "pass"
 
 before_deploy:
   - mkdir -p build/{386,amd64}
-  - mkdir -p pkg-build/{386,amd64}
   - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/gh-api-cli main.go
   - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/gh-api-cli main.go
-  - go-bin-deb generate -a 386 --version ${TRAVIS_TAG} -w pkg-build/386/ -o ${TRAVIS_BUILD_DIR}/gh-api-cli-386.deb
-  - go-bin-deb generate -a amd64 --version ${TRAVIS_TAG} -w pkg-build/amd64/ -o ${TRAVIS_BUILD_DIR}/gh-api-cli-amd64.deb
-  - rm -fr pkg-build/
-  - mkdir -p pkg-build/{386,amd64}
-  - docker run -v $PWD:/docker fedora /bin/sh -c "cd /docker && sh ./docker.sh ${TRAVIS_TAG} gh-api-cli"
-  - sudo chown travis:travis gh-api-cli-{386,amd64}.rpm
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=mh-cbon/gh-api-cli sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=mh-cbon/gh-api-cli sh -xe
+
+after_deploy:
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=mh-cbon/gh-api-cli EMAIL=mh-cbon@users.noreply.github.com sh -xe
+  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=mh-cbon/gh-api-cli EMAIL=mh-cbon@users.noreply.github.com sh -xe
+
 
 deploy:
   provider: releases
@@ -47,3 +44,6 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+env:
+  global:
+    - secure: AEJAqxCieyKwITRw1TSZjHoit3Hu9I6B06s1gjFSb/t2hAGfac3tbuEVb8JFnPlNDjZ4WB5YIrtrybnq4joO7UMnybtVI/BC8jSeXBWpuU+3T3yUAdjUrTcxv0aJJTIEF8VdiqMFkdSScpD0Ltw+gJ942zdQfGvHNzAp/zhZYel26GmkanIkRGq3O2PwbaRscseRd8Mp3D8B5+YN0pXaHI4v3TllJJZaAA81Swx5J1oC1slrSLNu1Hqh3qF42Ry6HmqrNZti9dyvM2iW1IhuqiWPoKnYn3Z1/8A5wa1ZQoOr9mRMby+bn3PGJDNJg/Ie7pW8zpQyv3ndbZy1YwIJ2a6xYapLSAsrE2alBStL1qgNxDP8P7G+hKB+dY5JlIG+FUSS+/2lMhaoaWt25weFCOPJJgfrrLkB2BuPUWKTJsHDK/XZJlcKSwKiZBpXQ2uwR2atZOjwOiyTKvk5mU5Tu6vDprD/nxuXrMc8mkr26497V5lKcvSW3mF5snJfw/SasHFbdiEele+Xk+qgOh3fzKBq/um8OBzyEz890N6/WmPNwkx2etiq9jXWd6w3HqXokb0aw/f3zF6zgP/qFLlK5G9JIqn7214P94CW0ImzOeLOUTosoq6r8aTl2WCUCtN0DhrZYpL9c1Z6UAHYhYxUHRdG7X6GAu7QY5hrA5ifu0A=

@@ -12,6 +12,7 @@ scripts:
     && 666 git push && 666 git push --tags \
     && 666 gh-api-cli create-release -n release -o mh-cbon -r gh-api-cli \
      --ver !newversion! -c "changelog ghrelease --version !newversion!" \
+     --draft !isprerelease! \
     && 666 go install --ldflags "-X main.VERSION=!newversion!"
 import:
 - package: github.com/urfave/cli

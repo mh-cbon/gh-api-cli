@@ -13,7 +13,7 @@ install:
   - set PATH=C:\wix310;%PATH%
   - set PATH=%GOPATH%\bin;c:\go\bin;%PATH%
   - go get -u github.com/Masterminds/glide
-  - curl -fsSL -o C:\latest.bat https://github.com/mh-cbon/latest/blob/master/latest.bat
+  - curl -fsSL -o C:\latest.bat https://raw.githubusercontent.com/mh-cbon/latest/master/latest.bat
   - cmd /C C:\latest.bat mh-cbon go-msi amd64
 
 build_script:

@@ -1,6 +1,6 @@
 package: github.com/mh-cbon/gh-api-cli
 scripts:
-  prebump: 666 git fetch --tags
+  prebump: 666 git fetch --tags origin master
   preversion: |
     philea "666 go vet %s" "666 go-fmt-fail %s" \
     && 666 go run main.go -v \

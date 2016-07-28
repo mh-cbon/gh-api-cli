@@ -1,5 +1,19 @@
 # Changelog - gh-api-cli
 
+### 2.0.2-beta
+
+__Changes__
+
+- cli dl-assets: add skip-prerelease argument
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 28 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.1...2.0.2-beta#diff)
+______________
+
 ### 2.0.1
 
 __Changes__

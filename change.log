@@ -1,4 +1,15 @@
 
+2.0.5
+
+  * release: update release scripts
+  * travis: make use of an env variable for app name
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 28 Jul 2016 16:36:51 +0200
+
+
+
 2.0.4-beta
 
   * release: update release scripts

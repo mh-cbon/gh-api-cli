@@ -1,5 +1,5 @@
 
-UNRELEASED
+2.0.3
 
   * release: update release scripts
   * travis: set the GHTOKEN variable
@@ -151,3 +151,5 @@ UNRELEASED
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Tue, 14 Jun 2016 18:46:40 +0200
+
+

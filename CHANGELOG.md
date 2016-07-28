@@ -1,5 +1,21 @@
 # Changelog - gh-api-cli
 
+### 2.0.3
+
+__Changes__
+
+- release: update release scripts
+- travis: set the GHTOKEN variable
+- cli dl-assets: add skip-prerelease argument
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 28 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.2-beta4...2.0.3#diff)
+______________
+
 ### 2.0.2-beta4
 
 __Changes__

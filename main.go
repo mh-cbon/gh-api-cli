@@ -217,6 +217,11 @@ func main() {
 					Value: "",
 					Usage: "Version constraint",
 				},
+				cli.StringFlag{
+					Name:  "skip-prerelease",
+					Value: "no",
+					Usage: "Skip prerelease releases (yes|no)",
+				},
 			},
 		},
 	}
@@ -524,6 +529,8 @@ func downloadAssets(c *cli.Context) error {
 	owner := c.String("owner")
 	repo := c.String("repository")
 	ver := c.String("ver")
+	sp := c.String("skip-prerelease")
+  skipPrerelease := false
 
 	if len(owner) == 0 {
 		return cli.NewExitError("You must provide a repository owner", 1)
@@ -531,6 +538,9 @@ func downloadAssets(c *cli.Context) error {
 	if len(repo) == 0 {
 		return cli.NewExitError("You must provide a repository name", 1)
 	}
+  if sp=="yes" || sp=="true" || sp=="1" {
+    skipPrerelease = true
+  }
 
 	releases, err := gh.ListPublicReleases(owner, repo)
 	if err != nil {
@@ -539,12 +549,18 @@ func downloadAssets(c *cli.Context) error {
 	}
 
 	if ver != "" {
-		releases, err = selectReleases(ver, releases)
+		releases, err = selectReleases(ver, skipPrerelease, releases)
 		if err != nil {
 			fmt.Println(err)
 			return cli.NewExitError("Failed to select release for this constraint "+ver+"!", 1)
 		}
-	}
+	} else if skipPrerelease {
+		releases, err = selectNonPrerelease(releases)
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("Failed to select release for this constraint "+ver+"!", 1)
+		}
+  }
 
 	if len(releases) == 0 {
 		fmt.Println("No releases selected!")
@@ -563,7 +579,7 @@ func downloadAssets(c *cli.Context) error {
 	}
 
 	for _, a := range assets {
-		fmt.Println("Downloading " + a.Name + " to " + a.TargetFile)
+		fmt.Println("Downloading " + a.Name + " to " + a.TargetFile+", version="+a.Version)
 		dir := filepath.Dir(a.TargetFile)
 		err := os.MkdirAll(dir, 0755)
 		if err != nil {
@@ -680,10 +696,10 @@ func selectAssets(owner string, repo string, glob string, out string, releases [
 	return ret, nil
 }
 
-func selectReleases(constraint string, releases []*github.RepositoryRelease) ([]*github.RepositoryRelease, error) {
+func selectReleases(constraint string, skipPrerelease bool, releases []*github.RepositoryRelease) ([]*github.RepositoryRelease, error) {
 	ret := make([]*github.RepositoryRelease, 0)
 	if constraint == "latest" {
-		release, _ := selectLatestRelease(releases)
+		release, _ := selectLatestRelease(skipPrerelease, releases)
 		if release != nil {
 			ret = append(ret, release)
 		}
@@ -697,7 +713,7 @@ func selectReleases(constraint string, releases []*github.RepositoryRelease) ([]
 			if err != nil {
 				continue
 			}
-			if c.Check(v) {
+			if c.Check(v) && (!skipPrerelease || skipPrerelease && v.Prerelease()=="") {
 				ret = append(ret, r)
 			}
 		}
@@ -705,24 +721,40 @@ func selectReleases(constraint string, releases []*github.RepositoryRelease) ([]
 	return ret, nil
 }
 
-func selectLatestRelease(releases []*github.RepositoryRelease) (*github.RepositoryRelease, error) {
+func selectNonPrerelease(releases []*github.RepositoryRelease) ([]*github.RepositoryRelease, error) {
+	ret := make([]*github.RepositoryRelease, 0)
+  for _, r := range releases {
+    v, err := semver.NewVersion(*r.TagName)
+    if err != nil {
+      continue
+    }
+    if v.Prerelease()=="" {
+      ret = append(ret, r)
+    }
+  }
+	return ret, nil
+}
+
+func selectLatestRelease(skipPrerelease bool, releases []*github.RepositoryRelease) (*github.RepositoryRelease, error) {
 	var release *github.RepositoryRelease
 	for _, r := range releases {
 		v, err := semver.NewVersion(*r.TagName)
 		if err != nil {
 			continue
 		}
-		if release == nil {
+		if release == nil && (!skipPrerelease || skipPrerelease && v.Prerelease()=="") {
 			release = r
 			continue
 		}
-		v2, err := semver.NewVersion(*release.TagName)
-		if err != nil {
-			continue
-		}
-		if v.GreaterThan(v2) {
-			release = r
-		}
+    if release != nil {
+  		v2, err := semver.NewVersion(*release.TagName)
+  		if err != nil {
+  			continue
+  		}
+  		if v.GreaterThan(v2) && (!skipPrerelease || skipPrerelease && v2.Prerelease()=="") {
+  			release = r
+  		}
+    }
 	}
 	return release, nil
 }

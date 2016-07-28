@@ -205,6 +205,10 @@ USAGE:
 OPTIONS:
    --owner value, -o value         Repo owner
    --repository value, -r value    Repo name
+   --glob value, -g value          A glob to match files to download.
+                                   It resolves to a regexp like '(i?)^glob$'.
+                                   Stars '*' are replace by '.+'.
+   --skip-prerelease yes|no        if yes, skips pre-releases from the selection.
    --version constraint            A version constraint,
                                    Special value 'latest' is acceptable.
    --out value                     A formatted string to write files.
@@ -222,6 +226,7 @@ OPTIONS:
 EXAMPLE
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f -g '*amd64*deb'
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver latest --out dl/%s/%r.%v-%a.%e
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --out "dl/%s/%r-%v-%a.%e" --ver ">0.0.10"
 ```

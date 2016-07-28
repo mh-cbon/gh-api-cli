@@ -627,10 +627,3 @@ func jsonString(some interface{}) (string, error) {
 	jsonContent, err := json.MarshalIndent(some, "", "    ")
 	return string(jsonContent), err
 }
-
-func exitWithError(err error) {
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-}

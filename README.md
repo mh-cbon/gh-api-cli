@@ -240,3 +240,8 @@ EXAMPLE
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver latest --out dl/%s/%r.%v-%a.%e
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --out "dl/%s/%r-%v-%a.%e" --ver ">0.0.10"
 ```
+
+# Todo
+
+- add a command to clean up old gh releases,
+something that would help to keep only N most recent releases for each major version. 

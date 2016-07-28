@@ -530,7 +530,7 @@ func downloadAssets(c *cli.Context) error {
 	repo := c.String("repository")
 	ver := c.String("ver")
 	sp := c.String("skip-prerelease")
-  skipPrerelease := false
+	skipPrerelease := false
 
 	if len(owner) == 0 {
 		return cli.NewExitError("You must provide a repository owner", 1)
@@ -538,9 +538,9 @@ func downloadAssets(c *cli.Context) error {
 	if len(repo) == 0 {
 		return cli.NewExitError("You must provide a repository name", 1)
 	}
-  if sp=="yes" || sp=="true" || sp=="1" {
-    skipPrerelease = true
-  }
+	if sp == "yes" || sp == "true" || sp == "1" {
+		skipPrerelease = true
+	}
 
 	releases, err := gh.ListPublicReleases(owner, repo)
 	if err != nil {
@@ -560,7 +560,7 @@ func downloadAssets(c *cli.Context) error {
 			fmt.Println(err)
 			return cli.NewExitError("Failed to select release for this constraint "+ver+"!", 1)
 		}
-  }
+	}
 
 	if len(releases) == 0 {
 		fmt.Println("No releases selected!")
@@ -579,7 +579,7 @@ func downloadAssets(c *cli.Context) error {
 	}
 
 	for _, a := range assets {
-		fmt.Println("Downloading " + a.Name + " to " + a.TargetFile+", version="+a.Version)
+		fmt.Println("Downloading " + a.Name + " to " + a.TargetFile + ", version=" + a.Version)
 		dir := filepath.Dir(a.TargetFile)
 		err := os.MkdirAll(dir, 0755)
 		if err != nil {
@@ -713,7 +713,7 @@ func selectReleases(constraint string, skipPrerelease bool, releases []*github.R
 			if err != nil {
 				continue
 			}
-			if c.Check(v) && (!skipPrerelease || skipPrerelease && v.Prerelease()=="") {
+			if c.Check(v) && (!skipPrerelease || skipPrerelease && v.Prerelease() == "") {
 				ret = append(ret, r)
 			}
 		}
@@ -723,15 +723,15 @@ func selectReleases(constraint string, skipPrerelease bool, releases []*github.R
 
 func selectNonPrerelease(releases []*github.RepositoryRelease) ([]*github.RepositoryRelease, error) {
 	ret := make([]*github.RepositoryRelease, 0)
-  for _, r := range releases {
-    v, err := semver.NewVersion(*r.TagName)
-    if err != nil {
-      continue
-    }
-    if v.Prerelease()=="" {
-      ret = append(ret, r)
-    }
-  }
+	for _, r := range releases {
+		v, err := semver.NewVersion(*r.TagName)
+		if err != nil {
+			continue
+		}
+		if v.Prerelease() == "" {
+			ret = append(ret, r)
+		}
+	}
 	return ret, nil
 }
 
@@ -742,19 +742,19 @@ func selectLatestRelease(skipPrerelease bool, releases []*github.RepositoryRelea
 		if err != nil {
 			continue
 		}
-		if release == nil && (!skipPrerelease || skipPrerelease && v.Prerelease()=="") {
+		if release == nil && (!skipPrerelease || skipPrerelease && v.Prerelease() == "") {
 			release = r
 			continue
 		}
-    if release != nil {
-  		v2, err := semver.NewVersion(*release.TagName)
-  		if err != nil {
-  			continue
-  		}
-  		if v.GreaterThan(v2) && (!skipPrerelease || skipPrerelease && v2.Prerelease()=="") {
-  			release = r
-  		}
-    }
+		if release != nil {
+			v2, err := semver.NewVersion(*release.TagName)
+			if err != nil {
+				continue
+			}
+			if v.GreaterThan(v2) && (!skipPrerelease || skipPrerelease && v2.Prerelease() == "") {
+				release = r
+			}
+		}
 	}
 	return release, nil
 }

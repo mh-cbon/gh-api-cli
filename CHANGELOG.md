@@ -1,5 +1,20 @@
 # Changelog - gh-api-cli
 
+### 2.0.6
+
+__Changes__
+
+- dl-assets: ensure only valid assets are scanned
+- README: add repositories to install section
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 28 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.5...2.0.6#diff)
+______________
+
 ### 2.0.5
 
 __Changes__

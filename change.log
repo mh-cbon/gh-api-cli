@@ -1,4 +1,16 @@
 
+UNRELEASED
+
+  * release: update release scripts
+  * travis: set the GHTOKEN variable
+  * cli dl-assets: add skip-prerelease argument
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 28 Jul 2016 16:19:04 +0200
+
+
+
 2.0.2-beta4
 
   * travis: set the GHTOKEN variable
@@ -139,5 +151,3 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Tue, 14 Jun 2016 18:46:40 +0200
-
-

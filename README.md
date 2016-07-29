@@ -56,7 +56,10 @@ COMMANDS:
      rm-auth                  Remove an authorization
      get-auth                 Get token from a locally saved authorization
      create-release           Create a new release
+     rm-release               Delete a release
      upload-release-asset     Upload assets to a release
+     dl-assets                Download assets
+     rm-assets                Delete assets
 
 GLOBAL OPTIONS:
    --help, -h		show help

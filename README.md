@@ -6,7 +6,13 @@ Command line client for github api
 
 Pick an msi package [here](https://github.com/mh-cbon/gh-api-cli/releases)!
 
-__deb/rpm repositories__
+__chocolatey__
+
+```sh
+choco install gh-api-cli
+```
+
+__deb/ubuntu/rpm repositories__
 
 ```sh
 wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
@@ -16,7 +22,7 @@ curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
 | GH=mh-cbon/gh-api-cli sh -xe
 ```
 
-__deb/rpm package__
+__deb/ubuntu/rpm package__
 
 ```sh
 curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \

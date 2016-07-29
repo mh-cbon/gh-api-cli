@@ -15,16 +15,33 @@ import (
 	"golang.org/x/oauth2"
 )
 
+func ClientFromCredentials (username string, password string, OTP string) *github.Client {
+
+  	tp := github.BasicAuthTransport{
+  		Username: strings.TrimSpace(username),
+  		Password: strings.TrimSpace(password),
+  		OTP:      strings.TrimSpace(OTP),
+  	}
+
+  	return github.NewClient(tp.Client())
+}
+
+func ClientFromToken (token string) *github.Client {
+
+    ts := oauth2.StaticTokenSource(
+      &oauth2.Token{AccessToken: token},
+    )
+    tc := oauth2.NewClient(oauth2.NoContext, ts)
+
+  	return github.NewClient(tc)
+}
+
+func AnonClient () *github.Client {
+  	return github.NewClient(nil)
+}
+
 // Add a new personal access tokens
-func Add(username string, password string, OTP string, name string, permissions []string) (*github.Authorization, error) {
-
-	tp := github.BasicAuthTransport{
-		Username: strings.TrimSpace(username),
-		Password: strings.TrimSpace(password),
-		OTP:      strings.TrimSpace(OTP),
-	}
-
-	client := github.NewClient(tp.Client())
+func Add(client *github.Client, name string, permissions []string) (*github.Authorization, error) {
 
 	authReq, notFound := GeneratePersonalAuthTokenRequest(name, permissions)
 	if len(notFound) > 0 {
@@ -37,17 +54,9 @@ func Add(username string, password string, OTP string, name string, permissions 
 }
 
 // List personal access tokens generated via gh-api-cli on the remote
-func List(username string, password string, OTP string) (map[string]*github.Authorization, error) {
+func List(client *github.Client) (map[string]*github.Authorization, error) {
 
 	ret := make(map[string]*github.Authorization)
-
-	tp := github.BasicAuthTransport{
-		Username: strings.TrimSpace(username),
-		Password: strings.TrimSpace(password),
-		OTP:      strings.TrimSpace(OTP),
-	}
-
-	client := github.NewClient(tp.Client())
 
 	opt := &github.ListOptions{Page: 1, PerPage: 200}
 	got, _, err := client.Authorizations.List(opt)
@@ -69,15 +78,7 @@ func List(username string, password string, OTP string) (map[string]*github.Auth
 }
 
 // Delete a personal access token on the remote
-func Delete(username string, password string, OTP string, id int) error {
-
-	tp := github.BasicAuthTransport{
-		Username: strings.TrimSpace(username),
-		Password: strings.TrimSpace(password),
-		OTP:      strings.TrimSpace(OTP),
-	}
-
-	client := github.NewClient(tp.Client())
+func Delete(client *github.Client, id int) error {
 
 	_, err := client.Authorizations.Delete(id)
 
@@ -128,14 +129,7 @@ func GeneratePersonalAuthTokenRequest(name string, permissions []string) (*githu
 }
 
 // List all releases on the remote
-func ListReleases(token string, owner string, repo string) ([]*github.RepositoryRelease, error) {
-
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: token},
-	)
-	tc := oauth2.NewClient(oauth2.NoContext, ts)
-
-	client := github.NewClient(tc)
+func ListReleases(client *github.Client, owner string, repo string) ([]*github.RepositoryRelease, error) {
 
 	opt := &github.ListOptions{Page: 1, PerPage: 200}
 	got, _, err := client.Repositories.ListReleases(owner, repo, opt)
@@ -143,10 +137,26 @@ func ListReleases(token string, owner string, repo string) ([]*github.Repository
 	return got, err
 }
 
-// List public releases on the remote
-func ListPublicReleases(owner string, repo string) ([]*github.RepositoryRelease, error) {
+// Get a release by its id on the the remote
+func GetReleaseById(client *github.Client, owner string, repo string, id int) (*github.RepositoryRelease, error) {
+  var ret *github.RepositoryRelease
 
-	client := github.NewClient(nil)
+  releases, err := ListReleases(client, owner, repo)
+  if err!=nil {
+    return ret, err
+  }
+  for _, r := range releases {
+    if *r.ID==id {
+      ret = r
+      break
+    }
+  }
+
+	return ret, nil
+}
+
+// List public releases on the remote
+func ListPublicReleases(client *github.Client, owner string, repo string) ([]*github.RepositoryRelease, error) {
 
 	opt := &github.ListOptions{Page: 1, PerPage: 200}
 	got, _, err := client.Repositories.ListReleases(owner, repo, opt)
@@ -155,9 +165,7 @@ func ListPublicReleases(owner string, repo string) ([]*github.RepositoryRelease,
 }
 
 // List public release assets on the remote
-func ListReleaseAssets(owner string, repo string, release github.RepositoryRelease) ([]*github.ReleaseAsset, error) {
-
-	client := github.NewClient(nil)
+func ListReleaseAssets(client *github.Client, owner string, repo string, release github.RepositoryRelease) ([]*github.ReleaseAsset, error) {
 
 	opt := &github.ListOptions{Page: 1, PerPage: 200}
 	got, _, err := client.Repositories.ListReleaseAssets(owner, repo, *release.ID, opt)
@@ -166,9 +174,9 @@ func ListReleaseAssets(owner string, repo string, release github.RepositoryRelea
 }
 
 // Tells if a release exitst on the remote
-func ReleaseExists(token string, owner string, repo string, version string, draft bool) (bool, error) {
+func ReleaseExists(client *github.Client, owner string, repo string, version string, draft bool) (bool, error) {
 
-	releases, err := ListReleases(token, owner, repo)
+	releases, err := ListReleases(client, owner, repo)
 	if err != nil {
 		return true, err
 	}
@@ -185,11 +193,11 @@ func ReleaseExists(token string, owner string, repo string, version string, draf
 }
 
 // Transform a version string into its id
-func ReleaseId(token string, owner string, repo string, version string) (int, error) {
+func ReleaseId(client *github.Client, owner string, repo string, version string) (int, error) {
 
 	id := -1
 
-	releases, err := ListReleases(token, owner, repo)
+	releases, err := ListReleases(client, owner, repo)
 	if err != nil {
 		return id, err
 	}
@@ -209,9 +217,9 @@ func ReleaseId(token string, owner string, repo string, version string) (int, er
 }
 
 // Create a new release on the remote
-func CreateRelease(token string, owner string, repo string, version string, authorName string, authorEmail string, draft bool, body string) (*github.RepositoryRelease, error) {
+func CreateRelease(client *github.Client, owner string, repo string, version string, authorName string, authorEmail string, draft bool, body string) (*github.RepositoryRelease, error) {
 
-	exists, err := ReleaseExists(token, owner, repo, version, draft)
+	exists, err := ReleaseExists(client, owner, repo, version, draft)
 	if err != nil {
 		return nil, err
 	}
@@ -222,13 +230,6 @@ func CreateRelease(token string, owner string, repo string, version string, auth
 	if err != nil {
 		return nil, err
 	}
-
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: token},
-	)
-	tc := oauth2.NewClient(oauth2.NoContext, ts)
-
-	client := github.NewClient(tc)
 
 	opt := &github.RepositoryRelease{
 		Name:       github.String(version),
@@ -246,19 +247,39 @@ func CreateRelease(token string, owner string, repo string, version string, auth
 	return release, err
 }
 
+// Delete a release on the remote
+func DeleteRelease(client *github.Client, owner string, repo string, version string) error {
+
+	id, err := ReleaseId(client, owner, repo, version)
+	if err != nil {
+		return err
+	}
+	_, err = client.Repositories.DeleteRelease(owner, repo, id)
+
+	return err
+}
+
+// Delete a release asset on the remote
+func DeleteReleaseAsset(client *github.Client, owner string, repo string, id int) error {
+
+	_, err := client.Repositories.DeleteReleaseAsset(owner, repo, id)
+
+	return err
+}
+
 // Upload multiple assets the remote release
-func UploadReleaseAssets(token string, owner string, repo string, version string, files []string) []error {
+func UploadReleaseAssets(client *github.Client, owner string, repo string, version string, files []string) []error {
 
 	errs := make([]error, 0)
 
-	id, err := ReleaseId(token, owner, repo, version)
+	id, err := ReleaseId(client, owner, repo, version)
 	if err != nil {
 		errs = append(errs, err)
 		return errs
 	}
 
 	c := make(chan error)
-	UploadMultipleReleaseAssets(token, owner, repo, id, files, c)
+	UploadMultipleReleaseAssets(client, owner, repo, id, files, c)
 
 	index := 0
 	for upErr := range c {
@@ -273,23 +294,16 @@ func UploadReleaseAssets(token string, owner string, repo string, version string
 
 	return errs
 }
-func UploadMultipleReleaseAssets(token string, owner string, repo string, releaseId int, files []string, info chan<- error) {
+func UploadMultipleReleaseAssets(client *github.Client, owner string, repo string, releaseId int, files []string, info chan<- error) {
 	for index, file := range files {
 		go func(index int, file string) {
-			info <- UploadReleaseAsset(token, owner, repo, releaseId, file)
+			info <- UploadReleaseAsset(client, owner, repo, releaseId, file)
 		}(index, file)
 	}
 }
 
 // Upload one asset on the remote
-func UploadReleaseAsset(token string, owner string, repo string, releaseId int, file string) error {
-
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: token},
-	)
-	tc := oauth2.NewClient(oauth2.NoContext, ts)
-
-	client := github.NewClient(tc)
+func UploadReleaseAsset(client *github.Client, owner string, repo string, releaseId int, file string) error {
 
 	f, err := os.Open(file)
 	defer f.Close()

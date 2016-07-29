@@ -74,7 +74,7 @@ USAGE:
 OPTIONS:
    --username value, -u value    Github username
    --password value, -p value    Github password
-   --name value, -n value        Name of the authorization
+   --name value, -n value        Name of the authorization to add
    --rights value, -r value      Permissions to set
 ```
 
@@ -113,7 +113,6 @@ USAGE:
 OPTIONS:
    --username value, -u value   Github username
    --password value, -p value   Github password
-   --name value, -n value       Name of the authorization
 ```
 
 ```
@@ -133,7 +132,7 @@ USAGE:
 OPTIONS:
    --username value, -u value   Github username
    --password value, -p value   Github password
-   --name value, -n value       Name of the authorization
+   --name value, -n value       Name of the authorization to delete
 ```
 
 ```
@@ -151,33 +150,12 @@ USAGE:
    gh-api-cli get-auth [command options] [arguments...]
 
 OPTIONS:
-   --name value, -n value       Name of the authorization
+   --name value, -n value       Name of the authorization to look for
 ```
 
 ```
 EXAMPLE
   gh-api-cli get-auth -n test
-```
-
-#### upload-release-asset
-```
-NAME:
-   gh-api-cli upload-release-asset - Upload assets to a release
-
-USAGE:
-   gh-api-cli upload-release-asset [command options] [arguments...]
-
-OPTIONS:
-   --name value, -n value          Name of the authorization
-   --glob value, -g value          Glob pattern of files to upload
-   --owner value, -o value         Repo owner
-   --repository value, -r value    Repo name
-   --ver value                     Version name
-```
-
-```
-EXAMPLE
-  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
 
 #### create-release
@@ -189,7 +167,8 @@ USAGE:
    gh-api-cli create-release [command options] [arguments...]
 
 OPTIONS:
-   --name value, -n value          Name of the authorization
+   --name value, n value           Name of the locally saved authentication.
+   --token value, t value          Personal access token authentication.
    --owner value, -o value         Repo owner
    --repository value, -r value    Repo name
    --ver value                     Version name
@@ -204,6 +183,71 @@ EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
 
+#### rm-release
+```
+NAME:
+   gh-api-cli rm-release - Delete a release
+
+USAGE:
+   gh-api-cli rm-release [command options] [arguments...]
+
+OPTIONS:
+   --name value, n value           Name of the locally saved authentication.
+   --token value, t value          Personal access token authentication.
+   --owner value, -o value         Repo owner
+   --repository value, -r value    Repo name
+   --ver value                     Version name
+```
+
+```
+EXAMPLE
+  gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
+```
+
+#### upload-release-asset
+```
+NAME:
+   gh-api-cli upload-release-asset - Upload assets to a release
+
+USAGE:
+   gh-api-cli upload-release-asset [command options] [arguments...]
+
+OPTIONS:
+   --name value, n value           Name of the locally saved authentication.
+   --token value, t value          Personal access token authentication.
+   --glob value, -g value          Glob pattern of files to upload
+   --owner value, -o value         Repo owner
+   --repository value, -r value    Repo name
+   --ver value                     Version name
+```
+
+```
+EXAMPLE
+  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
+```
+
+#### rm-assets
+```
+NAME:
+   gh-api-cli rm-assets - Delete assets of a release
+
+USAGE:
+   gh-api-cli rm-assets [command options] [arguments...]
+
+OPTIONS:
+   --name value, n value           Name of the locally saved authentication.
+   --token value, t value          Personal access token authentication.
+   --glob value, -g value          Glob pattern of files to upload
+   --owner value, -o value         Repo owner
+   --repository value, -r value    Repo name
+   --ver value                     Version name
+```
+
+```
+EXAMPLE
+  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
+```
+
 #### dl-assets
 ```
 NAME:
@@ -213,6 +257,8 @@ USAGE:
    gh-api-cli dl-assets [command options] [arguments...]
 
 OPTIONS:
+   --name value, n value           Name of the locally saved authentication.
+   --token value, t value          Personal access token authentication.
    --owner value, -o value         Repo owner
    --repository value, -r value    Repo name
    --glob value, -g value          A glob to match files to download.
@@ -241,7 +287,17 @@ EXAMPLE
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --out "dl/%s/%r-%v-%a.%e" --ver ">0.0.10"
 ```
 
+# Notes
+
+When you `add, remove, list` authorizations, personal access token authentication is not permitted, [see this](https://developer.github.com/v3/oauth_authorizations/#deprecation-notice)
+
+# Testing
+
+```sh
+ (USER=xxx PWRD=yyy ./test.sh | grep "OK, ALL FINE") || (echo "" && echo "" && echo "beep boop failed")
+```
+
 # Todo
 
 - add a command to clean up old gh releases,
-something that would help to keep only N most recent releases for each major version. 
+something that would help to keep only N most recent releases for each major version.

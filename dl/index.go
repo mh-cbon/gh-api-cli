@@ -25,7 +25,7 @@ type Asset struct {
 
 // Select assets of given releases matching glob,
 // forge out path and url for each asset
-func SelectAssets(owner string, repo string, glob string, out string, releases []*github.RepositoryRelease) ([]*Asset, error) {
+func SelectAssets(client *github.Client, owner string, repo string, glob string, out string, releases []*github.RepositoryRelease) ([]*Asset, error) {
 	ret := make([]*Asset, 0)
 	r, _ := regexp.Compile(".+")
 	if glob != "" {
@@ -37,7 +37,7 @@ func SelectAssets(owner string, repo string, glob string, out string, releases [
 		}
 	}
 	for _, release := range releases {
-		assets, err := gh.ListReleaseAssets(owner, repo, *release)
+		assets, err := gh.ListReleaseAssets(client, owner, repo, *release)
 		if err != nil {
 			return ret, err
 		}

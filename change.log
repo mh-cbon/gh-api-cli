@@ -1,8 +1,17 @@
 
+3.0.3
+
+  * build: fix appveyor script
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Sat, 30 Jul 2016 00:32:25 +0200
+
+
+
 3.0.2
 
   * build: fix appveyor script
-  * changelog: 3.0.1
 
   - mh-cbon <mh-cbon@users.noreply.github.com>
 

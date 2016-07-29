@@ -1,4 +1,21 @@
 
+UNRELEASED
+
+  * cli: add token argument to use instead of named auth
+    cli: add rm-assets command
+    cli: add rm-release command
+  * test: initialize tests
+  * code refactoring
+  * code refactoring
+  * code refactoring
+  * changelog: 2.0.6
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Fri, 29 Jul 2016 23:44:46 +0200
+
+
+
 2.0.6
 
   * dl-assets: ensure only valid assets are scanned

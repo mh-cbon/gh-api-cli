@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 	"syscall"
-	"regexp"
 
 	"github.com/google/go-github/github"
 	"github.com/mattn/go-zglob"
@@ -238,11 +238,11 @@ func main() {
 					Value: "",
 					Usage: "Name of the authorization to use for identification",
 				},
-        cli.StringFlag{
-          Name:  "token, t",
-          Value: "",
-          Usage: "Value of a personal access token",
-        },
+				cli.StringFlag{
+					Name:  "token, t",
+					Value: "",
+					Usage: "Value of a personal access token",
+				},
 				cli.StringFlag{
 					Name:  "glob, g",
 					Value: "",
@@ -285,11 +285,11 @@ func main() {
 					Value: "",
 					Usage: "Name of the authorization to use for identification",
 				},
-        cli.StringFlag{
-          Name:  "token, t",
-          Value: "",
-          Usage: "Value of a personal access token",
-        },
+				cli.StringFlag{
+					Name:  "token, t",
+					Value: "",
+					Usage: "Value of a personal access token",
+				},
 				cli.StringFlag{
 					Name:  "glob, g",
 					Value: "",
@@ -356,7 +356,7 @@ func add(c *cli.Context) error {
 	createdAuth, err := gh.Add(client, name, perms)
 	if _, ok := err.(*github.TwoFactorAuthError); err != nil && ok {
 		otp := queryOtp()
-    client = gh.ClientFromCredentials(username, password, otp)
+		client = gh.ClientFromCredentials(username, password, otp)
 		createdAuth, err = gh.Add(client, name, perms)
 	}
 
@@ -380,7 +380,7 @@ func add(c *cli.Context) error {
 // List authorizations from remote and add token values saved on local
 func list(c *cli.Context) error {
 
-  var client *github.Client
+	var client *github.Client
 	username := getUsername(c.String("username"))
 	password := getPassword(c.String("password"))
 	client = gh.ClientFromCredentials(username, password, "")
@@ -388,7 +388,7 @@ func list(c *cli.Context) error {
 	auths, err := gh.List(client)
 	if _, ok := err.(*github.TwoFactorAuthError); err != nil && ok {
 		otp := queryOtp()
-    client = gh.ClientFromCredentials(username, password, otp)
+		client = gh.ClientFromCredentials(username, password, otp)
 		auths, err = gh.List(client)
 	}
 	if err != nil {
@@ -427,7 +427,7 @@ func rm(c *cli.Context) error {
 		return cli.NewExitError("You must provide a name of autorization to delete", 1)
 	}
 
-  var client *github.Client
+	var client *github.Client
 	username := getUsername(c.String("username"))
 	password := getPassword(c.String("password"))
 	client = gh.ClientFromCredentials(username, password, "")
@@ -489,7 +489,7 @@ func get(c *cli.Context) error {
 // Create a gh release on remote
 func createRelease(c *cli.Context) error {
 	name := c.String("name")
-  token := c.String("token")
+	token := c.String("token")
 	owner := c.String("owner")
 	repo := c.String("repository")
 	ver := c.String("ver")
@@ -537,21 +537,21 @@ func createRelease(c *cli.Context) error {
 		body = string(out)
 	}
 
-  tokenAuth := token
-  var client *github.Client
-  if len(name)>0 {
-  	auth, err := local.Get(name)
-  	if err != nil {
-  		fmt.Println(err)
-  		return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
-  	}
-  	if auth.Token == nil {
-  		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
-  	}
-    tokenAuth = *auth.Token
-  }
+	tokenAuth := token
+	var client *github.Client
+	if len(name) > 0 {
+		auth, err := local.Get(name)
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
+		}
+		if auth.Token == nil {
+			return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
+		}
+		tokenAuth = *auth.Token
+	}
 
-  client = gh.ClientFromToken(tokenAuth)
+	client = gh.ClientFromToken(tokenAuth)
 
 	release, err := gh.CreateRelease(client, owner, repo, ver, author, email, isDraft, body)
 	if err != nil {
@@ -568,7 +568,7 @@ func createRelease(c *cli.Context) error {
 // Delete a gh release on remote
 func rmRelease(c *cli.Context) error {
 	name := c.String("name")
-  token := c.String("token")
+	token := c.String("token")
 	owner := c.String("owner")
 	repo := c.String("repository")
 	ver := c.String("ver")
@@ -586,21 +586,21 @@ func rmRelease(c *cli.Context) error {
 		return cli.NewExitError("You must provide a version", 1)
 	}
 
-  tokenAuth := token
-  var client *github.Client
-  if len(name)>0 {
-  	auth, err := local.Get(name)
-  	if err != nil {
-  		fmt.Println(err)
-  		return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
-  	}
-  	if auth.Token == nil {
-  		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
-  	}
-    tokenAuth = *auth.Token
-  }
+	tokenAuth := token
+	var client *github.Client
+	if len(name) > 0 {
+		auth, err := local.Get(name)
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
+		}
+		if auth.Token == nil {
+			return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
+		}
+		tokenAuth = *auth.Token
+	}
 
-  client = gh.ClientFromToken(tokenAuth)
+	client = gh.ClientFromToken(tokenAuth)
 
 	err := gh.DeleteRelease(client, owner, repo, ver)
 	if err != nil {
@@ -616,7 +616,7 @@ func rmRelease(c *cli.Context) error {
 // Upload asset to a release
 func uploadReleaseAsset(c *cli.Context) error {
 	name := c.String("name")
-  token := c.String("token")
+	token := c.String("token")
 	glob := c.String("glob")
 	owner := c.String("owner")
 	repo := c.String("repository")
@@ -638,21 +638,21 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError("You must provide a release version", 1)
 	}
 
-  tokenAuth := token
-  var client *github.Client
-  if len(name)>0 {
-  	auth, err := local.Get(name)
-  	if err != nil {
-  		fmt.Println(err)
-  		return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
-  	}
-  	if auth.Token == nil {
-  		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
-  	}
-    tokenAuth = *auth.Token
-  }
+	tokenAuth := token
+	var client *github.Client
+	if len(name) > 0 {
+		auth, err := local.Get(name)
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
+		}
+		if auth.Token == nil {
+			return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
+		}
+		tokenAuth = *auth.Token
+	}
 
-  client = gh.ClientFromToken(tokenAuth)
+	client = gh.ClientFromToken(tokenAuth)
 
 	paths, err := zglob.Glob(glob)
 	if len(paths) == 0 {
@@ -689,7 +689,7 @@ func uploadReleaseAsset(c *cli.Context) error {
 // Upload asset to a release
 func rmAssets(c *cli.Context) error {
 	name := c.String("name")
-  token := c.String("token")
+	token := c.String("token")
 	glob := c.String("glob")
 	owner := c.String("owner")
 	repo := c.String("repository")
@@ -711,29 +711,28 @@ func rmAssets(c *cli.Context) error {
 		glob = "*"
 	}
 
-  tokenAuth := token
-  var client *github.Client
-  if len(name)>0 {
-  	auth, err := local.Get(name)
-  	if err != nil {
-  		fmt.Println(err)
-  		return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
-  	}
-  	if auth.Token == nil {
-  		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
-  	}
-    tokenAuth = *auth.Token
-  }
+	tokenAuth := token
+	var client *github.Client
+	if len(name) > 0 {
+		auth, err := local.Get(name)
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
+		}
+		if auth.Token == nil {
+			return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
+		}
+		tokenAuth = *auth.Token
+	}
 
-  client = gh.ClientFromToken(tokenAuth)
-
+	client = gh.ClientFromToken(tokenAuth)
 
 	id, err := gh.ReleaseId(client, owner, repo, ver)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-  release, err := gh.GetReleaseById(client, owner, repo, id)
+	release, err := gh.GetReleaseById(client, owner, repo, id)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
@@ -741,26 +740,26 @@ func rmAssets(c *cli.Context) error {
 		return cli.NewExitError("release '"+ver+"' was not found!", 1)
 	}
 
-  r, _ := regexp.Compile(".+")
-  if glob != "" {
-    var err error
-    glob = strings.Replace(glob, "*", ".+", -1)
-    r, err = regexp.Compile("(?i)^" + glob + "$")
-    if err != nil {
-  		return cli.NewExitError(err.Error(), 1)
-    }
-  }
-  assets, err := gh.ListReleaseAssets(client, owner, repo, *release)
-  for _, a := range assets {
-    if r.MatchString(*a.Name) {
-      if err = gh.DeleteReleaseAsset(client, owner, repo, *a.ID); err !=nil {
-    		return cli.NewExitError(err.Error(), 1)
-      }
-      fmt.Println("Removed '"+(*a.Name)+"'")
-    }
-  }
+	r, _ := regexp.Compile(".+")
+	if glob != "" {
+		var err error
+		glob = strings.Replace(glob, "*", ".+", -1)
+		r, err = regexp.Compile("(?i)^" + glob + "$")
+		if err != nil {
+			return cli.NewExitError(err.Error(), 1)
+		}
+	}
+	assets, err := gh.ListReleaseAssets(client, owner, repo, *release)
+	for _, a := range assets {
+		if r.MatchString(*a.Name) {
+			if err = gh.DeleteReleaseAsset(client, owner, repo, *a.ID); err != nil {
+				return cli.NewExitError(err.Error(), 1)
+			}
+			fmt.Println("Removed '" + (*a.Name) + "'")
+		}
+	}
 
-  fmt.Println("All done!")
+	fmt.Println("All done!")
 
 	return nil
 }
@@ -768,7 +767,7 @@ func rmAssets(c *cli.Context) error {
 // Download asset from a release
 func downloadAssets(c *cli.Context) error {
 	name := c.String("name")
-  token := c.String("token")
+	token := c.String("token")
 	glob := c.String("glob")
 	out := c.String("out")
 	owner := c.String("owner")
@@ -787,25 +786,25 @@ func downloadAssets(c *cli.Context) error {
 		skipPrerelease = true
 	}
 
-  tokenAuth := token
-  var client *github.Client
-  if len(name)>0 {
-  	auth, err := local.Get(name)
-  	if err != nil {
-  		fmt.Println(err)
-  		return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
-  	}
-  	if auth.Token == nil {
-  		return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
-  	}
-    tokenAuth = *auth.Token
-  }
+	tokenAuth := token
+	var client *github.Client
+	if len(name) > 0 {
+		auth, err := local.Get(name)
+		if err != nil {
+			fmt.Println(err)
+			return cli.NewExitError("The authorization '"+name+"' was not found on your local!", 1)
+		}
+		if auth.Token == nil {
+			return cli.NewExitError("The authorization '"+name+"' does not have token!", 1)
+		}
+		tokenAuth = *auth.Token
+	}
 
-  if len(tokenAuth)>0 {
-    client = gh.ClientFromToken(tokenAuth)
-  } else {
-    client = gh.AnonClient()
-  }
+	if len(tokenAuth) > 0 {
+		client = gh.ClientFromToken(tokenAuth)
+	} else {
+		client = gh.AnonClient()
+	}
 
 	releases, err := gh.ListPublicReleases(client, owner, repo)
 	if err != nil {

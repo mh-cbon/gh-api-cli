@@ -15,29 +15,29 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func ClientFromCredentials (username string, password string, OTP string) *github.Client {
+func ClientFromCredentials(username string, password string, OTP string) *github.Client {
 
-  	tp := github.BasicAuthTransport{
-  		Username: strings.TrimSpace(username),
-  		Password: strings.TrimSpace(password),
-  		OTP:      strings.TrimSpace(OTP),
-  	}
+	tp := github.BasicAuthTransport{
+		Username: strings.TrimSpace(username),
+		Password: strings.TrimSpace(password),
+		OTP:      strings.TrimSpace(OTP),
+	}
 
-  	return github.NewClient(tp.Client())
+	return github.NewClient(tp.Client())
 }
 
-func ClientFromToken (token string) *github.Client {
+func ClientFromToken(token string) *github.Client {
 
-    ts := oauth2.StaticTokenSource(
-      &oauth2.Token{AccessToken: token},
-    )
-    tc := oauth2.NewClient(oauth2.NoContext, ts)
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: token},
+	)
+	tc := oauth2.NewClient(oauth2.NoContext, ts)
 
-  	return github.NewClient(tc)
+	return github.NewClient(tc)
 }
 
-func AnonClient () *github.Client {
-  	return github.NewClient(nil)
+func AnonClient() *github.Client {
+	return github.NewClient(nil)
 }
 
 // Add a new personal access tokens
@@ -139,18 +139,18 @@ func ListReleases(client *github.Client, owner string, repo string) ([]*github.R
 
 // Get a release by its id on the the remote
 func GetReleaseById(client *github.Client, owner string, repo string, id int) (*github.RepositoryRelease, error) {
-  var ret *github.RepositoryRelease
+	var ret *github.RepositoryRelease
 
-  releases, err := ListReleases(client, owner, repo)
-  if err!=nil {
-    return ret, err
-  }
-  for _, r := range releases {
-    if *r.ID==id {
-      ret = r
-      break
-    }
-  }
+	releases, err := ListReleases(client, owner, repo)
+	if err != nil {
+		return ret, err
+	}
+	for _, r := range releases {
+		if *r.ID == id {
+			ret = r
+			break
+		}
+	}
 
 	return ret, nil
 }

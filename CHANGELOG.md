@@ -1,5 +1,20 @@
 # Changelog - gh-api-cli
 
+### 3.0.1
+
+__Changes__
+
+- build: add choco package
+- README: updated usage section
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Sat 30 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.0...3.0.1#diff)
+______________
+
 ### 3.0.0
 
 __Changes__

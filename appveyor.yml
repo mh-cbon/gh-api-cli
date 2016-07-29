@@ -6,6 +6,10 @@ skip_non_tags: true
 environment:
   GOPATH: c:\gopath
   GO15VENDOREXPERIMENT: 1
+  CHOCOKEY:
+    secure: KOJemGCpMfF6oFpELBKidDtSZOXTMIjvdoHYESlI2OjHRgjN6fOS+XdWG9Ol+17T
+  GHTOKEN:
+    secure: KCSQ5Lux18jVHKiuoiw50YTHG82Ii5PoBOhynj8kEqT/Rwm7sjKwdoUfnuT5i+JS
 
 install:
   - curl -fsSL -o C:\wix310-binaries.zip http://static.wixtoolset.org/releases/v3.10.3.3007/wix310-binaries.zip
@@ -27,6 +31,10 @@ build_script:
   - go build -o %MYAPP%.exe --ldflags "-X main.VERSION=%APPVEYOR_REPO_TAG_NAME%" main.go
   - go-msi.exe make --msi %APPVEYOR_BUILD_FOLDER%\%MYAPP%-%GOARCH%.msi --version %APPVEYOR_REPO_TAG_NAME% --arch %GOARCH%
 
+after_deploy:
+  - .\go-msi.exe choco --input %APPVEYOR_BUILD_FOLDER%\%MYAPP%-%GOARCH%.msi --version %APPVEYOR_REPO_TAG_NAME%
+  - choco push -k="'%CHOCOKEY%'" %MYAPP%.%APPVEYOR_REPO_TAG_NAME%.nupkg
+
 test: off
 
 artifacts:
@@ -42,7 +50,7 @@ deploy:
     prerelease: false
     description: "Release %APPVEYOR_REPO_TAG_NAME%"
     auth_token:
-      secure: KCSQ5Lux18jVHKiuoiw50YTHG82Ii5PoBOhynj8kEqT/Rwm7sjKwdoUfnuT5i+JS
+      secure: %GHTOKEN%
     on:
       branch:
         - master

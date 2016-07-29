@@ -1,5 +1,26 @@
 # Changelog - gh-api-cli
 
+### 3.0.0
+
+__Changes__
+
+- cli: add token argument to use instead of named auth
+  cli: add rm-assets command
+  cli: add rm-release command
+- test: initialize tests
+- code refactoring
+- code refactoring
+- code refactoring
+- changelog: 2.0.6
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Fri 29 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.6...3.0.0#diff)
+______________
+
 ### 2.0.6
 
 __Changes__

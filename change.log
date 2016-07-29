@@ -2,13 +2,11 @@
 3.0.0
 
   * cli: add token argument to use instead of named auth
-    cli: add rm-assets command
-    cli: add rm-release command
+  * cli: add rm-assets command
+  * cli: add rm-release command
   * test: initialize tests
-  * code refactoring
-  * code refactoring
-  * code refactoring
-  * changelog: 2.0.6
+  * [BREAK] most API: replaced username/password/OTP arguments
+    by and instance of github.Client
 
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
@@ -201,5 +199,3 @@
   - mh-cbon <mh-cbon@users.noreply.github.com>
 
 -- mh-cbon <mh-cbon@users.noreply.github.com>; Tue, 14 Jun 2016 18:46:40 +0200
-
-

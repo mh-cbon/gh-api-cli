@@ -5,13 +5,11 @@
 __Changes__
 
 - cli: add token argument to use instead of named auth
-  cli: add rm-assets command
-  cli: add rm-release command
+- cli: add rm-assets command
+- cli: add rm-release command
 - test: initialize tests
-- code refactoring
-- code refactoring
-- code refactoring
-- changelog: 2.0.6
+- [BREAK] most API: replaced username/password/OTP arguments
+  by and instance of github.Client
 
 __Contributors__
 

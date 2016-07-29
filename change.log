@@ -1,5 +1,5 @@
 
-UNRELEASED
+3.0.0
 
   * cli: add token argument to use instead of named auth
     cli: add rm-assets command

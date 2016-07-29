@@ -1,11 +1,24 @@
 # Changelog - gh-api-cli
 
+### 3.0.3
+
+__Changes__
+
+- build: fix appveyor script
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Sat 30 Jul 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.2...3.0.3#diff)
+______________
+
 ### 3.0.2
 
 __Changes__
 
 - build: fix appveyor script
-- changelog: 3.0.1
 
 __Contributors__
 

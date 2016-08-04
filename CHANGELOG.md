@@ -1,5 +1,26 @@
 # Changelog - gh-api-cli
 
+### 3.0.4
+
+__Changes__
+
+- choco: refine the choco package information to pass chocolatey validation and get th package published
+- README
+- appveyor: update gh token
+- release: update release script
+- README: update install section
+- build: update travis file to use more env
+- build: changed appveyor gh token
+- changelog: 3.0.3
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 04 Aug 2016 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.3...3.0.4#diff)
+______________
+
 ### 3.0.3
 
 __Changes__

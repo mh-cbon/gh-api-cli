@@ -1,4 +1,21 @@
 
+3.0.4
+
+  * choco: refine the choco package information to pass chocolatey validation and get th package published
+  * README
+  * appveyor: update gh token
+  * release: update release script
+  * README: update install section
+  * build: update travis file to use more env
+  * build: changed appveyor gh token
+  * changelog: 3.0.3
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 04 Aug 2016 16:31:31 +0200
+
+
+
 3.0.3
 
   * build: fix appveyor script

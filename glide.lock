@@ -1,5 +1,5 @@
 hash: 7ecd8c165caf54e31ce847b57cec4452df718033f4d42d70fb1d96df6d553d35
-updated: 2016-07-27T12:45:32.592535119+02:00
+updated: 2016-10-14T11:32:08.603080791+10:00
 imports:
 - name: github.com/golang/oauth2
   version: 1364adb2c63445016c5ed4518fc71f6a3cda6169
@@ -8,7 +8,7 @@ imports:
   subpackages:
   - proto
 - name: github.com/google/go-github
-  version: b5e5babef39c18002f177a134fc49dc5013374ba
+  version: 93d3f730320429a6e1ecf2ac1778db832930948a
   subpackages:
   - github
 - name: github.com/google/go-querystring
@@ -24,7 +24,7 @@ imports:
 - name: github.com/mitchellh/go-homedir
   version: 756f7b183b7ab78acdbbee5c7f392838ed459dda
 - name: github.com/urfave/cli
-  version: 1efa31f08b9333f1bd4882d61f9d668a70cd902e
+  version: a14d7d367bc02b1f57d88de97926727f2d936387
 - name: golang.org/x/crypto
   version: bc89c496413265e715159bdc8478ee9a92fdc265
   subpackages:
@@ -40,11 +40,11 @@ imports:
 - name: google.golang.org/appengine
   version: 267c27e7492265b84fc6719503b14a1e17975d79
   subpackages:
-  - urlfetch
   - internal
-  - internal/urlfetch
   - internal/base
   - internal/datastore
   - internal/log
   - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
 testImports: []

@@ -2,6 +2,7 @@ package gh
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -231,16 +232,18 @@ func CreateRelease(client *github.Client, owner string, repo string, version str
 		return nil, err
 	}
 
+	user, resp, err := client.Users.Get(owner)
+	if err != nil {
+		return nil, fmt.Errorf("err: %v\nresp: %v", err, resp)
+	}
+
 	opt := &github.RepositoryRelease{
 		Name:       github.String(version),
 		TagName:    github.String(version),
 		Draft:      github.Bool(draft),
 		Body:       github.String(body),
 		Prerelease: github.Bool(v.Prerelease() != ""),
-		Author: &github.CommitAuthor{
-			Name:  github.String(authorName),
-			Email: github.String(authorEmail),
-		},
+		Author:     user,
 	}
 	release, _, err := client.Repositories.CreateRelease(owner, repo, opt)
 

@@ -1,5 +1,27 @@
 # Changelog - gh-api-cli
 
+### 4.0.0
+
+__Changes__
+
+- cli(minor): add new guess parameter to compute repository owner/name from the cwd
+- cli(break): remove author email parameter from create-release command
+- gh.GetReleaseById(break): renamed to GetReleaseByID
+- gh.ReleaseId(break): renamed to ReleaseID
+- gh.CreateRelease(break): removed authoremail parameter
+- dl.Asset(break): renamed SourceUrl to SourceURL
+- Applied linters
+- Updated dependencies
+- appveyor: update choco key
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 05 Jan 2017 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.4...4.0.0#diff)
+______________
+
 ### 3.0.4
 
 __Changes__

@@ -19,6 +19,7 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+// VERSION holds program version
 var VERSION = "0.0.0"
 
 func main() {
@@ -140,12 +141,7 @@ func main() {
 				cli.StringFlag{
 					Name:  "author, a",
 					Value: "",
-					Usage: "Release author name",
-				},
-				cli.StringFlag{
-					Name:  "email, e",
-					Value: "",
-					Usage: "Release author email",
+					Usage: "Release author github username",
 				},
 				cli.StringFlag{
 					Name:  "draft, d",
@@ -317,7 +313,7 @@ func main() {
 	app.Run(os.Args)
 }
 
-// Create a new authorization on remote save it locally
+// add creates a new authorization on remote save it locally
 func add(c *cli.Context) error {
 
 	name := c.String("name")
@@ -377,7 +373,7 @@ func add(c *cli.Context) error {
 	return nil
 }
 
-// List authorizations from remote and add token values saved on local
+// list computes remote authorizations with token values found into the local records.
 func list(c *cli.Context) error {
 
 	var client *github.Client
@@ -419,7 +415,7 @@ func list(c *cli.Context) error {
 	return nil
 }
 
-// Delete an authorization from local and remote
+// rm deletes an authorization from local records and remote
 func rm(c *cli.Context) error {
 	name := c.String("name")
 
@@ -464,7 +460,7 @@ func rm(c *cli.Context) error {
 	return nil
 }
 
-// Print a token from an authorization saved on local
+// get prints a token from an authorization saved on local
 func get(c *cli.Context) error {
 	name := c.String("name")
 
@@ -486,7 +482,7 @@ func get(c *cli.Context) error {
 	return nil
 }
 
-// Create a gh release on remote
+// createRelease creates a release on remote.
 func createRelease(c *cli.Context) error {
 	name := c.String("name")
 	token := c.String("token")
@@ -494,7 +490,6 @@ func createRelease(c *cli.Context) error {
 	repo := c.String("repository")
 	ver := c.String("ver")
 	author := c.String("author")
-	email := c.String("email")
 	draft := c.String("draft")
 	changelog := c.String("changelog")
 	isDraft := false
@@ -511,12 +506,6 @@ func createRelease(c *cli.Context) error {
 	}
 	if len(ver) == 0 {
 		return cli.NewExitError("You must provide a version", 1)
-	}
-	if len(author) != 0 && len(email) == 0 {
-		return cli.NewExitError("You must provide an email", 1)
-	}
-	if len(author) == 0 && len(email) > 0 {
-		return cli.NewExitError("You must provide an author", 1)
 	}
 	if draft == "yes" || draft == "1" || draft == "true" {
 		isDraft = true
@@ -553,7 +542,7 @@ func createRelease(c *cli.Context) error {
 
 	client = gh.ClientFromToken(tokenAuth)
 
-	release, err := gh.CreateRelease(client, owner, repo, ver, author, email, isDraft, body)
+	release, err := gh.CreateRelease(client, owner, repo, ver, author, isDraft, body)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("The release was not created successfully!", 1)
@@ -659,7 +648,7 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError("Your glob pattern did not selected any files.", 1)
 	}
 
-	id, err := gh.ReleaseId(client, owner, repo, ver)
+	id, err := gh.ReleaseID(client, owner, repo, ver)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
@@ -679,14 +668,13 @@ func uploadReleaseAsset(c *cli.Context) error {
 
 	if len(errs) > 0 {
 		return cli.NewExitError("There were errors while uploading assets.", 1)
-	} else {
-		fmt.Println("Assets uploaded!")
 	}
+	fmt.Println("Assets uploaded!")
 
 	return nil
 }
 
-// Upload asset to a release
+// rmAssets removes asset from a release.
 func rmAssets(c *cli.Context) error {
 	name := c.String("name")
 	token := c.String("token")
@@ -727,12 +715,12 @@ func rmAssets(c *cli.Context) error {
 
 	client = gh.ClientFromToken(tokenAuth)
 
-	id, err := gh.ReleaseId(client, owner, repo, ver)
+	id, err := gh.ReleaseID(client, owner, repo, ver)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	release, err := gh.GetReleaseById(client, owner, repo, id)
+	release, err := gh.GetReleaseByID(client, owner, repo, id)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
@@ -742,11 +730,11 @@ func rmAssets(c *cli.Context) error {
 
 	r, _ := regexp.Compile(".+")
 	if glob != "" {
-		var err error
+		var err2 error
 		glob = strings.Replace(glob, "*", ".+", -1)
-		r, err = regexp.Compile("(?i)^" + glob + "$")
-		if err != nil {
-			return cli.NewExitError(err.Error(), 1)
+		r, err2 = regexp.Compile("(?i)^" + glob + "$")
+		if err2 != nil {
+			return cli.NewExitError(err2.Error(), 1)
 		}
 	}
 	assets, err := gh.ListReleaseAssets(client, owner, repo, *release)
@@ -806,7 +794,7 @@ func downloadAssets(c *cli.Context) error {
 		client = gh.AnonClient()
 	}
 
-	releases, err := gh.ListPublicReleases(client, owner, repo)
+	releases, err := gh.ListReleases(client, owner, repo)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("could not list releases of this repository "+owner+"/"+repo+"!", 1)

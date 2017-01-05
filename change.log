@@ -1,4 +1,22 @@
 
+4.0.0
+
+  * cli(minor): add new guess parameter to compute repository owner/name from the cwd
+  * cli(break): remove author email parameter from create-release command
+  * gh.GetReleaseById(break): renamed to GetReleaseByID
+  * gh.ReleaseId(break): renamed to ReleaseID
+  * gh.CreateRelease(break): removed authoremail parameter
+  * dl.Asset(break): renamed SourceUrl to SourceURL
+  * Applied linters
+  * Updated dependencies
+  * appveyor: update choco key
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Thu, 05 Jan 2017 08:34:22 +0100
+
+
+
 3.0.4
 
   * choco: refine the choco package information to pass chocolatey validation and get th package published

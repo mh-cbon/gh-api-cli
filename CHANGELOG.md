@@ -1,5 +1,19 @@
 # Changelog - gh-api-cli
 
+### 4.0.1
+
+__Changes__
+
+- appveyor: tryfix to build msi package
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Thu 05 Jan 2017 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/4.0.0...4.0.1#diff)
+______________
+
 ### 4.0.0
 
 __Changes__

@@ -13,8 +13,9 @@ import (
 	"github.com/mh-cbon/gh-api-cli/gh"
 )
 
+// Asset represents an asset existing on the remote.
 type Asset struct {
-	SourceUrl  string
+	SourceURL  string
 	TargetFile string
 	Name       string
 	Arch       string
@@ -23,8 +24,7 @@ type Asset struct {
 	Version    string
 }
 
-// Select assets of given releases matching glob,
-// forge out path and url for each asset
+// SelectAssets finds assets matching glob within given releases,
 func SelectAssets(client *github.Client, owner string, repo string, glob string, out string, releases []*github.RepositoryRelease) ([]*Asset, error) {
 	ret := make([]*Asset, 0)
 	r, _ := regexp.Compile(".+")
@@ -46,7 +46,7 @@ func SelectAssets(client *github.Client, owner string, repo string, glob string,
 				asset := &Asset{}
 				asset.Name = *a.Name
 				asset.Version = *release.TagName
-				asset.SourceUrl = *a.BrowserDownloadURL
+				asset.SourceURL = *a.BrowserDownloadURL
 				ret = append(ret, asset)
 			}
 		}
@@ -108,7 +108,7 @@ func SelectAssets(client *github.Client, owner string, repo string, glob string,
 	return ret, nil
 }
 
-// Select releases matching constraint
+// SelectReleases finds releases matching the given semver constraint
 func SelectReleases(constraint string, skipPrerelease bool, releases []*github.RepositoryRelease) ([]*github.RepositoryRelease, error) {
 	ret := make([]*github.RepositoryRelease, 0)
 	if constraint == "latest" {
@@ -134,7 +134,7 @@ func SelectReleases(constraint string, skipPrerelease bool, releases []*github.R
 	return ret, nil
 }
 
-// Select release which are not prerelease
+// SelectNonPrerelease finds releases which are not prerelease.
 func SelectNonPrerelease(releases []*github.RepositoryRelease) ([]*github.RepositoryRelease, error) {
 	ret := make([]*github.RepositoryRelease, 0)
 	for _, r := range releases {
@@ -149,7 +149,7 @@ func SelectNonPrerelease(releases []*github.RepositoryRelease) ([]*github.Reposi
 	return ret, nil
 }
 
-// Select only latest release according to semver sort
+// SelectLatestRelease finds the latest release according to semver sort
 func SelectLatestRelease(skipPrerelease bool, releases []*github.RepositoryRelease) (*github.RepositoryRelease, error) {
 	var release *github.RepositoryRelease
 	for _, r := range releases {
@@ -174,6 +174,7 @@ func SelectLatestRelease(skipPrerelease bool, releases []*github.RepositoryRelea
 	return release, nil
 }
 
+// DownloadAsset downloads provided asset.
 func DownloadAsset(asset *Asset) error {
 	fmt.Println("Downloading " + asset.Name + " to " + asset.TargetFile + ", version=" + asset.Version)
 	dir := filepath.Dir(asset.TargetFile)
@@ -185,7 +186,7 @@ func DownloadAsset(asset *Asset) error {
 	if err != nil {
 		return errors.New("Failed to open file " + asset.TargetFile + "!\n" + err.Error())
 	}
-	err = gh.DownloadAsset(asset.SourceUrl, f)
+	err = gh.DownloadAsset(asset.SourceURL, f)
 	if err != nil {
 		return errors.New("Failed to download file!\n" + err.Error())
 	}

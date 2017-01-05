@@ -126,12 +126,16 @@ func main() {
 				cli.StringFlag{
 					Name:  "owner, o",
 					Value: "",
-					Usage: "Repo owner",
+					Usage: "Repository owner",
 				},
 				cli.StringFlag{
 					Name:  "repository, r",
 					Value: "",
-					Usage: "Repo name",
+					Usage: "Repository name",
+				},
+				cli.BoolFlag{
+					Name:  "guess",
+					Usage: "Guess repository and user name from the cwd",
 				},
 				cli.StringFlag{
 					Name:  "ver",
@@ -173,12 +177,16 @@ func main() {
 				cli.StringFlag{
 					Name:  "owner, o",
 					Value: "",
-					Usage: "Repo owner",
+					Usage: "Repository owner",
 				},
 				cli.StringFlag{
 					Name:  "repository, r",
 					Value: "",
-					Usage: "Repo name",
+					Usage: "Repository name",
+				},
+				cli.BoolFlag{
+					Name:  "guess",
+					Usage: "Guess repository and user name from the cwd",
 				},
 				cli.StringFlag{
 					Name:  "ver",
@@ -210,12 +218,16 @@ func main() {
 				cli.StringFlag{
 					Name:  "owner, o",
 					Value: "",
-					Usage: "Repo owner",
+					Usage: "Repository owner",
 				},
 				cli.StringFlag{
 					Name:  "repository, r",
 					Value: "",
-					Usage: "Repo name",
+					Usage: "Repository name",
+				},
+				cli.BoolFlag{
+					Name:  "guess",
+					Usage: "Guess repository and user name from the cwd",
 				},
 				cli.StringFlag{
 					Name:  "ver",
@@ -252,12 +264,16 @@ func main() {
 				cli.StringFlag{
 					Name:  "owner, o",
 					Value: "",
-					Usage: "Repo owner",
+					Usage: "Repository owner",
 				},
 				cli.StringFlag{
 					Name:  "repository, r",
 					Value: "",
-					Usage: "Repo name",
+					Usage: "Repository name",
+				},
+				cli.BoolFlag{
+					Name:  "guess",
+					Usage: "Guess repository and user name from the cwd",
 				},
 				cli.StringFlag{
 					Name:  "ver",
@@ -294,12 +310,16 @@ func main() {
 				cli.StringFlag{
 					Name:  "owner, o",
 					Value: "",
-					Usage: "Repo owner",
+					Usage: "Repository owner",
 				},
 				cli.StringFlag{
 					Name:  "repository, r",
 					Value: "",
-					Usage: "Repo name",
+					Usage: "Repository name",
+				},
+				cli.BoolFlag{
+					Name:  "guess",
+					Usage: "Guess repository and user name from the cwd",
 				},
 				cli.StringFlag{
 					Name:  "ver",
@@ -488,6 +508,7 @@ func createRelease(c *cli.Context) error {
 	token := c.String("token")
 	owner := c.String("owner")
 	repo := c.String("repository")
+	guess := c.Bool("guess")
 	ver := c.String("ver")
 	author := c.String("author")
 	draft := c.String("draft")
@@ -497,6 +518,15 @@ func createRelease(c *cli.Context) error {
 
 	if len(name)+len(token) == 0 {
 		return cli.NewExitError("You must provide an authorization (--name or --token)", 1)
+	}
+	if guess {
+		guessedUser, guessedRepo := guessVars()
+		if len(owner) == 0 {
+			owner = guessedUser
+		}
+		if len(repo) == 0 {
+			repo = guessedRepo
+		}
 	}
 	if len(owner) == 0 {
 		return cli.NewExitError("You must provide the repository owner", 1)
@@ -560,10 +590,20 @@ func rmRelease(c *cli.Context) error {
 	token := c.String("token")
 	owner := c.String("owner")
 	repo := c.String("repository")
+	guess := c.Bool("guess")
 	ver := c.String("ver")
 
 	if len(name)+len(token) == 0 {
 		return cli.NewExitError("You must provide an authorization (--name or --token)", 1)
+	}
+	if guess {
+		guessedUser, guessedRepo := guessVars()
+		if len(owner) == 0 {
+			owner = guessedUser
+		}
+		if len(repo) == 0 {
+			repo = guessedRepo
+		}
 	}
 	if len(owner) == 0 {
 		return cli.NewExitError("You must provide the repository owner", 1)
@@ -609,6 +649,7 @@ func uploadReleaseAsset(c *cli.Context) error {
 	glob := c.String("glob")
 	owner := c.String("owner")
 	repo := c.String("repository")
+	guess := c.Bool("guess")
 	ver := c.String("ver")
 
 	if len(name)+len(token) == 0 {
@@ -616,6 +657,15 @@ func uploadReleaseAsset(c *cli.Context) error {
 	}
 	if len(glob) == 0 {
 		return cli.NewExitError("You must provide a pattern to glob", 1)
+	}
+	if guess {
+		guessedUser, guessedRepo := guessVars()
+		if len(owner) == 0 {
+			owner = guessedUser
+		}
+		if len(repo) == 0 {
+			repo = guessedRepo
+		}
 	}
 	if len(owner) == 0 {
 		return cli.NewExitError("You must provide a repository owner", 1)
@@ -681,10 +731,20 @@ func rmAssets(c *cli.Context) error {
 	glob := c.String("glob")
 	owner := c.String("owner")
 	repo := c.String("repository")
+	guess := c.Bool("guess")
 	ver := c.String("ver")
 
 	if len(name)+len(token) == 0 {
 		return cli.NewExitError("You must provide an authorization (--name or --token)", 1)
+	}
+	if guess {
+		guessedUser, guessedRepo := guessVars()
+		if len(owner) == 0 {
+			owner = guessedUser
+		}
+		if len(repo) == 0 {
+			repo = guessedRepo
+		}
 	}
 	if len(owner) == 0 {
 		return cli.NewExitError("You must provide a repository owner", 1)
@@ -760,10 +820,20 @@ func downloadAssets(c *cli.Context) error {
 	out := c.String("out")
 	owner := c.String("owner")
 	repo := c.String("repository")
+	guess := c.Bool("guess")
 	ver := c.String("ver")
 	sp := c.String("skip-prerelease")
 	skipPrerelease := false
 
+	if guess {
+		guessedUser, guessedRepo := guessVars()
+		if len(owner) == 0 {
+			owner = guessedUser
+		}
+		if len(repo) == 0 {
+			repo = guessedRepo
+		}
+	}
 	if len(owner) == 0 {
 		return cli.NewExitError("You must provide a repository owner", 1)
 	}
@@ -880,4 +950,32 @@ func queryPassword() string {
 func jsonString(some interface{}) (string, error) {
 	jsonContent, err := json.MarshalIndent(some, "", "    ")
 	return string(jsonContent), err
+}
+
+func split(s string, separators []rune) []string {
+	f := func(r rune) bool {
+		for _, s := range separators {
+			if r == s {
+				return true
+			}
+		}
+		return false
+	}
+	return strings.FieldsFunc(s, f)
+
+}
+
+func guessVars() (string, string) {
+	user := ""
+	name := ""
+	if cwd, err := os.Getwd(); err == nil {
+		parts := split(cwd, []rune{os.PathSeparator})
+		if len(parts) >= 2 {
+			name = parts[len(parts)-1 : len(parts)][0]
+		}
+		if len(parts) >= 3 {
+			user = parts[len(parts)-2 : len(parts)-1][0]
+		}
+	}
+	return user, name
 }

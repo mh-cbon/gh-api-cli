@@ -63,6 +63,9 @@ RM_RELEASE_WITH_TOKEN=`./gh-api-cli rm-release -t ${NEWTOKEN} -o mh-cbon -r test
 echo "${RM_RELEASE_WITH_TOKEN}" | grep "Release deleted with success!"
 
 
+DL_ASSET_WITH_TOKEN_AND_GUESS=`./gh-api-cli dl-assets -t ${NEWTOKEN} --guess --ver 3.0.4 -g gh-api-cli-386.deb --out gh-api-cli-386.deb`
+echo "${DL_ASSET_WITH_TOKEN_AND_GUESS}" | grep 'Downloading gh-api-cli-386.deb to gh-api-cli-386.deb, version=3.0.4'
+
 
 
 DEL=`./gh-api-cli rm-auth -n test_token -u ${USER} -p ${PWRD}`
@@ -71,6 +74,6 @@ echo "${DEL}" | grep "Deleted authorization: test_token"
 
 
 set +ex
-rm testfile testfileout testfileanon ./gh-api-cli
+rm testfile testfileout testfileanon ./gh-api-cli ./gh-api-cli-386.deb
 echo ""
 echo "OK, ALL FINE"

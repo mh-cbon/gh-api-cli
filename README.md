@@ -180,8 +180,9 @@ USAGE:
 OPTIONS:
    --name value, n value           Name of the locally saved authentication.
    --token value, t value          Personal access token authentication.
-   --owner value, -o value         Repo owner
-   --repository value, -r value    Repo name
+   --owner value, -o value         Repository owner
+   --repository value, -r value    Repository name
+   --guess                         Guess repository and user name from the cwd
    --ver value                     Version name
    --author value, -a value        Release author name
    --draft value, -d value         Make a draft release, value=yes|1|true|no|0|false
@@ -204,8 +205,9 @@ USAGE:
 OPTIONS:
    --name value, n value           Name of the locally saved authentication.
    --token value, t value          Personal access token authentication.
-   --owner value, -o value         Repo owner
-   --repository value, -r value    Repo name
+   --owner value, -o value         Repository owner
+   --repository value, -r value    Repository name
+   --guess                         Guess repository and user name from the cwd
    --ver value                     Version name
 ```
 
@@ -226,8 +228,9 @@ OPTIONS:
    --name value, n value           Name of the locally saved authentication.
    --token value, t value          Personal access token authentication.
    --glob value, -g value          Glob pattern of files to upload
-   --owner value, -o value         Repo owner
-   --repository value, -r value    Repo name
+   --owner value, -o value         Repository owner
+   --repository value, -r value    Repository name
+   --guess                         Guess repository and user name from the cwd
    --ver value                     Version name
 ```
 
@@ -248,8 +251,9 @@ OPTIONS:
    --name value, n value           Name of the locally saved authentication.
    --token value, t value          Personal access token authentication.
    --glob value, -g value          Glob pattern of files to upload
-   --owner value, -o value         Repo owner
-   --repository value, -r value    Repo name
+   --owner value, -o value         Repository owner
+   --repository value, -r value    Repository name
+   --guess                         Guess repository and user name from the cwd
    --ver value                     Version name
 ```
 
@@ -269,8 +273,9 @@ USAGE:
 OPTIONS:
    --name value, n value           Name of the locally saved authentication.
    --token value, t value          Personal access token authentication.
-   --owner value, -o value         Repo owner
-   --repository value, -r value    Repo name
+   --owner value, -o value         Repository owner
+   --repository value, -r value    Repository name
+   --guess                         Guess repository and user name from the cwd
    --glob value, -g value          A glob to match files to download.
                                    It resolves to a regexp like '(i?)^glob$'.
                                    Stars '*' are replace by '.+'.
@@ -291,6 +296,7 @@ OPTIONS:
 ```
 EXAMPLE
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli dl-assets --guess --ver 0.0.1 # will depend of your cwd!
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f -g '*amd64*deb'
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver latest --out dl/%s/%r.%v-%a.%e

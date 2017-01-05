@@ -184,7 +184,6 @@ OPTIONS:
    --repository value, -r value    Repo name
    --ver value                     Version name
    --author value, -a value        Release author name
-   --email value, -e value         Release author email
    --draft value, -d value         Make a draft release, value=yes|1|true|no|0|false
    --changelog cmd, -c cmd         A command to generate body content of the release
 ```

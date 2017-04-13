@@ -11,8 +11,8 @@ env:
   global:
     - GH=mh-cbon/gh-api-cli
     - APP=gh-api-cli
-    - JEKYLL=pietromenna/jekyll-cayman-theme
     - EMAIL=mh-cbon@users.noreply.github.com
+    - JEKYLL=pietromenna/jekyll-cayman-theme
     - MYAPP=gh-api-cli # to clean
     - MYEMAIL=mh-cbon@users.noreply.github.com # to clean
     - secure: EG4JF7qs2mf5hUlEqqMeGj5uj/bInpmkmJFwVARjCNFEh1A5oRd5NHDo0bnAbuDm9Sfq+i7n+h2GvyQcygnZGQJH2a4n/Tinlh3qj2BX5Gao3gmkxFr0K5DovOw2DUlsHQ6h9fF0k8I2UWmSAjU5xyZDMmASC/tWvbn+g/8OlMoXd36p6bKcPRg0aBgazjR3xLZeTehQYLRofnzTNsEV5N0LfJKucSpvZ2omdffOvxQqTlhp0OnknvpfdCkx3/pRFsCSpuUFBPcoy+NonzptxIV6+5pRS7q7ZIHoJo9a2onNxyNwuXvpFTrdp/tpXiymC9xjnjL1r8rNb6FF6r7J75QyB52rzbqM16L7G2QYh2yR9NzKXX8NsnJA7TlcIwP357OfQPKmsv+FfCXIcQIfX9SCX4BovsdwtBKjXWEyi9UlVgvuhJAlItzvxtK2Ckrv11j9dMKajoQIvUvt/tPriTcmVZ03HJOrpbA0fLkb0bl7ePZKUVd3OZWnHfCZJVKy4FqOUQgeRE5soH944CUYzbSIDJEKmjsAfPl9ELDR1BUGNVVl0h8yB71yvEWuB8CYGHYV27Ryhp05enKKrV8a14weELovxe3bCpv+a0J9WNiPKQCG1OE0uREDLrKQnMwdfczzslDL4ihjnaLg4FRvqhqTmRG7wm/4If2/qvCz6AY=
@@ -29,7 +29,6 @@ install:
   - go install
 
 script:
-  - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
   - echo "pass"
 
 before_deploy:

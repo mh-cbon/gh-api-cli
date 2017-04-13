@@ -9,7 +9,7 @@ go:
 
 env:
   global:
-    - GH=mh-cbongh-api-cli
+    - GH=mh-cbon/gh-api-cli
     - APP=gh-api-cli
     - JEKYLL=pietromenna/jekyll-cayman-theme
     - EMAIL=mh-cbon@users.noreply.github.com

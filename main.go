@@ -1,3 +1,4 @@
+// Package gh-api-cli is a command line utility to work with github api.
 package main
 
 import (

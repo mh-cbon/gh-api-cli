@@ -1,21 +1,51 @@
 # gh-api-cli
 
-Command line client for github api
+[![travis Status](https://travis-ci.org/mh-cbon/gh-api-cli.svg?branch=master)](https://travis-ci.org/mh-cbon/gh-api-cli)[![appveyor Status](https://ci.appveyor.com/api/projects/status/github/mh-cbon/gh-api-cli?branch=master&svg=true)](https://ci.appveyor.com/project/mh-cbon/gh-api-cli)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/gh-api-cli)](https://goreportcard.com/report/github.com/mh-cbon/gh-api-cli)
+
+[![GoDoc](https://godoc.org/github.com/mh-cbon/gh-api-cli?status.svg)](http://godoc.org/github.com/mh-cbon/gh-api-cli)
+
+
+Package gh-api-cli is a command line utility to work with github api.
+
 
 This tool is part of the [go-github-release workflow](https://github.com/mh-cbon/go-github-release)
 
+# TOC
+- [Install](#install)
+  - [Glide](#glide)
+  - [Chocolatey](#chocolatey)
+  - [linux rpm/deb repository](#linux-rpmdeb-repository)
+  - [linux rpm/deb standalone package](#linux-rpmdeb-standalone-package)
+- [Cli](#cli)
+- [Notes](#notes)
+- [Todo](#todo)
+- [Recipes](#recipes)
+  - [Testing](#testing)
+  - [Release the project](#release-the-project)
+- [History](#history)
+
 # Install
 
-Pick an msi package [here](https://github.com/mh-cbon/gh-api-cli/releases)!
+Check the [release page](https://github.com/mh-cbon/gh-api-cli/releases)!
 
-__chocolatey__
+#### Glide
 
+```sh
+mkdir -p $GOPATH/src/github.com/mh-cbon/gh-api-cli
+cd $GOPATH/src/github.com/mh-cbon/gh-api-cli
+git clone https://github.com/mh-cbon/gh-api-cli.git .
+glide install
+go install
+```
+
+
+#### Chocolatey
 ```sh
 choco install gh-api-cli
 ```
 
-__deb/ubuntu/rpm repositories__
-
+#### linux rpm/deb repository
 ```sh
 wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
 | GH=mh-cbon/gh-api-cli sh -xe
@@ -24,8 +54,7 @@ curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
 | GH=mh-cbon/gh-api-cli sh -xe
 ```
 
-__deb/ubuntu/rpm package__
-
+#### linux rpm/deb standalone package
 ```sh
 curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
 | GH=mh-cbon/gh-api-cli sh -xe
@@ -35,20 +64,11 @@ https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh \
 | GH=mh-cbon/gh-api-cli sh -xe
 ```
 
-__go__
+# Cli
 
+
+###### $ gh-api-cli -help
 ```sh
-mkdir -p $GOPATH/src/github.com/mh-cbon
-cd $GOPATH/src/github.com/mh-cbon
-git clone https://github.com/mh-cbon/gh-api-cli.git
-cd gh-api-cli
-glide install
-go install
-```
-
-# Usage
-
-```
 NAME:
    gh-api-cli - Github api command line client
 
@@ -59,23 +79,25 @@ VERSION:
    0.0.0
 
 COMMANDS:
-     add-auth                 Add a new authorization
-     list-auth                List authorizations
-     rm-auth                  Remove an authorization
-     get-auth                 Get token from a locally saved authorization
-     create-release           Create a new release
-     rm-release               Delete a release
-     upload-release-asset     Upload assets to a release
-     dl-assets                Download assets
-     rm-assets                Delete assets
+     add-auth              Add a new authorization
+     list-auth             List authorizations
+     rm-auth               Remove an authorization
+     get-auth              Get token from a locally saved authorization
+     create-release        Create a release
+     rm-release            Delete a release
+     upload-release-asset  Upload assets to a release
+     dl-assets             Download assets
+     rm-assets             Delete assets
+     help, h               Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --help, -h		show help
-   --version, -v	print the version
+   --help, -h     show help
+   --version, -v  print the version
 ```
 
-#### add-auth
-```
+
+###### $ gh-api-cli add-auth -help
+```sh
 NAME:
    gh-api-cli add-auth - Add a new authorization
 
@@ -83,13 +105,13 @@ USAGE:
    gh-api-cli add-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value    Github username
-   --password value, -p value    Github password
-   --name value, -n value        Name of the authorization to add
-   --rights value, -r value      Permissions to set
+   --username value, -u value  Github username
+   --password value, -p value  Github password
+   --name value, -n value      Name of the authorization to create
+   --rights value, -r value    Permissions to set
 ```
 
-```
+```sh
 EXAMPLE
   gh-api-cli add-auth -n test -r user -r repo # will prompt for username/password
   gh-api-cli add-auth -n test -r user -u your -p pwd # won t prompt unless you have 2F ident on
@@ -98,23 +120,21 @@ EXAMPLE
 
 Where `rights` contains some of :
 
-```
-user              user:email
-user:follow       public_repo
-repo              repo_deployment
-repo:status       delete_repo
-notifications     gist
-read:repo_hook    write:repo_hook
-admin:repo_hook   admin:org_hook
-admin             read:org
-write:org         admin:org
-read:public_key   write:public_key
-admin:public_key  read:gpg_key
-write:gpg_key     admin:gpg_key
-```
+| Name | - | - |
+| --- | --- | --- |
+| user | user:email | user:follow |
+| public_repo | repo | repo_deployment |
+| notifications | repo:status | delete_repo |
+| gist |read:repo_hook | write:repo_hook |
+| admin:org_hook | read:org | write:org |
+| admin | admin:org | admin:repo_hook |
+| admin:public_key | read:public_key | write:public_key |
+| read:gpg_key | write:gpg_key | admin:gpg_key |
 
-#### list-auth
-```
+
+
+###### $ gh-api-cli list-auth -help
+```sh
 NAME:
    gh-api-cli list-auth - List authorizations
 
@@ -122,28 +142,29 @@ USAGE:
    gh-api-cli list-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value   Github username
-   --password value, -p value   Github password
+   --username value, -u value  Github username
+   --password value, -p value  Github password
 ```
 
-```
+```sh
 EXAMPLE
   gh-api-cli list-auth -n test # will prompt for username/password
   gh-api-cli list-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
 ```
 
-#### rm-auth
-```
+
+###### $ gh-api-cli rm-auth -help
+```sh
 NAME:
-   gh-api-cli rm-auth - Remove an existing authorization
+   gh-api-cli rm-auth - Remove an authorization
 
 USAGE:
    gh-api-cli rm-auth [command options] [arguments...]
 
 OPTIONS:
-   --username value, -u value   Github username
-   --password value, -p value   Github password
-   --name value, -n value       Name of the authorization to delete
+   --username value, -u value  Github username
+   --password value, -p value  Github password
+   --name value, -n value      Name of the authorization to delete
 ```
 
 ```
@@ -152,8 +173,9 @@ EXAMPLE
   gh-api-cli rm-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
 ```
 
-#### get-auth
-```
+
+###### $ gh-api-cli get-auth -help
+```sh
 NAME:
    gh-api-cli get-auth - Get token from a locally saved authorization
 
@@ -161,7 +183,7 @@ USAGE:
    gh-api-cli get-auth [command options] [arguments...]
 
 OPTIONS:
-   --name value, -n value       Name of the authorization to look for
+   --name value, -n value  Name of the authorization
 ```
 
 ```
@@ -169,8 +191,9 @@ EXAMPLE
   gh-api-cli get-auth -n test
 ```
 
-#### create-release
-```
+
+###### $ gh-api-cli create-release -help
+```sh
 NAME:
    gh-api-cli create-release - Create a release
 
@@ -178,15 +201,15 @@ USAGE:
    gh-api-cli create-release [command options] [arguments...]
 
 OPTIONS:
-   --name value, n value           Name of the locally saved authentication.
-   --token value, t value          Personal access token authentication.
-   --owner value, -o value         Repository owner
-   --repository value, -r value    Repository name
-   --guess                         Guess repository and user name from the cwd
-   --ver value                     Version name
-   --author value, -a value        Release author name
-   --draft value, -d value         Make a draft release, value=yes|1|true|no|0|false
-   --changelog cmd, -c cmd         A command to generate body content of the release
+   --name value, -n value        Name of the authorization to use for identification
+   --token value, -t value       Value of a personal access token
+   --owner value, -o value       Repository owner
+   --repository value, -r value  Repository name
+   --guess                       Guess repository and user name from the cwd
+   --ver value                   Version name
+   --author value, -a value      Release author github username
+   --draft value, -d value       Make a draft release (default: "no")
+   --changelog value, -c value   A command to generate the description body of the release
 ```
 
 ```
@@ -194,8 +217,9 @@ EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
 
-#### rm-release
-```
+
+###### $ gh-api-cli rm-release -help
+```sh
 NAME:
    gh-api-cli rm-release - Delete a release
 
@@ -203,12 +227,12 @@ USAGE:
    gh-api-cli rm-release [command options] [arguments...]
 
 OPTIONS:
-   --name value, n value           Name of the locally saved authentication.
-   --token value, t value          Personal access token authentication.
-   --owner value, -o value         Repository owner
-   --repository value, -r value    Repository name
-   --guess                         Guess repository and user name from the cwd
-   --ver value                     Version name
+   --name value, -n value        Name of the authorization to use for identification
+   --token value, -t value       Value of a personal access token
+   --owner value, -o value       Repository owner
+   --repository value, -r value  Repository name
+   --guess                       Guess repository and user name from the cwd
+   --ver value                   Version name
 ```
 
 ```
@@ -216,8 +240,9 @@ EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
 
-#### upload-release-asset
-```
+
+###### $ gh-api-cli upload-release-asset -help
+```sh
 NAME:
    gh-api-cli upload-release-asset - Upload assets to a release
 
@@ -225,13 +250,13 @@ USAGE:
    gh-api-cli upload-release-asset [command options] [arguments...]
 
 OPTIONS:
-   --name value, n value           Name of the locally saved authentication.
-   --token value, t value          Personal access token authentication.
-   --glob value, -g value          Glob pattern of files to upload
-   --owner value, -o value         Repository owner
-   --repository value, -r value    Repository name
-   --guess                         Guess repository and user name from the cwd
-   --ver value                     Version name
+   --name value, -n value        Name of the authorization to use for identification
+   --token value, -t value       Value of a personal access token
+   --glob value, -g value        Glob pattern of files to upload
+   --owner value, -o value       Repository owner
+   --repository value, -r value  Repository name
+   --guess                       Guess repository and user name from the cwd
+   --ver value                   Version name
 ```
 
 ```
@@ -239,22 +264,23 @@ EXAMPLE
   gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
 
-#### rm-assets
-```
+
+###### $ gh-api-cli rm-assets -help
+```sh
 NAME:
-   gh-api-cli rm-assets - Delete assets of a release
+   gh-api-cli rm-assets - Delete assets
 
 USAGE:
    gh-api-cli rm-assets [command options] [arguments...]
 
 OPTIONS:
-   --name value, n value           Name of the locally saved authentication.
-   --token value, t value          Personal access token authentication.
-   --glob value, -g value          Glob pattern of files to upload
-   --owner value, -o value         Repository owner
-   --repository value, -r value    Repository name
-   --guess                         Guess repository and user name from the cwd
-   --ver value                     Version name
+   --name value, -n value        Name of the authorization to use for identification
+   --token value, -t value       Value of a personal access token
+   --glob value, -g value        Glob pattern of files to download
+   --owner value, -o value       Repository owner
+   --repository value, -r value  Repository name
+   --guess                       Guess repository and user name from the cwd
+   --ver value                   Version constraint
 ```
 
 ```
@@ -262,8 +288,9 @@ EXAMPLE
   gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
 ```
 
-#### dl-assets
-```
+
+###### $ gh-api-cli dl-assets -help
+```sh
 NAME:
    gh-api-cli dl-assets - Download assets
 
@@ -271,26 +298,15 @@ USAGE:
    gh-api-cli dl-assets [command options] [arguments...]
 
 OPTIONS:
-   --name value, n value           Name of the locally saved authentication.
-   --token value, t value          Personal access token authentication.
-   --owner value, -o value         Repository owner
-   --repository value, -r value    Repository name
-   --guess                         Guess repository and user name from the cwd
-   --glob value, -g value          A glob to match files to download.
-                                   It resolves to a regexp like '(i?)^glob$'.
-                                   Stars '*' are replace by '.+'.
-   --skip-prerelease yes|no        if yes, skips pre-releases from the selection.
-   --version constraint            A version constraint,
-                                   Special value 'latest' is acceptable.
-   --out value                     A formatted string to write files.
-                                   It can contain token such as
-                                   %f: full filename
-                                   %o: repository owner
-                                   %r: repository name
-                                   %e: file extension, minus dot prefix, detected JIT
-                                   %s: target system (windows, darwin, linux), detected JIT
-                                   %a: architecture (amd64, 386), detected JIT
-                                   %v: version the asset is attached to
+   --name value, -n value        Name of the authorization to use for identification
+   --token value, -t value       Value of a personal access token
+   --glob value, -g value        Glob pattern of files to download
+   --out value                   Out format to write files (default: "%f")
+   --owner value, -o value       Repository owner
+   --repository value, -r value  Repository name
+   --guess                       Guess repository and user name from the cwd
+   --ver value                   Version constraint
+   --skip-prerelease value       Skip prerelease releases (yes|no) (default: "no")
 ```
 
 ```
@@ -307,13 +323,27 @@ EXAMPLE
 
 When you `add, remove, list` authorizations, personal access token authentication is not permitted, [see this](https://developer.github.com/v3/oauth_authorizations/#deprecation-notice)
 
-# Testing
+# Todo
+
+- add a command to clean up old gh releases,
+something that would help to keep only N most recent releases for each major version.
+
+# Recipes
+
+#### Testing
 
 ```sh
  (USER=xxx PWRD=yyy ./test.sh | grep "OK, ALL FINE") || (echo "" && echo "" && echo "beep boop failed")
 ```
 
-# Todo
+#### Release the project
 
-- add a command to clean up old gh releases,
-something that would help to keep only N most recent releases for each major version.
+```sh
+gump patch -d # check
+gump patch # bump
+```
+
+# History
+
+[CHANGELOG](CHANGELOG.md)
+

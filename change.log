@@ -1,4 +1,15 @@
 
+4.0.2
+
+  * bump: fix README generation
+  * asset download: add concurrency, improve output
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Fri, 21 Apr 2017 19:04:18 +0200
+
+
+
 4.0.1
 
   * appveyor: tryfix to build msi package
@@ -83,6 +94,8 @@
   * test: initialize tests
   * [BREAK] most API: replaced username/password/OTP arguments
     by and instance of github.Client
+
+
 
   - mh-cbon <mh-cbon@users.noreply.github.com>
 

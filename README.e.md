@@ -1,6 +1,11 @@
+---
+License: MIT
+LicenseFile: LICENSE
+LicenseColor: yellow
+---
 # {{.Name}}
 
-{{template "badge/travis" .}}{{template "badge/appveyor" .}}{{template "badge/goreport" .}}{{template "badge/godoc" .}}
+{{template "badge/travis" .}} {{template "badge/appveyor" .}} {{template "badge/goreport" .}} {{template "badge/godoc" .}} {{template "license/shields" .}}
 
 {{pkgdoc}}
 
@@ -9,7 +14,6 @@ This tool is part of the [go-github-release workflow](https://github.com/mh-cbon
 # {{toc 5}}
 
 # Install
-
 {{template "gh/releases" .}}
 
 #### Glide
@@ -26,9 +30,9 @@ This tool is part of the [go-github-release workflow](https://github.com/mh-cbon
 
 # Cli
 
-{{exec "gh-api-cli" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "-help" | color "sh"}}
 
-{{exec "gh-api-cli" "add-auth" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "add-auth" "-help" | color "sh"}}
 
 ```sh
 EXAMPLE
@@ -51,7 +55,7 @@ Where `rights` contains some of :
 | read:gpg_key | write:gpg_key | admin:gpg_key |
 
 
-{{exec "gh-api-cli" "list-auth" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "list-auth" "-help" | color "sh"}}
 
 ```sh
 EXAMPLE
@@ -59,7 +63,7 @@ EXAMPLE
   gh-api-cli list-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
 ```
 
-{{exec "gh-api-cli" "rm-auth" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "rm-auth" "-help" | color "sh"}}
 
 ```
 EXAMPLE
@@ -67,47 +71,50 @@ EXAMPLE
   gh-api-cli rm-auth -n test -u your -p pwd # won t prompt unless you have 2F ident on
 ```
 
-{{exec "gh-api-cli" "get-auth" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "get-auth" "-help" | color "sh"}}
 
 ```
 EXAMPLE
   gh-api-cli get-auth -n test
 ```
 
-{{exec "gh-api-cli" "create-release" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "create-release" "-help" | color "sh"}}
 
 ```
 EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli create-release -n test --guess --ver 0.0.1
 ```
 
-{{exec "gh-api-cli" "rm-release" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "rm-release" "-help" | color "sh"}}
 
 ```
 EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli create-release -n test --guess --ver 0.0.1
 ```
 
-{{exec "gh-api-cli" "upload-release-asset" "-help" | color "sh"}}
-
-```
-EXAMPLE
-  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
-```
-
-{{exec "gh-api-cli" "rm-assets" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "upload-release-asset" "-help" | color "sh"}}
 
 ```
 EXAMPLE
   gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli upload-release-asset -n test -g README.md --guess --ver 0.0.1
 ```
 
-{{exec "gh-api-cli" "dl-assets" "-help" | color "sh"}}
+###### {{exec "gh-api-cli" "rm-assets" "-help" | color "sh"}}
 
 ```
 EXAMPLE
-  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1
-  gh-api-cli dl-assets --guess --ver 0.0.1 # will depend of your cwd!
+  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli upload-release-asset -n test -g README.md --guess --ver 0.0.1
+```
+
+###### {{exec "gh-api-cli" "dl-assets" "-help" | color "sh"}}
+
+```
+EXAMPLE
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 4.x --out "dl/%r.%v-%a.%e"
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f -g '*amd64*deb'
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver latest --out dl/%s/%r.%v-%a.%e
@@ -117,6 +124,8 @@ EXAMPLE
 # Notes
 
 When you `add, remove, list` authorizations, personal access token authentication is not permitted, [see this](https://developer.github.com/v3/oauth_authorizations/#deprecation-notice)
+
+You are required to use a password.
 
 # Todo
 

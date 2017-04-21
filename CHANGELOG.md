@@ -1,5 +1,20 @@
 # Changelog - gh-api-cli
 
+### 4.0.2
+
+__Changes__
+
+- bump: fix README generation
+- asset download: add concurrency, improve output
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Fri 21 Apr 2017 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/4.0.1...4.0.2#diff)
+______________
+
 ### 4.0.1
 
 __Changes__
@@ -110,6 +125,9 @@ __Changes__
 - test: initialize tests
 - [BREAK] most API: replaced username/password/OTP arguments
   by and instance of github.Client
+
+
+
 
 __Contributors__
 

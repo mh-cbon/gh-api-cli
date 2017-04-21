@@ -25,10 +25,8 @@
       
       <h1 id="gh-api-cli">gh-api-cli</h1>
 
-<p><a href="https://travis-ci.org/mh-cbon/gh-api-cli"><img src="https://travis-ci.org/mh-cbon/gh-api-cli.svg?branch=master" alt="travis Status" /></a><a href="https://ci.appveyor.com/project/mh-cbon/gh-api-cli"><img src="https://ci.appveyor.com/api/projects/status/github/mh-cbon/gh-api-cli?branch=master&amp;svg=true" alt="appveyor Status" /></a>
-<a href="https://goreportcard.com/report/github.com/mh-cbon/gh-api-cli"><img src="https://goreportcard.com/badge/github.com/mh-cbon/gh-api-cli" alt="Go Report Card" /></a></p>
-
-<p><a href="http://godoc.org/github.com/mh-cbon/gh-api-cli"><img src="https://godoc.org/github.com/mh-cbon/gh-api-cli?status.svg" alt="GoDoc" /></a></p>
+<p><a href="https://travis-ci.org/mh-cbon/gh-api-cli"><img src="https://travis-ci.org/mh-cbon/gh-api-cli.svg?branch=master" alt="travis Status" /></a> 
+<a href="https://ci.appveyor.com/project/mh-cbon/gh-api-cli"><img src="https://ci.appveyor.com/api/projects/status/github/mh-cbon/gh-api-cli?branch=master&amp;svg=true" alt="appveyor Status" /></a> <a href="https://goreportcard.com/report/github.com/mh-cbon/gh-api-cli"><img src="https://goreportcard.com/badge/github.com/mh-cbon/gh-api-cli" alt="Go Report Card" /></a> <a href="http://godoc.org/github.com/mh-cbon/gh-api-cli"><img src="https://godoc.org/github.com/mh-cbon/gh-api-cli?status.svg" alt="GoDoc" /></a> <a href="LICENSE"><img src="http://img.shields.io/badge/License-MIT-yellow.svg" alt="MIT License" /></a></p>
 
 <p>Package gh-api-cli is a command line utility to work with github api.</p>
 
@@ -57,11 +55,9 @@
 </ul>
 
 <h1 id="install">Install</h1>
-
 <p>Check the <a href="https://github.com/mh-cbon/gh-api-cli/releases">release page</a>!</p>
 
 <h4 id="glide">Glide</h4>
-
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>mkdir -p <span class="nv">$GOPATH</span>/src/github.com/mh-cbon/gh-api-cli
 <span class="nb">cd</span> <span class="nv">$GOPATH</span>/src/github.com/mh-cbon/gh-api-cli
 git clone https://github.com/mh-cbon/gh-api-cli.git .
@@ -96,7 +92,7 @@ https://raw.githubusercontent.com/mh-cbon/latest/master/install.sh <span class="
 
 <h1 id="cli">Cli</h1>
 
-<h6 id="-gh-api-cli--help">$ gh-api-cli -help</h6>
+<h6 id="gh-api-cli--help">gh-api-cli -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli - Github api <span class="nb">command </span>line client
 
@@ -124,7 +120,7 @@ COMMANDS:
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-add-auth--help">$ gh-api-cli add-auth -help</h6>
+<h6 id="gh-api-cli-add-auth--help">gh-api-cli add-auth -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli add-auth - Add a new authorization
 
@@ -200,7 +196,7 @@ OPTIONS:
   </tbody>
 </table>
 
-<h6 id="-gh-api-cli-list-auth--help">$ gh-api-cli list-auth -help</h6>
+<h6 id="gh-api-cli-list-auth--help">gh-api-cli list-auth -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli list-auth - List authorizations
 
@@ -219,7 +215,7 @@ OPTIONS:
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-rm-auth--help">$ gh-api-cli rm-auth -help</h6>
+<h6 id="gh-api-cli-rm-auth--help">gh-api-cli rm-auth -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli rm-auth - Remove an authorization
 
@@ -239,7 +235,7 @@ OPTIONS:
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-get-auth--help">$ gh-api-cli get-auth -help</h6>
+<h6 id="gh-api-cli-get-auth--help">gh-api-cli get-auth -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli get-auth - Get token from a locally saved authorization
 
@@ -256,7 +252,7 @@ OPTIONS:
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-create-release--help">$ gh-api-cli create-release -help</h6>
+<h6 id="gh-api-cli-create-release--help">gh-api-cli create-release -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli create-release - Create a release
 
@@ -278,10 +274,11 @@ OPTIONS:
 
 <div class="highlighter-rouge"><pre class="highlight"><code>EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli create-release -n test --guess --ver 0.0.1
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-rm-release--help">$ gh-api-cli rm-release -help</h6>
+<h6 id="gh-api-cli-rm-release--help">gh-api-cli rm-release -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli rm-release - Delete a release
 
@@ -300,10 +297,11 @@ OPTIONS:
 
 <div class="highlighter-rouge"><pre class="highlight"><code>EXAMPLE
   gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli create-release -n test --guess --ver 0.0.1
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-upload-release-asset--help">$ gh-api-cli upload-release-asset -help</h6>
+<h6 id="gh-api-cli-upload-release-asset--help">gh-api-cli upload-release-asset -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli upload-release-asset - Upload assets to a release
 
@@ -323,10 +321,11 @@ OPTIONS:
 
 <div class="highlighter-rouge"><pre class="highlight"><code>EXAMPLE
   gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli upload-release-asset -n test -g README.md --guess --ver 0.0.1
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-rm-assets--help">$ gh-api-cli rm-assets -help</h6>
+<h6 id="gh-api-cli-rm-assets--help">gh-api-cli rm-assets -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli rm-assets - Delete assets
 
@@ -346,10 +345,11 @@ OPTIONS:
 
 <div class="highlighter-rouge"><pre class="highlight"><code>EXAMPLE
   gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli upload-release-asset -n test -g README.md --guess --ver 0.0.1
 </code></pre>
 </div>
 
-<h6 id="-gh-api-cli-dl-assets--help">$ gh-api-cli dl-assets -help</h6>
+<h6 id="gh-api-cli-dl-assets--help">gh-api-cli dl-assets -help</h6>
 <div class="language-sh highlighter-rouge"><pre class="highlight"><code>NAME:
    gh-api-cli dl-assets - Download assets
 
@@ -370,8 +370,7 @@ OPTIONS:
 </div>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>EXAMPLE
-  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1
-  gh-api-cli dl-assets --guess --ver 0.0.1 # will depend of your cwd!
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 4.x --out "dl/%r.%v-%a.%e"
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f -g '*amd64*deb'
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver latest --out dl/%s/%r.%v-%a.%e
@@ -382,6 +381,8 @@ OPTIONS:
 <h1 id="notes">Notes</h1>
 
 <p>When you <code class="highlighter-rouge">add, remove, list</code> authorizations, personal access token authentication is not permitted, <a href="https://developer.github.com/v3/oauth_authorizations/#deprecation-notice">see this</a></p>
+
+<p>You are required to use a password.</p>
 
 <h1 id="todo">Todo</h1>
 
@@ -408,7 +409,6 @@ gump patch <span class="c"># bump</span>
 <h1 id="history">History</h1>
 
 <p><a href="CHANGELOG.md">CHANGELOG</a></p>
-
 
 
       <footer class="site-footer">

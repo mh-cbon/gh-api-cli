@@ -1,8 +1,8 @@
-PREBUMP:
+PREBUMP=
   666 git fetch --tags origin master
   666 git pull origin master
 
-PREVERSION:
+PREVERSION=
   philea -s "666 go vet %s" "666 go-fmt-fail %s"
   666 go run main.go -v
   666 changelog finalize --version !newversion!
@@ -13,7 +13,7 @@ PREVERSION:
   666 changelog md -o CHANGELOG.md --vars='{"name":"gh-api-cli"}'
   666 commit -q -m "changelog: !newversion!" -f CHANGELOG.md
 
-POSTVERSION:
+POSTVERSION=
   666 git push
   666 git push --tags
   666 gh-api-cli create-release -n release -o mh-cbon -r gh-api-cli \

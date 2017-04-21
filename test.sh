@@ -24,7 +24,7 @@ echo "${AUTH}" | grep ${NEWTOKEN}
 
 (./gh-api-cli get-auth -n nopnop && echo "must fail!") || echo "ok, it failed."
 
-
+./gh-api-cli rm-release --ver 0.0.1 -o mh-cbon -r test-repo -n test_token || echo "ok, keep going" #ensure 0.0.1 does not exist
 
 CREATE_RELEASE_WITH_AUTH=`./gh-api-cli create-release -n test_token -o mh-cbon -r test-repo --ver 0.0.1`
 echo "${CREATE_RELEASE_WITH_AUTH}" | grep '"tag_name": "0.0.1"'
@@ -33,7 +33,7 @@ UPLOAD_ASSET_WITH_AUTH=`./gh-api-cli upload-release-asset -n test_token -o mh-cb
 echo "${UPLOAD_ASSET_WITH_AUTH}" | grep 'Assets uploaded!'
 
 DL_ASSET_WITH_AUTH=`./gh-api-cli dl-assets -n test_token -o mh-cbon -r test-repo --ver 0.0.1 -g testfile --out testfileout`
-echo "${DL_ASSET_WITH_AUTH}" | grep 'Downloading testfile to testfileout, version=0.0.1'
+echo "${DL_ASSET_WITH_AUTH}" | grep 'testfileout'
 
 RM_ASSET_WITH_AUTH=`./gh-api-cli rm-assets -n test_token -o mh-cbon -r test-repo --ver 0.0.1 -g testfile`
 echo "${RM_ASSET_WITH_AUTH}" | grep "Removed 'testfile'"
@@ -51,10 +51,10 @@ UPLOAD_ASSET_WITH_TOKEN=`./gh-api-cli upload-release-asset -t ${NEWTOKEN} -o mh-
 echo "${UPLOAD_ASSET_WITH_TOKEN}" | grep 'Assets uploaded!'
 
 DL_ASSET_WITH_TOKEN=`./gh-api-cli dl-assets -t ${NEWTOKEN} -o mh-cbon -r test-repo --ver 0.0.1 -g testfile --out testfileout`
-echo "${DL_ASSET_WITH_TOKEN}" | grep 'Downloading testfile to testfileout, version=0.0.1'
+echo "${DL_ASSET_WITH_TOKEN}" | grep 'testfileout'
 
 DL_ASSET_WITH_ANON=`./gh-api-cli dl-assets -o mh-cbon -r test-repo --ver 0.0.1 -g testfile --out testfileanon`
-echo "${DL_ASSET_WITH_ANON}" | grep 'Downloading testfile to testfileanon, version=0.0.1'
+echo "${DL_ASSET_WITH_ANON}" | grep 'testfileanon'
 
 RM_ASSET_WITH_TOKEN=`./gh-api-cli rm-assets -t ${NEWTOKEN} -o mh-cbon -r test-repo --ver 0.0.1 -g testfile`
 echo "${RM_ASSET_WITH_TOKEN}" | grep "Removed 'testfile'"
@@ -64,7 +64,7 @@ echo "${RM_RELEASE_WITH_TOKEN}" | grep "Release deleted with success!"
 
 
 DL_ASSET_WITH_TOKEN_AND_GUESS=`./gh-api-cli dl-assets -t ${NEWTOKEN} --guess --ver 3.0.4 -g gh-api-cli-386.deb --out gh-api-cli-386.deb`
-echo "${DL_ASSET_WITH_TOKEN_AND_GUESS}" | grep 'Downloading gh-api-cli-386.deb to gh-api-cli-386.deb, version=3.0.4'
+echo "${DL_ASSET_WITH_TOKEN_AND_GUESS}" | grep 'gh-api-cli-386.deb'
 
 
 

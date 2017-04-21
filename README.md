@@ -1,7 +1,7 @@
 # gh-api-cli
 
 [![travis Status](https://travis-ci.org/mh-cbon/gh-api-cli.svg?branch=master)](https://travis-ci.org/mh-cbon/gh-api-cli) 
-[![appveyor Status](https://ci.appveyor.com/api/projects/status/github/mh-cbon/gh-api-cli?branch=master&svg=true)](https://ci.appveyor.com/project/mh-cbon/gh-api-cli) [![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/gh-api-cli)](https://goreportcard.com/report/github.com/mh-cbon/gh-api-cli) [![GoDoc](https://godoc.org/github.com/mh-cbon/gh-api-cli?status.svg)](http://godoc.org/github.com/mh-cbon/gh-api-cli) [![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
+[![appveyor Status](https://ci.appveyor.com/api/projects/status/github/mh-cbon/gh-api-cli?branch=master&svg=true)](https://ci.appveyor.com/project/mh-cbon/gh-api-cli) [![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/gh-api-cli)](https://goreportcard.com/report/github.com/mh-cbon/gh-api-cli) [![GoDoc](https://godoc.org/github.com/mh-cbon/gh-api-cli?status.svg)](http://godoc.org/github.com/mh-cbon/gh-api-cli) [![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Package gh-api-cli is a command line utility to work with github api.
 
@@ -299,7 +299,7 @@ OPTIONS:
 
 ```
 EXAMPLE
-  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 4.x --out "dl/%r.%v-%a.%e"
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver 0.0.1 --out dl/%f -g '*amd64*deb'
   gh-api-cli dl-assets -o mh-cbon -r gh-api-cli --ver latest --out dl/%s/%r.%v-%a.%e

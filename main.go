@@ -901,18 +901,76 @@ func downloadAssets(c *cli.Context) error {
 		return nil
 	}
 
+	fmt.Println("Downloading ...")
+	cct := concurrent(3)
 	for _, a := range assets {
-		fmt.Println("Downloading " + a.Name + " to " + a.TargetFile + ", version=" + a.Version)
-		err := dl.DownloadAsset(a)
-		if err != nil {
-			return cli.NewExitError(err.Error(), 1)
-		}
+		asset := a
+		cct.add(func() error {
+			fmt.Printf("%-15v %-30v %v\n", asset.Version, asset.Name, asset.TargetFile)
+			return dl.DownloadAsset(a)
+		})
+	}
+	if err := cct.wait(); err != nil {
+		return cli.NewExitError(err.Error(), 1)
 	}
 
 	fmt.Println("All done!")
 
 	return nil
 }
+
+// jff
+type concurrency struct {
+	stoponerr  bool
+	ops        chan func() error
+	opsdone    int
+	opslen     int
+	finished   chan error
+	controller chan bool
+	errors     []error
+}
+
+func concurrent(n int) *concurrency {
+	c := &concurrency{
+		ops:        make(chan func() error),
+		controller: make(chan bool, n),
+		finished:   make(chan error),
+	}
+	go c.loop()
+	return c
+}
+func (c *concurrency) add(fn func() error) {
+	c.opslen++
+	c.ops <- fn
+}
+func (c *concurrency) loop() {
+	for op := range c.ops {
+		fn := op
+		go func() {
+			c.controller <- true
+			err := fn()
+			<-c.controller
+			if err != nil {
+				c.errors = append(c.errors, err)
+			}
+			c.opsdone++
+			if c.opsdone >= c.opslen {
+				c.finished <- err
+			} else if c.stoponerr && err != nil {
+				c.finished <- err
+			}
+		}()
+	}
+}
+func (c *concurrency) wait() error {
+	err := <-c.finished
+	close(c.controller)
+	close(c.finished)
+	close(c.ops)
+	return err
+}
+
+// jff
 
 func getUsername(username string) string {
 	if strings.TrimSpace(username) == "" {

@@ -2,7 +2,6 @@ package dl
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -176,7 +175,6 @@ func SelectLatestRelease(skipPrerelease bool, releases []*github.RepositoryRelea
 
 // DownloadAsset downloads provided asset.
 func DownloadAsset(asset *Asset) error {
-	fmt.Println("Downloading " + asset.Name + " to " + asset.TargetFile + ", version=" + asset.Version)
 	dir := filepath.Dir(asset.TargetFile)
 	err := os.MkdirAll(dir, 0755)
 	if err != nil {

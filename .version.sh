@@ -8,7 +8,7 @@ PREVERSION:
   666 changelog finalize --version !newversion!
   666 commit -q -m "changelog: !newversion!" -f change.log
   666 go install --ldflags "-X main.VERSION=!newversion!"
-  666 emd gen -out README.md
+  emd gen -out README.md
   666 commit -q -m "README: !newversion!" -f README.md
   666 changelog md -o CHANGELOG.md --vars='{"name":"gh-api-cli"}'
   666 commit -q -m "changelog: !newversion!" -f CHANGELOG.md

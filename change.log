@@ -1,4 +1,15 @@
 
+4.0.3
+
+  * ci: upate tokens
+  * asset download: fix concurrency
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Wed, 23 Aug 2017 00:37:23 +0200
+
+
+
 4.0.2
 
   * bump: fix README generation
@@ -94,6 +105,8 @@
   * test: initialize tests
   * [BREAK] most API: replaced username/password/OTP arguments
     by and instance of github.Client
+
+
 
 
 

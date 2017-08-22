@@ -907,7 +907,7 @@ func downloadAssets(c *cli.Context) error {
 		asset := a
 		cct.add(func() error {
 			fmt.Printf("%-15v %-30v %v\n", asset.Version, asset.Name, asset.TargetFile)
-			return dl.DownloadAsset(a)
+			return dl.DownloadAsset(asset)
 		})
 	}
 	if err := cct.wait(); err != nil {
@@ -946,8 +946,8 @@ func (c *concurrency) add(fn func() error) {
 func (c *concurrency) loop() {
 	for op := range c.ops {
 		fn := op
+		c.controller <- true
 		go func() {
-			c.controller <- true
 			err := fn()
 			<-c.controller
 			if err != nil {

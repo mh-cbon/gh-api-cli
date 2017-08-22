@@ -1,5 +1,20 @@
 # Changelog - gh-api-cli
 
+### 4.0.3
+
+__Changes__
+
+- ci: upate tokens
+- asset download: fix concurrency
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Wed 23 Aug 2017 -
+[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/4.0.2...4.0.3#diff)
+______________
+
 ### 4.0.2
 
 __Changes__
@@ -125,6 +140,8 @@ __Changes__
 - test: initialize tests
 - [BREAK] most API: replaced username/password/OTP arguments
   by and instance of github.Client
+
+
 
 
 

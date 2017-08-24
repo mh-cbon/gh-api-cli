@@ -90,8 +90,8 @@ EXAMPLE
 
 ```
 EXAMPLE
-  gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
-  gh-api-cli create-release -n test --guess --ver 0.0.1
+  gh-api-cli rm-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli rm-release -n test --guess --ver 0.0.1
 ```
 
 ###### {{exec "gh-api-cli" "upload-release-asset" "-help" | color "sh"}}
@@ -106,8 +106,8 @@ EXAMPLE
 
 ```
 EXAMPLE
-  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
-  gh-api-cli upload-release-asset -n test -g README.md --guess --ver 0.0.1
+  gh-api-cli rm-assets -n test --glob file.package -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli rm-assets -n test -g file.package --guess --ver 0.0.1
 ```
 
 ###### {{exec "gh-api-cli" "dl-assets" "-help" | color "sh"}}

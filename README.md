@@ -1,6 +1,6 @@
 # gh-api-cli
 
-[![travis Status](https://travis-ci.org/mh-cbon/gh-api-cli.svg?branch=master)](https://travis-ci.org/mh-cbon/gh-api-cli) [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/mh-cbon/gh-api-cli?branch=master&svg=true)](https://ci.appveyor.com/projects/mh-cbon/gh-api-cli) [![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/gh-api-cli)](https://goreportcard.com/report/github.com/mh-cbon/gh-api-cli) [![GoDoc](https://godoc.org/github.com/mh-cbon/gh-api-cli?status.svg)](http://godoc.org/github.com/mh-cbon/gh-api-cli) [![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![travis Status](https://travis-ci.org/mh-cbon/gh-api-cli.svg?branch=master)](https://travis-ci.org/mh-cbon/gh-api-cli) [![Appveyor Status](https://ci.appveyor.com/api/projects/status/github/mh-cbon/gh-api-cli?branch=master&svg=true)](https://ci.appveyor.com/project/mh-cbon/gh-api-cli) [![Go Report Card](https://goreportcard.com/badge/github.com/mh-cbon/gh-api-cli)](https://goreportcard.com/report/github.com/mh-cbon/gh-api-cli) [![GoDoc](https://godoc.org/github.com/mh-cbon/gh-api-cli?status.svg)](http://godoc.org/github.com/mh-cbon/gh-api-cli) [![MIT License](http://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Package gh-api-cli is a command line utility to work with github api.
 
@@ -224,8 +224,8 @@ OPTIONS:
 
 ```
 EXAMPLE
-  gh-api-cli create-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
-  gh-api-cli create-release -n test --guess --ver 0.0.1
+  gh-api-cli rm-release -n test -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli rm-release -n test --guess --ver 0.0.1
 ```
 
 ###### gh-api-cli upload-release-asset -help
@@ -272,8 +272,8 @@ OPTIONS:
 
 ```
 EXAMPLE
-  gh-api-cli upload-release-asset -n test -g README.md -o mh-cbon -r gh-api-cli --ver 0.0.1
-  gh-api-cli upload-release-asset -n test -g README.md --guess --ver 0.0.1
+  gh-api-cli rm-assets -n test --glob file.package -o mh-cbon -r gh-api-cli --ver 0.0.1
+  gh-api-cli rm-assets -n test -g file.package --guess --ver 0.0.1
 ```
 
 ###### gh-api-cli dl-assets -help

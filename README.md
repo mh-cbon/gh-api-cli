@@ -10,6 +10,7 @@ This tool is part of the [go-github-release workflow](https://github.com/mh-cbon
 # TOC
 - [Install](#install)
   - [Glide](#glide)
+  - [Bintray](#bintray)
   - [Chocolatey](#chocolatey)
   - [linux rpm/deb repository](#linux-rpmdeb-repository)
   - [linux rpm/deb standalone package](#linux-rpmdeb-standalone-package)
@@ -33,6 +34,12 @@ glide install
 go install
 ```
 
+#### Bintray
+```sh
+choco source add -n=mh-cbon -s="https://api.bintray.com/nuget/mh-cbon/choco"
+choco install gh-api-cli
+```
+
 #### Chocolatey
 ```sh
 choco install gh-api-cli
@@ -40,10 +47,10 @@ choco install gh-api-cli
 
 #### linux rpm/deb repository
 ```sh
-wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
+wget -O - https://raw.githubusercontent.com/mh-cbon/latest/master/bintray.sh \
 | GH=mh-cbon/gh-api-cli sh -xe
 # or
-curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/source.sh \
+curl -L https://raw.githubusercontent.com/mh-cbon/latest/master/bintray.sh \
 | GH=mh-cbon/gh-api-cli sh -xe
 ```
 

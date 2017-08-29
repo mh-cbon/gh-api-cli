@@ -5,43 +5,84 @@ services:
 
 language: go
 go:
-  - 1.8
+  - 1.9
 
 env:
+  matrix:
+    - OKARCH=amd64 OSARCH=amd64
+    - OKARCH=386 OSARCH=i386
   global:
-    - GH=mh-cbon/gh-api-cli
-    - APP=gh-api-cli
-    - EMAIL=mh-cbon@users.noreply.github.com
-    - JEKYLL=pietromenna/jekyll-cayman-theme
-    - MYAPP=gh-api-cli # to clean
-    - MYEMAIL=mh-cbon@users.noreply.github.com # to clean
-    - secure: lew7aTxjtwvwznrWT0Oh00MJ/sspwEFVRwySuJ95Vj2sMAYZH0OSdnivCxlOVZXyeI4Kzf8rg/885OTMahlkkFqmnBq8cuzNmDtbzaYiwNS9nWgH7y/2L8xW98heGRpS8wrGqom0GuSL5gOAju9LXAWaRskmI3cGHjvchp39aKrHWya9omg1qip21woYXYgmrG+5jgCND3MKYpJjpjAxst9F3jy97CHDKIPwYUxYIqplLmK2hSRxfXK0PHvVyIttWNnlBHuI+dT63+GbZo6hH8raSmG69HaHOnIE6fKjFK/R1OyeyvS5xOFSTnk31/A0vDDAZm+vRhcSs5LfXTCCCDD4Jl0wqECl9K7tWODb9fXdAzuTIM2fr9E/wO/POfrkLRI55FogX0/0FyAW1LvXEhyaCNgj0Ejfe0UDP0TqXTKEWtUn3e+gk5t+CFyep1kcaqhrSt58eC8CPtiBcDTX+gP9cSEgzo+WzhPo8r+UL0F7yQj6SP9gIwf8zcYP+7KmXdeSB8b/ns9Vz2lCF+Xx64IHoEpOp+MtBdgpfHJ81i3i/AUyHI9MKgdaIYomu9+EtddeMMQC315J+F6y6yEmu5d6nPPkLO8zihrraWqEJe8Bv32pu+M3jks5WA0hxpzpuJzf5Ocdux2TNS46kT371zFcQwi/YexIRSoW2eMGhbI=
+    - VERSION=${TRAVIS_TAG}
+    - GH_USER=${TRAVIS_REPO_SLUG%/*}
+    - GH_APP=${TRAVIS_REPO_SLUG#*/}
+    - JFROG_CLI_OFFER_CONFIG=false
+    # bintray token
+    - secure: iFmfaTpMDtqTZkqITk3bCXp41/XYx1/KD+gpM3vezyuimT5BQHlnhVHskCUQaxHvrZqg+VHJXLdRWdNn9LmfOUrWRtSzdIfqfWduHKWF07OUATRi4Nz+GtMZkO+EN4xrxWNQ8GWZbfbpi6JJrwHmoXZsakqWWwzJojdlC/l2tCqZ3YhIaKX57uOW5Kcd9SlZs5vYp3gM63v+zkUjj6L1c47FWVj+a2pJF+jraTjbHUaEJuzpPoCBD+R9lafcsQGLFxRkQ1g9JTQpb7YGkcLR5RSAnEYbtiqiL0kgZh7mPEGq52ILh9PyLUo/kN2OV9d4YYZ257aKoozWXV4vYM3Sjn7Z3BhUcSPor+R2mjF1WPUxtJ25YxUlNw77ZdbmjnHK/vgdT7VC6cd+0wuzQD02SnwPMljRKMTtFOcF9ONCd48YiLqJ8JrwqRDNd2arJ/gXiUEVDU4K2AiumfKNTUn3FQPacLdZT6+/h/NRmAnMKiYEk8m/ywUKCYR6iSYNs6fIYUMjTtbh2O9iWogP2b5D1rqNC9X9sB/TGc1LZS41iz5KX+YpO3QYZMtR8qAARwRisYbzqyR2AFPlFGeufF75syjKzjGWA7BQe3jKVsGO+blIbzX6i83psoGe0afKBvtzZlgjBOnzSLKriO9iUi6Cm8W5qsXXpI08qY6zuxQPP2Y=
+
+# env:
+#   global:
+#     - GH=mh-cbon/gh-api-cli
+#     - APP=gh-api-cli
+#     - EMAIL=mh-cbon@users.noreply.github.com
+#     - JEKYLL=pietromenna/jekyll-cayman-theme
+#     - MYAPP=gh-api-cli # to clean
+#     - MYEMAIL=mh-cbon@users.noreply.github.com # to clean
+#     # GH TOKEN
+#     - secure: lew7aTxjtwvwznrWT0Oh00MJ/sspwEFVRwySuJ95Vj2sMAYZH0OSdnivCxlOVZXyeI4Kzf8rg/885OTMahlkkFqmnBq8cuzNmDtbzaYiwNS9nWgH7y/2L8xW98heGRpS8wrGqom0GuSL5gOAju9LXAWaRskmI3cGHjvchp39aKrHWya9omg1qip21woYXYgmrG+5jgCND3MKYpJjpjAxst9F3jy97CHDKIPwYUxYIqplLmK2hSRxfXK0PHvVyIttWNnlBHuI+dT63+GbZo6hH8raSmG69HaHOnIE6fKjFK/R1OyeyvS5xOFSTnk31/A0vDDAZm+vRhcSs5LfXTCCCDD4Jl0wqECl9K7tWODb9fXdAzuTIM2fr9E/wO/POfrkLRI55FogX0/0FyAW1LvXEhyaCNgj0Ejfe0UDP0TqXTKEWtUn3e+gk5t+CFyep1kcaqhrSt58eC8CPtiBcDTX+gP9cSEgzo+WzhPo8r+UL0F7yQj6SP9gIwf8zcYP+7KmXdeSB8b/ns9Vz2lCF+Xx64IHoEpOp+MtBdgpfHJ81i3i/AUyHI9MKgdaIYomu9+EtddeMMQC315J+F6y6yEmu5d6nPPkLO8zihrraWqEJe8Bv32pu+M3jks5WA0hxpzpuJzf5Ocdux2TNS46kT371zFcQwi/YexIRSoW2eMGhbI=
 
 before_install:
+  - sudo add-apt-repository 'deb https://dl.bintray.com/bincrafters/public-deb unstable main'
   - sudo apt-get -qq update
+  - sudo apt-get install --allow-unauthenticated changelog go-bin-deb fakeroot
   - mkdir -p ${GOPATH}/bin
   - cd ~
   - curl https://glide.sh/get | sh
 
 install:
-  - cd $GOPATH/src/github.com/$GH
+  - cd $GOPATH/src/github.com/$TRAVIS_REPO_SLUG
   - glide install
   - go install
 
 script:
   - echo "pass"
 
-before_deploy:
-  - mkdir -p build/{386,amd64}
-  - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$APP main.go
-  - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$APP main.go
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$GH sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$GH sh -xe
+# before_deploy:
+#   - mkdir -p build/{386,amd64}
+#   - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$APP main.go
+#   - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$APP main.go
+#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$GH sh -xe
+#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$GH sh -xe
+#
+# after_deploy:
+#   - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
+#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
+#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
 
-after_deploy:
-  - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
-  - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
+
+before_deploy:
+  # create the deb package
+  - cd $GOPATH/src/github.com/$TRAVIS_REPO_SLUG
+  - mkdir -p build/$OSARCH
+  - GOOS=linux go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP main.go
+  - go-bin-deb generate --file deb.json -a $OSARCH --version $VERSION -o $GH_APP-$OSARCH-$VERSION.deb
+  # copy the deb for gh release (backward compatibility)
+  - cp $GH_APP-$OSARCH-$VERSION.deb $GH_APP-$OKARCH.deb
+  # upload to bintray
+  - curl -fL https://getcli.jfrog.io | sh
+  - ls -alh
+  - ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/deb $GH_USER/deb/$GH_APP || echo "package already exists"
+  - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH $GH_APP-$OSARCH-$VERSION.deb $GH_USER/deb/$GH_APP/$VERSION pool/g/$GH_APP/
+  # prepare rpm package creation
+  - docker pull fedora
+  # create the package in the docker
+  - >
+    docker run -v $PWD:/mnt/travis fedora /bin/sh -c
+    "cd /mnt/travis && (curl -s -L https://bintray.com/bincrafters/public-rpm/rpm > /etc/yum.repos.d/w.repo) && dnf install go-bin-rpm changelog rpm-build -y --quiet && go-bin-rpm generate --file rpm.json -a $OSARCH --version $VERSION -o $GH_APP-$OSARCH-$VERSION.rpm"
+  # copy the rpm for gh release (backward compatibility)
+  - cp $GH_APP-$OSARCH-$VERSION.rpm $GH_APP-$OKARCH.rpm
+  # upload to bintray
+  - ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm $GH_USER/rpm/$GH_APP || echo "package already exists"
+  - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH $GH_APP-$OSARCH-$VERSION.rpm $GH_USER/rpm/$GH_APP/$VERSION pool/g/$GH_APP/
 
 deploy:
   provider: releases
@@ -49,10 +90,8 @@ deploy:
     secure: GpYoHE118Z5P3UmG4KTZZ5pYm/0MuFIcmXkBi19ERt32WvzBYOO8HDN91aMux0h/FUUegG5d2TeLaZzS01uYyDO6Okw3Whbpt1Xj9f7hCEh72Xrvvkl+HsnFRtQZnrI22HF7g/5dN404GGSXjFMj4yDbigJE0zxyHqyFphqIckUDACI3sdrbzJ4RP9v80dfwF0x935C+O6ciSl0J2fZBpVu83urRKYciXMOolNg1KwulsRAuM4keIQVa5q0qM258DgpM0iImXMwaCWjuQzvOif9mVfMWwi9SRQo1wv6yrEStjq5a9SxFfNX3gbCNdCSIemQkBMAbEYgWFeDASsMDiZzpXIHx62WvGkWprU+s2grsmV4r0uqGvwMCAp4zNaycw7kF0KgSdRpwOuXEUJTBTKLv/hO20oldFAzGSQMGxiy4NOTMu7hrR1o0UG9W/uRTkIYwAp4chCganaFaxLVSNXrY+39fnvDYLlgu6gQlZIiM7OxbLZywQvIY3XL774pVASTfD/u8iHktGJVEiJQi1v7TBA4/tyH5VrAt/5Yn4Jd3QT+d2xohse91Q5rAZJ4Fl/6XhDild6pSLsMasc6NUfxg8niO4xlmafv2ftQuBvOtLTurUsD+VyJEDDTsvueQMlX4AljuD7MgJHJ4ASlgjPysddWxRL5ldoVrSTaEMwg=
   file_glob: true
   file:
-    - $APP-386.deb
-    - $APP-amd64.deb
-    - $APP-386.rpm
-    - $APP-amd64.rpm
+    - $GH_APP-$OKARCH.deb
+    - $GH_APP-$OKARCH.rpm
   skip_cleanup: true
   on:
     tags: true

@@ -19,17 +19,6 @@ env:
     # bintray token
     - secure: jJCgu89rmmdjk8IRGSabSt6FrpLV5ZSEZ3KwMSfutNf0kVA85gk/hRqt6Cn9cvrxQzs3zR8flGfu1SBV5F8FVgovgd1rFPGyC/ISbw22iXw1d3IGDrRzy6cBQL4CaHL9xnnjRqA0PQCCyrvxBRrKHlTt7axsqUW9c14CoxwifnAaRRqPnnbd+YhQlV738LApL/9X8myZpxcyDM16ecui9B+ZBxUWVkIJU0FSlcOwTHCKgASXqbEcV5JDrHks/HCqXrrlM86xih2+QIowmf0z+vKrlxB6bOPpr44ZIQtZhfX5L0UZajWGbPwZNBbzGCc12/heg7Vd0h/QZs10798BoWdwpL4gTaLH1jApz66+EkB72fRV8cFZTvJXuJ9UOHNCQxQL/ela9VWZeGjF5DY1KeS6kmorsYMDqv7btNTI2R7L3Cip3kIYOL+m3LaBU5vSlSj94v7m3kMvNQds3+BvOupbehfYuSd2tDPV1C6OlThSr9g34LI+YY1cFSJSkHghdCDx4hNRlnhVsapTZS9FFHXdpf5tWjOnL9A+aanzrSVxPDnVKe0S/gTeoR270AtM/Tpz7F+tBRyrh/K4fdNvg/AzBz+V4cn/jZHDGG7U7gUWD1GisuHhLGia9UX7l6J6BwGlYJpPktT/H25+TWikPsUtUPW0Jz6HM4fMna2trEs=
 
-# env:
-#   global:
-#     - GH=mh-cbon/gh-api-cli
-#     - APP=gh-api-cli
-#     - EMAIL=mh-cbon@users.noreply.github.com
-#     - JEKYLL=pietromenna/jekyll-cayman-theme
-#     - MYAPP=gh-api-cli # to clean
-#     - MYEMAIL=mh-cbon@users.noreply.github.com # to clean
-#     # GH TOKEN
-#     - secure: lew7aTxjtwvwznrWT0Oh00MJ/sspwEFVRwySuJ95Vj2sMAYZH0OSdnivCxlOVZXyeI4Kzf8rg/885OTMahlkkFqmnBq8cuzNmDtbzaYiwNS9nWgH7y/2L8xW98heGRpS8wrGqom0GuSL5gOAju9LXAWaRskmI3cGHjvchp39aKrHWya9omg1qip21woYXYgmrG+5jgCND3MKYpJjpjAxst9F3jy97CHDKIPwYUxYIqplLmK2hSRxfXK0PHvVyIttWNnlBHuI+dT63+GbZo6hH8raSmG69HaHOnIE6fKjFK/R1OyeyvS5xOFSTnk31/A0vDDAZm+vRhcSs5LfXTCCCDD4Jl0wqECl9K7tWODb9fXdAzuTIM2fr9E/wO/POfrkLRI55FogX0/0FyAW1LvXEhyaCNgj0Ejfe0UDP0TqXTKEWtUn3e+gk5t+CFyep1kcaqhrSt58eC8CPtiBcDTX+gP9cSEgzo+WzhPo8r+UL0F7yQj6SP9gIwf8zcYP+7KmXdeSB8b/ns9Vz2lCF+Xx64IHoEpOp+MtBdgpfHJ81i3i/AUyHI9MKgdaIYomu9+EtddeMMQC315J+F6y6yEmu5d6nPPkLO8zihrraWqEJe8Bv32pu+M3jks5WA0hxpzpuJzf5Ocdux2TNS46kT371zFcQwi/YexIRSoW2eMGhbI=
-
 before_install:
   - sudo add-apt-repository 'deb https://dl.bintray.com/mh-cbon/deb unstable main'
   - sudo apt-get -qq update
@@ -46,20 +35,8 @@ install:
 script:
   - echo "pass"
 
-# before_deploy:
-#   - mkdir -p build/{386,amd64}
-#   - GOOS=linux GOARCH=386 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/386/$APP main.go
-#   - GOOS=linux GOARCH=amd64 go build --ldflags "-X main.VERSION=${TRAVIS_TAG}" -o build/amd64/$APP main.go
-#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/create-pkg.sh | GH=$GH sh -xe
-#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/create-pkg.sh | GH=$GH sh -xe
-#
-# after_deploy:
-#   - wget -O - https://raw.githubusercontent.com/mh-cbon/gh-pages/master/all.sh | sh -x
-#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-deb/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
-#   - curl -L https://raw.githubusercontent.com/mh-cbon/go-bin-rpm/master/setup-repository.sh | GH=$GH EMAIL=$EMAIL sh -xe
-
 before_deploy:
-  # create the deb package
+  # deb package
   - cd $GOPATH/src/github.com/$TRAVIS_REPO_SLUG
   - mkdir -p build/$OSARCH
   - GOOS=linux go build --ldflags "-X main.VERSION=$VERSION" -o build/$OSARCH/$GH_APP main.go
@@ -68,12 +45,10 @@ before_deploy:
   - cp $GH_APP-$OSARCH-$VERSION.deb $GH_APP-$OKARCH.deb
   # upload to bintray
   - curl -fL https://getcli.jfrog.io | sh
-  - ls -alh
   - ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/deb $GH_USER/deb/$GH_APP || echo "package already exists"
   - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH $GH_APP-$OSARCH-$VERSION.deb $GH_USER/deb/$GH_APP/$VERSION pool/g/$GH_APP/
-  # prepare rpm package creation
+  # rpm package
   - docker pull fedora
-  # create the package in the docker
   - >
     docker run -v $PWD:/mnt/travis fedora /bin/sh -c
     "cd /mnt/travis && (curl -s -L https://bintray.com/mh-cbon/rpm/rpm > /etc/yum.repos.d/w.repo) && dnf install go-bin-rpm changelog rpm-build -y --quiet && go-bin-rpm generate --file rpm.json -a $OSARCH --version $VERSION -o $GH_APP-$OSARCH-$VERSION.rpm"
@@ -81,7 +56,9 @@ before_deploy:
   - cp $GH_APP-$OSARCH-$VERSION.rpm $GH_APP-$OKARCH.rpm
   # upload to bintray
   - ./jfrog bt pc --key=$BTKEY --user=$GH_USER --licenses=MIT --vcs-url=https://github.com/$GH_USER/rpm $GH_USER/rpm/$GH_APP || echo "package already exists"
-  - ./jfrog bt upload --override=true --key $BTKEY --publish=true --deb=unstable/main/$OSARCH $GH_APP-$OSARCH-$VERSION.rpm $GH_USER/rpm/$GH_APP/$VERSION pool/g/$GH_APP/
+  - ./jfrog bt upload --override=true --key $BTKEY --publish=true $GH_APP-$OSARCH-$VERSION.rpm $GH_USER/rpm/$GH_APP/$VERSION pool/$POOL/$GH_APP/
+  # generate the repo metadata
+  - curl -X POST -u ${GH_USER}:${BTKEY} https://api.bintray.com/calc_metadata/${GH_USER}/rpm
 
 deploy:
   provider: releases

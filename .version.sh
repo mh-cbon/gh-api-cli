@@ -12,6 +12,7 @@ PREVERSION=
   666 commit -q -m "README: !newversion!" -f README.md
   666 changelog md -o CHANGELOG.md --vars='{"name":"gh-api-cli"}'
   666 commit -q -m "changelog: !newversion!" -f CHANGELOG.md
+  666 build-them-all build main.go -o "build/&os-&arch/&pkg" --os darwin --ldflags "-X main.VERSION=!newversion!"
 
 POSTVERSION=
   666 git push
@@ -20,3 +21,10 @@ POSTVERSION=
     --ver !newversion! -c "changelog ghrelease --version !newversion!" \
     --draft !isprerelease!
   666 go install --ldflags "-X main.VERSION=!newversion!"
+  philea -s -S -p "build/*/**" "666 archive create -f -o=assets/%dname.tar.gz -C=build/%dname/ ."
+  666 gh-api-cli create-release -n release --guess \
+    --ver !newversion! -c "changelog ghrelease --version !newversion!" \
+    --draft !isprerelease!
+  666 gh-api-cli upload-release-asset -n release --glob "assets/*" --guess --ver !newversion!
+  666 rm-glob -r build/
+  666 rm-glob -r assets/

@@ -1,5 +1,26 @@
 # Changelog - gh-api-cli
 
+### 5.0.0
+
+__Changes__
+
+- ci: add mac binaries
+- dependencies:
+  - go-gihub added new context parameters,
+    as a consequence all related metods takes
+    an additionnal context parameters.
+  - other dependencies were updated too, with no direct impact (semver, cli)
+
+
+
+__Contributors__
+
+- mh-cbon
+
+Released by mh-cbon, Sat 30 Sep 2017 -
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/4.0.3...5.0.0#diff)
+______________
+
 ### 4.0.3
 
 __Changes__
@@ -12,7 +33,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Wed 23 Aug 2017 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/4.0.2...4.0.3#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/4.0.2...4.0.3#diff)
 ______________
 
 ### 4.0.2
@@ -27,7 +48,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Fri 21 Apr 2017 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/4.0.1...4.0.2#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/4.0.1...4.0.2#diff)
 ______________
 
 ### 4.0.1
@@ -41,7 +62,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 05 Jan 2017 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/4.0.0...4.0.1#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/4.0.0...4.0.1#diff)
 ______________
 
 ### 4.0.0
@@ -63,7 +84,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 05 Jan 2017 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.4...4.0.0#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/3.0.4...4.0.0#diff)
 ______________
 
 ### 3.0.4
@@ -84,7 +105,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 04 Aug 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.3...3.0.4#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/3.0.3...3.0.4#diff)
 ______________
 
 ### 3.0.3
@@ -98,7 +119,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Sat 30 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.2...3.0.3#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/3.0.2...3.0.3#diff)
 ______________
 
 ### 3.0.2
@@ -112,7 +133,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Sat 30 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.1...3.0.2#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/3.0.1...3.0.2#diff)
 ______________
 
 ### 3.0.1
@@ -127,7 +148,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Sat 30 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/3.0.0...3.0.1#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/3.0.0...3.0.1#diff)
 ______________
 
 ### 3.0.0
@@ -149,12 +170,14 @@ __Changes__
 
 
 
+
+
 __Contributors__
 
 - mh-cbon
 
 Released by mh-cbon, Fri 29 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.6...3.0.0#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.6...3.0.0#diff)
 ______________
 
 ### 2.0.6
@@ -169,7 +192,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.5...2.0.6#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.5...2.0.6#diff)
 ______________
 
 ### 2.0.5
@@ -184,7 +207,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.4-beta...2.0.5#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.4-beta...2.0.5#diff)
 ______________
 
 ### 2.0.4-beta
@@ -199,7 +222,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.3...2.0.4-beta#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.3...2.0.4-beta#diff)
 ______________
 
 ### 2.0.3
@@ -215,7 +238,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.2-beta4...2.0.3#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.2-beta4...2.0.3#diff)
 ______________
 
 ### 2.0.2-beta4
@@ -229,7 +252,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.2-beta3...2.0.2-beta4#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.2-beta3...2.0.2-beta4#diff)
 ______________
 
 ### 2.0.2-beta3
@@ -243,7 +266,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.2-beta2...2.0.2-beta3#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.2-beta2...2.0.2-beta3#diff)
 ______________
 
 ### 2.0.2-beta2
@@ -257,7 +280,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.2-beta1...2.0.2-beta2#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.2-beta1...2.0.2-beta2#diff)
 ______________
 
 ### 2.0.2-beta1
@@ -271,7 +294,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.2-beta...2.0.2-beta1#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.2-beta...2.0.2-beta1#diff)
 ______________
 
 ### 2.0.2-beta
@@ -285,7 +308,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 28 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.1...2.0.2-beta#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.1...2.0.2-beta#diff)
 ______________
 
 ### 2.0.1
@@ -300,7 +323,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Wed 27 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/2.0.0...2.0.1#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/2.0.0...2.0.1#diff)
 ______________
 
 ### 2.0.0
@@ -317,7 +340,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Wed 27 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/1.0.2...2.0.0#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/1.0.2...2.0.0#diff)
 ______________
 
 ### 1.0.2
@@ -333,7 +356,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Fri 22 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/1.0.1...1.0.2#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/1.0.1...1.0.2#diff)
 ______________
 
 ### 1.0.1
@@ -347,7 +370,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Fri 22 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/1.0.0...1.0.1#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/1.0.0...1.0.1#diff)
 ______________
 
 ### 1.0.0
@@ -363,7 +386,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Fri 22 Jul 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/0.0.3...1.0.0#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/0.0.3...1.0.0#diff)
 ______________
 
 ### 0.0.3
@@ -379,7 +402,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Thu 16 Jun 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/0.0.2...0.0.3#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/0.0.2...0.0.3#diff)
 ______________
 
 ### 0.0.2
@@ -396,7 +419,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Wed 15 Jun 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/0.0.1...0.0.2#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/0.0.1...0.0.2#diff)
 ______________
 
 ### 0.0.1
@@ -410,7 +433,7 @@ __Contributors__
 - mh-cbon
 
 Released by mh-cbon, Tue 14 Jun 2016 -
-[see the diff](https://github.com/mh-cbon/gh-api-cli/compare/6b4908780f93b52178e4fba49dd20ad2ce308649...0.0.1#diff)
+[see the diff](https://github.com/<no value>/gh-api-cli/compare/6b4908780f93b52178e4fba49dd20ad2ce308649...0.0.1#diff)
 ______________
 
 

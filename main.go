@@ -3,6 +3,7 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -354,11 +355,11 @@ func add(c *cli.Context) error {
 	password := getPassword(c.String("password"))
 	client := gh.ClientFromCredentials(username, password, "")
 
-	auths, err := gh.List(client)
+	auths, err := gh.List(context.Background(), client)
 	if _, ok := err.(*github.TwoFactorAuthError); err != nil && ok {
 		otp := queryOtp()
 		client = gh.ClientFromCredentials(username, password, otp)
-		auths, err = gh.List(client)
+		auths, err = gh.List(context.Background(), client)
 		if err != nil {
 			fmt.Println(err)
 			return cli.NewExitError("Could not list current authorizations!", 1)
@@ -370,11 +371,11 @@ func add(c *cli.Context) error {
 		return cli.NewExitError("Authorization "+name+" already exists!", 1)
 	}
 
-	createdAuth, err := gh.Add(client, name, perms)
+	createdAuth, err := gh.Add(context.Background(), client, name, perms)
 	if _, ok := err.(*github.TwoFactorAuthError); err != nil && ok {
 		otp := queryOtp()
 		client = gh.ClientFromCredentials(username, password, otp)
-		createdAuth, err = gh.Add(client, name, perms)
+		createdAuth, err = gh.Add(context.Background(), client, name, perms)
 	}
 
 	if err != nil {
@@ -402,11 +403,11 @@ func list(c *cli.Context) error {
 	password := getPassword(c.String("password"))
 	client = gh.ClientFromCredentials(username, password, "")
 
-	auths, err := gh.List(client)
+	auths, err := gh.List(context.Background(), client)
 	if _, ok := err.(*github.TwoFactorAuthError); err != nil && ok {
 		otp := queryOtp()
 		client = gh.ClientFromCredentials(username, password, otp)
-		auths, err = gh.List(client)
+		auths, err = gh.List(context.Background(), client)
 	}
 	if err != nil {
 		return cli.NewExitError("Could not list current authorizations!", 1)
@@ -449,11 +450,11 @@ func rm(c *cli.Context) error {
 	password := getPassword(c.String("password"))
 	client = gh.ClientFromCredentials(username, password, "")
 
-	auths, err := gh.List(client)
+	auths, err := gh.List(context.Background(), client)
 	if _, ok := err.(*github.TwoFactorAuthError); err != nil && ok {
 		otp := queryOtp()
 		client = gh.ClientFromCredentials(username, password, otp)
-		auths, err = gh.List(client)
+		auths, err = gh.List(context.Background(), client)
 	}
 	if err != nil {
 		fmt.Println(err)
@@ -461,7 +462,7 @@ func rm(c *cli.Context) error {
 	}
 
 	if val, ok := auths[name]; ok {
-		err = gh.Delete(client, *val.ID)
+		err = gh.Delete(context.Background(), client, *val.ID)
 		if err != nil {
 			fmt.Println(err)
 			return cli.NewExitError("The deletion failed!", 1)
@@ -573,7 +574,7 @@ func createRelease(c *cli.Context) error {
 
 	client = gh.ClientFromToken(tokenAuth)
 
-	release, err := gh.CreateRelease(client, owner, repo, ver, author, isDraft, body)
+	release, err := gh.CreateRelease(context.Background(), client, owner, repo, ver, author, isDraft, body)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("The release was not created successfully!", 1)
@@ -632,7 +633,7 @@ func rmRelease(c *cli.Context) error {
 
 	client = gh.ClientFromToken(tokenAuth)
 
-	err := gh.DeleteRelease(client, owner, repo, ver)
+	err := gh.DeleteRelease(context.Background(), client, owner, repo, ver)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("The release was not deleted successfully!", 1)
@@ -699,7 +700,7 @@ func uploadReleaseAsset(c *cli.Context) error {
 		return cli.NewExitError("Your glob pattern did not selected any files.", 1)
 	}
 
-	id, err := gh.ReleaseID(client, owner, repo, ver)
+	id, err := gh.ReleaseID(context.Background(), client, owner, repo, ver)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
@@ -707,7 +708,7 @@ func uploadReleaseAsset(c *cli.Context) error {
 	errs := make([]error, 0)
 	for _, file := range paths {
 		fmt.Println("Uploading " + file)
-		err := gh.UploadReleaseAsset(client, owner, repo, id, file)
+		err := gh.UploadReleaseAsset(context.Background(), client, owner, repo, id, file)
 		if err != nil {
 			fmt.Println("Failed")
 			errs = append(errs, err)
@@ -776,12 +777,12 @@ func rmAssets(c *cli.Context) error {
 
 	client = gh.ClientFromToken(tokenAuth)
 
-	id, err := gh.ReleaseID(client, owner, repo, ver)
+	id, err := gh.ReleaseID(context.Background(), client, owner, repo, ver)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
 
-	release, err := gh.GetReleaseByID(client, owner, repo, id)
+	release, err := gh.GetReleaseByID(context.Background(), client, owner, repo, id)
 	if err != nil {
 		return cli.NewExitError(err.Error(), 1)
 	}
@@ -798,10 +799,10 @@ func rmAssets(c *cli.Context) error {
 			return cli.NewExitError(err2.Error(), 1)
 		}
 	}
-	assets, err := gh.ListReleaseAssets(client, owner, repo, *release)
+	assets, err := gh.ListReleaseAssets(context.Background(), client, owner, repo, *release)
 	for _, a := range assets {
 		if r.MatchString(*a.Name) {
-			if err = gh.DeleteReleaseAsset(client, owner, repo, *a.ID); err != nil {
+			if err = gh.DeleteReleaseAsset(context.Background(), client, owner, repo, *a.ID); err != nil {
 				return cli.NewExitError(err.Error(), 1)
 			}
 			fmt.Println("Removed '" + (*a.Name) + "'")
@@ -865,7 +866,7 @@ func downloadAssets(c *cli.Context) error {
 		client = gh.AnonClient()
 	}
 
-	releases, err := gh.ListReleases(client, owner, repo)
+	releases, err := gh.ListReleases(context.Background(), client, owner, repo)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("could not list releases of this repository "+owner+"/"+repo+"!", 1)
@@ -890,7 +891,7 @@ func downloadAssets(c *cli.Context) error {
 		return nil
 	}
 
-	assets, err := dl.SelectAssets(client, owner, repo, glob, out, releases)
+	assets, err := dl.SelectAssets(context.Background(), client, owner, repo, glob, out, releases)
 	if err != nil {
 		fmt.Println(err)
 		return cli.NewExitError("Failed to select assets for this glob "+glob+"!", 1)

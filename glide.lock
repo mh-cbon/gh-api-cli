@@ -1,5 +1,5 @@
 hash: 7ecd8c165caf54e31ce847b57cec4452df718033f4d42d70fb1d96df6d553d35
-updated: 2017-01-05T07:28:03.74896596+01:00
+updated: 2017-09-30T13:29:07.024604047+02:00
 imports:
 - name: github.com/golang/oauth2
   version: 314dd2c0bf3ebd592ec0d20847d27e79d0dbe8dd
@@ -8,7 +8,7 @@ imports:
   subpackages:
   - proto
 - name: github.com/google/go-github
-  version: 90861904aa86352a956f91ba0664df93a3547584
+  version: 511f540f1887d30b88cee4a2fcd1f2922754acf4
   subpackages:
   - github
 - name: github.com/google/go-querystring
@@ -16,7 +16,7 @@ imports:
   subpackages:
   - query
 - name: github.com/Masterminds/semver
-  version: 3f0ab6d4ab4bed1c61caf056b63a6e62190c7801
+  version: 517734cc7d6470c0d07130e40fd40bdeb9bcd3fd
 - name: github.com/mattn/go-zglob
   version: 2dbd7f37a45e993d5180a251b4bdd314d6333b70
 - name: github.com/mh-cbon/stringexec
@@ -24,7 +24,7 @@ imports:
 - name: github.com/mitchellh/go-homedir
   version: b8bc1bf767474819792c23f32d8286a45736f1c6
 - name: github.com/urfave/cli
-  version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
+  version: cfb38830724cc34fedffe9a2a29fb54fa9169cd1
 - name: golang.org/x/crypto
   version: 5b4074c2c416448b5d06e287167144493aabda43
   subpackages:

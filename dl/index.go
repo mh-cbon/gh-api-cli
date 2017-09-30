@@ -1,6 +1,7 @@
 package dl
 
 import (
+	"context"
 	"errors"
 	"os"
 	"path/filepath"
@@ -24,7 +25,7 @@ type Asset struct {
 }
 
 // SelectAssets finds assets matching glob within given releases,
-func SelectAssets(client *github.Client, owner string, repo string, glob string, out string, releases []*github.RepositoryRelease) ([]*Asset, error) {
+func SelectAssets(ctx context.Context, client *github.Client, owner string, repo string, glob string, out string, releases []*github.RepositoryRelease) ([]*Asset, error) {
 	ret := make([]*Asset, 0)
 	r, _ := regexp.Compile(".+")
 	if glob != "" {
@@ -36,7 +37,7 @@ func SelectAssets(client *github.Client, owner string, repo string, glob string,
 		}
 	}
 	for _, release := range releases {
-		assets, err := gh.ListReleaseAssets(client, owner, repo, *release)
+		assets, err := gh.ListReleaseAssets(ctx, client, owner, repo, *release)
 		if err != nil {
 			return ret, err
 		}

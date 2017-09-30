@@ -1,4 +1,20 @@
 
+5.0.0
+
+  * ci: add mac binaries
+  * dependencies:
+    - go-gihub added new context parameters,
+      as a consequence all related metods takes
+      an additionnal context parameters.
+    - other dependencies were updated too, with no direct impact (semver, cli)
+
+
+  - mh-cbon <mh-cbon@users.noreply.github.com>
+
+-- mh-cbon <mh-cbon@users.noreply.github.com>; Sat, 30 Sep 2017 13:45:28 +0200
+
+
+
 4.0.3
 
   * ci: upate tokens
@@ -105,6 +121,8 @@
   * test: initialize tests
   * [BREAK] most API: replaced username/password/OTP arguments
     by and instance of github.Client
+
+
 
 
 
